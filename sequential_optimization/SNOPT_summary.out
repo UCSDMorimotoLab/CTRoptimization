@@ -1,0 +1,27 @@
+
+ ==============================
+ S N O P T  7.2-5    (May 2007)
+ ==============================
+ 
+ SNMEMB EXIT 100 -- finished successfully
+ SNMEMB INFO 104 -- memory requirements estimated
+
+ ==============================
+ S N O P T  7.2-5    (May 2007)
+ ==============================
+ 
+ 
+
+ Nonlinear constraints      26     Linear constraints       0
+ Nonlinear variables        30     Linear variables         0
+ Jacobian  variables        30     Objective variables     30
+ Total constraints          26     Total variables         30
+ 
+
+ 
+ The user has defined     419   out of     419   constraint gradients.
+ The user has defined      30   out of      30   objective  gradients.
+ 
+
+ Major Minors     Step   nCon Feasible  Optimal  MeritFunction    nS Penalty
+     0     23               1  1.1E-04  4.5E-01  3.4561714E+00    20           r
