@@ -1,5 +1,0 @@
-collision 1
-multiplier 20
-i 0
-flag 0
-error 0
