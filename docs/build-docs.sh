@@ -4,9 +4,9 @@
 apt-get -y install python3-pip
 pip3 install redbaron
 apt-get -y install software-properties-common
-add-apt-repository ppa:fenics-packages/fenics
+# add-apt-repository ppa:fenics-packages/fenics
 apt-get -y update
-apt-get -y install --no-install-recommends fenics
+# apt-get -y install --no-install-recommends fenics
 pip3 install -e .
 
 # build docs

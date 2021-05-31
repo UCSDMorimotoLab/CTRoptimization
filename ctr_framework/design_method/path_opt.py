@@ -11,7 +11,7 @@ except:
     pyOptSparseDriver = None
 
 from ctr_framework.bspline_group import BsplineGroup
-from bspline_3d_comp import BsplineComp
+from ctr_framework.bspline_3d_comp import BsplineComp
 
 
 def path_opt(num_cp,num_pt,sp,fp,filename):

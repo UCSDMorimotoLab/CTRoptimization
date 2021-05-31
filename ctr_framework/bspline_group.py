@@ -2,16 +2,16 @@ import numpy as np
 import openmdao.api as om 
 from openmdao.api import Problem, Group, ExecComp, IndepVarComp
 from ozone.api import ODEIntegrator
-from startpoint_comp import StartpointComp
-from finalpoint_comp import FinalpointComp
-from mesh_path import trianglemesh
-from initialize import initialize_bspline
-from bspline_3d_comp import BsplineComp, get_bspline_mtx
-from pt_comp import PtComp
-from signedpt_comp import SignedptComp
-from ptequdistant1_comp import Ptequdistant1Comp
-from ptequdistant2_comp import Ptequdistant2Comp
-from pathobjective_comp import PathobjectiveComp
+from ctr_framework.startpoint_comp import StartpointComp
+from ctr_framework.finalpoint_comp import FinalpointComp
+from ctr_framework.mesh_path import trianglemesh
+from ctr_framework.initialize import initialize_bspline
+from ctr_framework.bspline_3d_comp import BsplineComp, get_bspline_mtx
+from ctr_framework.pt_comp import PtComp
+from ctr_framework.signedpt_comp import SignedptComp
+from ctr_framework.ptequdistant1_comp import Ptequdistant1Comp
+from ctr_framework.ptequdistant2_comp import Ptequdistant2Comp
+from ctr_framework.pathobjective_comp import PathobjectiveComp
 
 
 class BsplineGroup(om.Group):

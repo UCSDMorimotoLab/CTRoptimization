@@ -126,10 +126,13 @@ After the model is built, we now can solve the path optimization problem by runn
     fp = np.array([87,-27,-193])
     r2 = 0.1
     r1 = 1
-    # mesh .STL file
-    filename = '/home/fred/Desktop/ctr_optimization/mesh/Heart/final/case04_sfinal.ply'
+    # mesh .PLY file
+    filename = '/mesh.ply'
 
-    prob = Problem(model=BsplineGroup(num_cp=num_cp,num_pt=num_pt,sp=sp,fp=fp,r2=r2,r1=r1,filename=filename))
+    prob = Problem(model=BsplineGroup(num_cp=num_cp,num_pt=num_pt,
+                                        sp=sp,fp=fp,
+                                            r2=r2,r1=r1,
+                                                filename=filename))
     prob.driver = pyOptSparseDriver()
     prob.driver.options['optimizer'] = 'SNOPT'
     # prob.driver.opt_settings['Verify level'] = 0
