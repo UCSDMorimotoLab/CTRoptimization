@@ -98,7 +98,6 @@ class CtrseqGroup(om.Group):
         self.options.declare('center')
         self.options.declare('pt_full')
         self.options.declare('viapts_nbr')
-        self.options.declare('dl0')
         
         
 
@@ -126,7 +125,6 @@ class CtrseqGroup(om.Group):
         center = self.options['center']
         pt_full = self.options['pt_full']
         viapts_nbr = self.options['viapts_nbr']
-        dl0 = self.options['dl0']
         # mesh processing
         mesh  = trianglemesh(num_nodes,k,pt,center)  
         p_ = mesh.p
@@ -158,8 +156,6 @@ class CtrseqGroup(om.Group):
         comp.add_output('roty',val=init_guess['roty'])
         comp.add_output('rotz',val=init_guess['rotz'])
         comp.add_output('loc',shape=(3,1),val=init_guess['loc'])
-        '''c_points,p_points = initialize_bspline(sp,fp,num_cp,num_pt)
-        comp.add_output('cp', val=c_points)'''
         self.add_subsystem('input_comp', comp, promotes=['*'])
 
 
@@ -379,6 +375,7 @@ class CtrseqGroup(om.Group):
         self.add_subsystem('EqudplyComp', equdply, promotes=['*'])
 
         # objective function
+        dl0 = init_guess['tube_section_length'] + init_guess['beta']
         norm1 = np.linalg.norm(pt_full[0,:]-pt_full[-1,:],ord=1.125)
         norm2 = (dl0[:,0] - dl0[:,1])**2 + (dl0[:,1] -  dl0[:,2])**2
         norm3 = np.linalg.norm(pt_full[0,:]-pt_full[-1,:])/viapts_nbr
