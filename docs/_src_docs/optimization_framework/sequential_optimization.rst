@@ -1,5 +1,5 @@
-Getting Started
-===============
+Sequential optimization
+=======================
 
 Installing
 ----------
