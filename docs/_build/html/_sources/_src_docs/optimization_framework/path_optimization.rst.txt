@@ -1,11 +1,11 @@
-Path optimization
-=================
+Step 1: Path optimization
+=========================
 
 Optimization problem
 --------------------
 In this tutorial, we will show you how to construct the path optimization problem in OpenMDAO and how to use the function.
 
-The Bspline path optimization model is as follows:
+The Bspline group is as follows:
 
 .. code-block:: python
 
@@ -97,7 +97,7 @@ The Bspline path optimization model is as follows:
             # Objectives
             self.add_objective('path_objective')
 
-After the model is built, we now can solve the path optimization problem by running the optimizer and code below:
+After the group is built, we now can solve the path optimization problem by running the optimizer and code below:
 
 .. code-block:: python
 

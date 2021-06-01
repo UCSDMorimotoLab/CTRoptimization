@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Simultaneous optimization &mdash; CTR 0.1 documentation</title>
+  <title>Step 3 : Simultaneous optimization &mdash; CTR 0.1 documentation</title>
   
 
   
@@ -44,7 +44,8 @@
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Sequential optimization" href="sequential_optimization.html" /> 
+    <link rel="next" title="Clinical examples" href="../examples.html" />
+    <link rel="prev" title="Step 2 : Seqeuential optimization" href="sequential_optimization.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -97,13 +98,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ctr_kinematics.html">CTR Kinematics</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../optimization_framework.html">CTR optimization framework</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="path_optimization.html">Path optimization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sequential_optimization.html">Sequential optimization</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Simultaneous optimization</a><ul class="simple">
+<li class="toctree-l2"><a class="reference internal" href="path_optimization.html">Step 1: Path optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sequential_optimization.html">Step 2 : Seqeuential optimization</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Step 3 : Simultaneous optimization</a><ul class="simple">
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Clinical examples</a></li>
 </ul>
 
             
@@ -154,7 +156,7 @@
         
           <li><a href="../optimization_framework.html">CTR optimization framework</a> &raquo;</li>
         
-      <li>Simultaneous optimization</li>
+      <li>Step 3 : Simultaneous optimization</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -173,41 +175,152 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="simultaneous-optimization">
-<h1>Simultaneous optimization<a class="headerlink" href="#simultaneous-optimization" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="installing">
-<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
-<p>To install CTR optimization tool and run topology optimization problems, users need to follow these steps:</p>
-<ol class="arabic simple">
-<li><p>Install <a class="reference external" href="https://openmdao.org/">OpenMDAO</a>:</p></li>
-</ol>
-<blockquote>
-<div><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">'openmdao[all]'</span></code></p></li>
-</ul>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><p>Install <code class="docutils literal notranslate"><span class="pre">Ozone</span></code>:</p></li>
-</ol>
-<blockquote>
-<div><ul class="simple">
-<li><p>Use the command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> to <a class="reference external" href="https://github.com/hwangjt/ozone.git">this repository</a>,</p></li>
-<li><p>Use the command <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> to install <code class="docutils literal notranslate"><span class="pre">Ozone</span></code> .</p></li>
-</ul>
-</div></blockquote>
-<ol class="arabic simple" start="3">
-<li><dl class="simple">
-<dt>Install <code class="docutils literal notranslate"><span class="pre">Open3D</span></code>:</dt><dd><p>Supported operating system:
-- Ubuntu 18.04+
-- macOS 10.14+
-- Windows 10 (64-bit)
-<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">open3d</span></code></p>
-</dd>
-</dl>
-</li>
-</ol>
-<p>Other recommandations: while the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> optimizer in OpenMDAO works for some small-scale problems, we recommend <a class="reference external" href="https://github.com/coin-or/Ipopt/">IPOPT</a> or <a class="reference external" href="http://ccom.ucsd.edu/~optimizers/downloads/">SNOPT</a>.
-Note that <code class="docutils literal notranslate"><span class="pre">SNOPT</span></code> is a commercial optimizer.</p>
+  <div class="section" id="step-3-simultaneous-optimization">
+<h1>Step 3 : Simultaneous optimization<a class="headerlink" href="#step-3-simultaneous-optimization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="optimization-problem">
+<h2>Optimization problem<a class="headerlink" href="#optimization-problem" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial, we will show you how to construct and use the simultaneous optimization problem in OpenMDAO.</p>
+<p>The CTR simultaneous optimization group is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="kn">as</span> <span class="nn">om</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">ExecComp</span><span class="p">,</span> <span class="n">IndepVarComp</span>
+<span class="kn">from</span> <span class="nn">ozone.api</span> <span class="kn">import</span> <span class="n">ODEIntegrator</span>
+<span class="kn">from</span> <span class="nn">startpoint_comp</span> <span class="kn">import</span> <span class="n">StartpointComp</span>
+<span class="kn">from</span> <span class="nn">finalpoint_comp</span> <span class="kn">import</span> <span class="n">FinalpointComp</span>
+<span class="kn">from</span> <span class="nn">mesh_path</span> <span class="kn">import</span> <span class="n">trianglemesh</span>
+<span class="kn">from</span> <span class="nn">initialize</span> <span class="kn">import</span> <span class="n">initialize_bspline</span>
+<span class="kn">from</span> <span class="nn">bspline_3d_comp</span> <span class="kn">import</span> <span class="n">BsplineComp</span><span class="p">,</span> <span class="n">get_bspline_mtx</span>
+<span class="kn">from</span> <span class="nn">pt_comp</span> <span class="kn">import</span> <span class="n">PtComp</span>
+<span class="kn">from</span> <span class="nn">signedpt_comp</span> <span class="kn">import</span> <span class="n">SignedptComp</span>
+<span class="kn">from</span> <span class="nn">ptequdistant1_comp</span> <span class="kn">import</span> <span class="n">Ptequdistant1Comp</span>
+<span class="kn">from</span> <span class="nn">ptequdistant2_comp</span> <span class="kn">import</span> <span class="n">Ptequdistant2Comp</span>
+<span class="kn">from</span> <span class="nn">pathobjective_comp</span> <span class="kn">import</span> <span class="n">PathobjectiveComp</span>
+
+
+<span class="k">class</span> <span class="nc">BsplineGroup</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;r2&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;r1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;sp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;fp&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;num_cp&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;num_pt&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+        <span class="n">r2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;r2&#39;</span><span class="p">]</span>
+        <span class="n">r1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;r1&#39;</span><span class="p">]</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;sp&#39;</span><span class="p">]</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;fp&#39;</span><span class="p">]</span>
+        <span class="n">num_cp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_cp&#39;</span><span class="p">]</span>
+        <span class="n">num_pt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_pt&#39;</span><span class="p">]</span>
+
+        <span class="c1"># mesh processing</span>
+        <span class="n">mesh</span>  <span class="o">=</span> <span class="n">trianglemesh</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">p_</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">p</span>
+        <span class="n">normals</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">normals</span>
+
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">IndepVarComp</span><span class="p">(</span><span class="n">num_cp</span><span class="o">=</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">)</span>
+
+        <span class="n">c_points</span><span class="p">,</span><span class="n">p_points</span> <span class="o">=</span> <span class="n">initialize_bspline</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span><span class="n">fp</span><span class="p">,</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="p">)</span>
+
+
+        <span class="n">comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">c_points</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;input_comp&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="n">jac</span> <span class="o">=</span> <span class="n">get_bspline_mtx</span><span class="p">(</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="p">)</span>
+        <span class="n">bspline_comp</span> <span class="o">=</span>  <span class="n">BsplineComp</span><span class="p">(</span>
+        <span class="n">num_cp</span><span class="o">=</span><span class="n">num_cp</span><span class="p">,</span>
+        <span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">,</span>
+        <span class="n">jac</span><span class="o">=</span><span class="n">jac</span><span class="p">,</span>
+        <span class="n">in_name</span><span class="o">=</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span>
+        <span class="n">out_name</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Bspline_comp&#39;</span><span class="p">,</span> <span class="n">bspline_comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="n">startpointcomp</span> <span class="o">=</span> <span class="n">StartpointComp</span><span class="p">(</span><span class="n">num_cp</span><span class="o">=</span><span class="n">num_cp</span><span class="p">)</span>
+        <span class="n">Finalpointcomp</span> <span class="o">=</span> <span class="n">FinalpointComp</span><span class="p">(</span><span class="n">num_cp</span><span class="o">=</span><span class="n">num_cp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Startpointcomp&#39;</span><span class="p">,</span> <span class="n">startpointcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Finalpointcomp&#39;</span><span class="p">,</span> <span class="n">Finalpointcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="n">pt_comp</span> <span class="o">=</span> <span class="n">PtComp</span><span class="p">(</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">,</span><span class="n">p_</span><span class="o">=</span><span class="n">p_</span><span class="p">,</span><span class="n">normals</span><span class="o">=</span><span class="n">normals</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Pt_comp&#39;</span><span class="p">,</span><span class="n">pt_comp</span><span class="p">,</span><span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="n">signedpt_comp</span> <span class="o">=</span> <span class="n">SignedptComp</span><span class="p">(</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">,</span><span class="n">p_</span><span class="o">=</span><span class="n">p_</span><span class="p">,</span><span class="n">normals</span><span class="o">=</span><span class="n">normals</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Signedpt_comp&#39;</span><span class="p">,</span><span class="n">signedpt_comp</span><span class="p">,</span><span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="n">ptequdistant1_comp</span> <span class="o">=</span> <span class="n">Ptequdistant1Comp</span><span class="p">(</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;ptequdistant1_comp&#39;</span><span class="p">,</span> <span class="n">ptequdistant1_comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="n">ptequdistant2_comp</span> <span class="o">=</span> <span class="n">Ptequdistant2Comp</span><span class="p">(</span><span class="n">pt_</span><span class="o">=</span><span class="n">p_points</span><span class="p">,</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;ptequdistant2_comp&#39;</span><span class="p">,</span><span class="n">ptequdistant2_comp</span><span class="p">,</span><span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+        <span class="n">norm1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sp</span><span class="o">-</span><span class="n">fp</span><span class="p">,</span><span class="nb">ord</span><span class="o">=</span><span class="mf">1.125</span><span class="p">)</span>
+        <span class="n">pathobjective_comp</span> <span class="o">=</span> <span class="n">PathobjectiveComp</span><span class="p">(</span><span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span><span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="o">/</span><span class="n">norm1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;pathobjective_comp&#39;</span><span class="p">,</span><span class="n">pathobjective_comp</span><span class="p">,</span><span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+
+
+        <span class="c1"># Design variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_design_var</span><span class="p">(</span><span class="s1">&#39;cp&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;startpoint_constraint&#39;</span><span class="p">,</span><span class="n">equals</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;finalpoint_constraint&#39;</span><span class="p">,</span><span class="n">equals</span><span class="o">=</span><span class="n">fp</span><span class="p">)</span>
+
+
+        <span class="c1"># Objectives</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s1">&#39;path_objective&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After the group is built, we now can solve the path optimization problem by running the optimizer and function below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">ScipyOptimizeDriver</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">pyOptSparseDriver</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">pyOptSparseDriver</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="kn">from</span> <span class="nn">bspline_group</span> <span class="kn">import</span> <span class="n">BsplineGroup</span>
+<span class="kn">from</span> <span class="nn">bspline_3d_comp</span> <span class="kn">import</span> <span class="n">BsplineComp</span>
+
+<span class="c1"># Initialize the number of control points and path points</span>
+<span class="n">num_cp</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">num_pt</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="s1">&#39;heart04&#39;</span>
+<span class="c1"># Define the start point and final point (target)</span>
+<span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">23</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">85</span><span class="p">])</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">87</span><span class="p">,</span><span class="o">-</span><span class="mi">27</span><span class="p">,</span><span class="o">-</span><span class="mi">193</span><span class="p">])</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">r1</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c1"># mesh .PLY file</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/mesh.ply&#39;</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">Problem</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">BsplineGroup</span><span class="p">(</span><span class="n">num_cp</span><span class="o">=</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">,</span>
+                                    <span class="n">sp</span><span class="o">=</span><span class="n">sp</span><span class="p">,</span><span class="n">fp</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>
+                                        <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span><span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span>
+                                            <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">))</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">pyOptSparseDriver</span><span class="p">()</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SNOPT&#39;</span>
+<span class="c1"># prob.driver.opt_settings[&#39;Verify level&#39;] = 0</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Major iterations limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Minor iterations limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Iterations limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000000</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Major step limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">run_model</span><span class="p">()</span>
+<span class="n">prob</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
+
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Path points&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;pt&#39;</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Control points&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;cp&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -219,7 +332,8 @@ Note that <code class="docutils literal notranslate"><span class="pre">SNOPT</sp
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="sequential_optimization.html" class="btn btn-neutral float-left" title="Sequential optimization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples.html" class="btn btn-neutral float-right" title="Clinical examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sequential_optimization.html" class="btn btn-neutral float-left" title="Step 2 : Seqeuential optimization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
