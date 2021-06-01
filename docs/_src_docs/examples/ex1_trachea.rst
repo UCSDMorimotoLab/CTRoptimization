@@ -6,10 +6,10 @@ Optimization problem
 In this example, the user can follow the instructions below to run the full optimization process through: path, sequential, and simultaneous 
 optimization step. 
 
-The run files for each step are as follows:
+The run files for each step are as follows.
 The user-defined parameter are the anatomical model (.ply format), starting point, target point 
 and the number of control points, path points.
-A B-spline curve will be optimized by the function below:
+A B-spline curve will be optimized by the function below.
 .. code-block:: python
 
     import numpy as np
