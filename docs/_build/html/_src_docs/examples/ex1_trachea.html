@@ -176,112 +176,117 @@
 <h2>Optimization problem<a class="headerlink" href="#optimization-problem" title="Permalink to this headline">¶</a></h2>
 <p>In this example, the user can follow the instructions below to run the full optimization process through: path, sequential, and simultaneous
 optimization step.</p>
-<p>The run files for each step are as follows:
+<p>The run files for each step are as follows.
 The user-defined parameter are the anatomical model (.ply format), starting point, target point
 and the number of control points, path points.
-A B-spline curve will be optimized by the function below:
-.. code-block:: python</p>
-<blockquote>
-<div><p>import numpy as np
-import scipy
-from ctr_framework.design_method.path_opt import path_opt
-# from path_opt import path_opt</p>
-<p># Initialize the number of control points and path points
-num_cp = 25
-num_pt = 100
-# User-defined start point and target point
-sp = np.array([-23,-8,-85])
-fp = np.array([87,-27,-193])</p>
-<p># mesh .PLY file
-filename = ‘trachea.ply’</p>
-<p>path_opt(num_cp,num_pt,sp,fp,filename)</p>
-</div></blockquote>
+A B-spline curve will be optimized by the function below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.design_method.path_opt</span> <span class="kn">import</span> <span class="n">path_opt</span>
+<span class="c1"># from path_opt import path_opt</span>
+
+
+<span class="c1"># Initialize the number of control points and path points</span>
+<span class="n">num_cp</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">num_pt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1"># User-defined start point and target point</span>
+<span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">23</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">85</span><span class="p">])</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">87</span><span class="p">,</span><span class="o">-</span><span class="mi">27</span><span class="p">,</span><span class="o">-</span><span class="mi">193</span><span class="p">])</span>
+
+<span class="c1"># mesh .PLY file</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;trachea.ply&#39;</span>
+
+<span class="n">path_opt</span><span class="p">(</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="p">,</span><span class="n">sp</span><span class="p">,</span><span class="n">fp</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Once the path is found, the sequental optimization need to be performed in order to
-get a better initial guesses for the CTR optimization problem.
-.. code-block:: python</p>
-<blockquote>
-<div><p>import numpy as np
-import scipy
-import os
-from openmdao.api import pyOptSparseDriver
-from openmdao.api import ScipyOptimizeDriver
-try:</p>
-<blockquote>
-<div><p>from openmdao.api import pyOptSparseDriver</p>
-</div></blockquote>
-<dl class="simple">
-<dt>except:</dt><dd><p>pyOptSparseDriver = None</p>
-</dd>
-</dl>
-<p>from ctrseq_group import CtrseqGroup
-from lsdo_viz.api import Problem
-from mesh import trianglemesh
-from initpt import initialize_pt
-from collision_check import collision_check
-from log import log
-import shutil
-import time
-from equofplane import equofplane
-from findcircle import findCircle
-from seq_opt import seq_opt</p>
-<p># number of waypoints
-viapts_nbr=10
-# number of links
-num_nodes = 50
-# Extract the waypoints from optimized path
-pt = initialize_pt(viapts_nbr)
-pt_pri =  initialize_pt(viapts_nbr * 2)
-pt_full =  initialize_pt(100)</p>
-<p># initial robot configuration
-# Tube 1(inner tube) ID, OD
-d1 = 0.65
-d2 = 0.88
-# Tube 2
-d3 = 1.076
-d4 = 1.296
-# Tube 3(outer tube)
-d5 = 1.470
-d6 = 2.180
-# Tube curvature (kappa)
-kappa_init = np.array([0.0061, 0.0131,0.0021]).reshape((1,3))
-# The length of tubes
-tube_length_init = np.array([200, 120,65]).reshape((1,3)) + 100
-# The length of straight section of tubes
-tube_straight_init = np.array([150, 80,35]).reshape((1,3)) + 50
-# joint variables
-alpha_init = np.zeros((k,3))
-alpha_init[:,0] = -np.pi/2
-alpha_init[:,1] = np.pi/1.5
-alpha_init[:,2] = -np.pi/3
-beta_init = np.zeros((k,3))
-beta_init[:,0] = -280
-beta_init[:,1] = -205
-beta_init[:,2] = -155
-# initial torsion
-init_dpsi = np.random.random((k,3)) <a href="#id1"><span class="problematic" id="id2">*</span></a>0.01
-<a href="#id3"><span class="problematic" id="id4">rotx_</span></a> = 1e-10
-<a href="#id5"><span class="problematic" id="id6">roty_</span></a> = 1e-10
-<a href="#id7"><span class="problematic" id="id8">rotz_</span></a> = 1e-10
-loc = np.ones((3,1)) * 1e-5</p>
-<dl class="simple">
-<dt>mdict = {‘alpha’:alpha_init, ‘beta’:beta_init,’kappa’:kappa_init,</dt><dd><p>‘tube_section_straight’:tube_straight_init,’tube_section_length’:tube_length_init,
-‘d1’:d1, ‘d2’:d2, ‘d3’:d3, ‘d4’:d4, ‘d5’:d5, ‘d6’:d6, ‘initial_condition_dpsi’:init_dpsi,
-‘rotx’:<a href="#id9"><span class="problematic" id="id10">rotx_</span></a>,’roty’:<a href="#id11"><span class="problematic" id="id12">roty_</span></a> ,’rotz’:<a href="#id13"><span class="problematic" id="id14">rotz_</span></a> , ‘loc’:loc,
-}</p>
-</dd>
-</dl>
-<p>scipy.io.savemat(‘initial.mat’,mdict)</p>
-<p># Base frame</p>
-<p>base = np.array([-10,35,20]).reshape((3,1))
-rot = np.array([3.14,0,0]).reshape((3,1))
-p_plane = np.array([[-10,35,20],[-12,20,20],</p>
-<blockquote>
-<div><p>[-20,15,20]])</p>
-</div></blockquote>
-<p># mesh .PLY file
-meshfile = ‘trachea.ply’</p>
-<p>seq_opt(num_nodes,viapts_nbr,base,rot,meshfile)</p>
-</div></blockquote>
+get a better initial guesses for the CTR optimization problem.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">ScipyOptimizeDriver</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">pyOptSparseDriver</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="kn">from</span> <span class="nn">ctrseq_group</span> <span class="kn">import</span> <span class="n">CtrseqGroup</span>
+<span class="kn">from</span> <span class="nn">lsdo_viz.api</span> <span class="kn">import</span> <span class="n">Problem</span>
+<span class="kn">from</span> <span class="nn">mesh</span> <span class="kn">import</span> <span class="n">trianglemesh</span>
+<span class="kn">from</span> <span class="nn">initpt</span> <span class="kn">import</span> <span class="n">initialize_pt</span>
+<span class="kn">from</span> <span class="nn">collision_check</span> <span class="kn">import</span> <span class="n">collision_check</span>
+<span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">equofplane</span> <span class="kn">import</span> <span class="n">equofplane</span>
+<span class="kn">from</span> <span class="nn">findcircle</span> <span class="kn">import</span> <span class="n">findCircle</span>
+<span class="kn">from</span> <span class="nn">seq_opt</span> <span class="kn">import</span> <span class="n">seq_opt</span>
+
+<span class="c1">#########################################</span>
+<span class="c1">############## initialization ###########</span>
+<span class="c1">#########################################</span>
+
+<span class="c1"># number of waypoints</span>
+<span class="n">viapts_nbr</span><span class="o">=</span><span class="mi">10</span>
+<span class="c1"># number of links</span>
+<span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c1"># Extract the waypoints from optimized path</span>
+<span class="n">pt</span> <span class="o">=</span> <span class="n">initialize_pt</span><span class="p">(</span><span class="n">viapts_nbr</span><span class="p">)</span>
+<span class="n">pt_pri</span> <span class="o">=</span>  <span class="n">initialize_pt</span><span class="p">(</span><span class="n">viapts_nbr</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">pt_full</span> <span class="o">=</span>  <span class="n">initialize_pt</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+
+<span class="c1"># initial robot configuration</span>
+<span class="c1"># Tube 1(inner tube) ID, OD</span>
+<span class="n">d1</span> <span class="o">=</span> <span class="mf">0.65</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="mf">0.88</span>
+<span class="c1"># Tube 2</span>
+<span class="n">d3</span> <span class="o">=</span> <span class="mf">1.076</span>
+<span class="n">d4</span> <span class="o">=</span> <span class="mf">1.296</span>
+<span class="c1"># Tube 3(outer tube)</span>
+<span class="n">d5</span> <span class="o">=</span> <span class="mf">1.470</span>
+<span class="n">d6</span> <span class="o">=</span> <span class="mf">2.180</span>
+<span class="c1"># Tube curvature (kappa)</span>
+<span class="n">kappa_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0061</span><span class="p">,</span> <span class="mf">0.0131</span><span class="p">,</span><span class="mf">0.0021</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1"># The length of tubes</span>
+<span class="n">tube_length_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">200</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span><span class="mi">65</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">+</span> <span class="mi">100</span>
+<span class="c1"># The length of straight section of tubes</span>
+<span class="n">tube_straight_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">150</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span><span class="mi">35</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">+</span> <span class="mi">50</span>
+<span class="c1"># joint variables</span>
+<span class="n">alpha_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">alpha_init</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">alpha_init</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">1.5</span>
+<span class="n">alpha_init</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span>
+<span class="n">beta_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">beta_init</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">280</span>
+<span class="n">beta_init</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">205</span>
+<span class="n">beta_init</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">155</span>
+<span class="c1"># initial torsion</span>
+<span class="n">init_dpsi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">*</span><span class="mf">0.01</span>
+<span class="n">rotx_</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">roty_</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">rotz_</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1e-5</span>
+
+<span class="n">mdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span><span class="n">alpha_init</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span><span class="n">beta_init</span><span class="p">,</span><span class="s1">&#39;kappa&#39;</span><span class="p">:</span><span class="n">kappa_init</span><span class="p">,</span>
+        <span class="s1">&#39;tube_section_straight&#39;</span><span class="p">:</span><span class="n">tube_straight_init</span><span class="p">,</span><span class="s1">&#39;tube_section_length&#39;</span><span class="p">:</span><span class="n">tube_length_init</span><span class="p">,</span>
+        <span class="s1">&#39;d1&#39;</span><span class="p">:</span><span class="n">d1</span><span class="p">,</span> <span class="s1">&#39;d2&#39;</span><span class="p">:</span><span class="n">d2</span><span class="p">,</span> <span class="s1">&#39;d3&#39;</span><span class="p">:</span><span class="n">d3</span><span class="p">,</span> <span class="s1">&#39;d4&#39;</span><span class="p">:</span><span class="n">d4</span><span class="p">,</span> <span class="s1">&#39;d5&#39;</span><span class="p">:</span><span class="n">d5</span><span class="p">,</span> <span class="s1">&#39;d6&#39;</span><span class="p">:</span><span class="n">d6</span><span class="p">,</span> <span class="s1">&#39;initial_condition_dpsi&#39;</span><span class="p">:</span><span class="n">init_dpsi</span><span class="p">,</span>
+        <span class="s1">&#39;rotx&#39;</span><span class="p">:</span><span class="n">rotx_</span><span class="p">,</span><span class="s1">&#39;roty&#39;</span><span class="p">:</span><span class="n">roty_</span> <span class="p">,</span><span class="s1">&#39;rotz&#39;</span><span class="p">:</span><span class="n">rotz_</span> <span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span><span class="n">loc</span><span class="p">,</span>
+        <span class="p">}</span>
+<span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="s1">&#39;initial.mat&#39;</span><span class="p">,</span><span class="n">mdict</span><span class="p">)</span>
+
+<span class="c1"># Base frame</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">rot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.14</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">p_plane</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>\
+                    <span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">]])</span>
+<span class="c1"># mesh .PLY file</span>
+<span class="n">meshfile</span> <span class="o">=</span> <span class="s1">&#39;trachea.ply&#39;</span>
+
+<span class="n">seq_opt</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">viapts_nbr</span><span class="p">,</span><span class="n">base</span><span class="p">,</span><span class="n">rot</span><span class="p">,</span><span class="n">meshfile</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>The previous step will serve as an initial guesses for the final step, which is the patient-speific
 simultaneous optimization. This function will provide another dimension— k to solve a number of
 robot configurations in order to obtain a safe motion plan.</p>
