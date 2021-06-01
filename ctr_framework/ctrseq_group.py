@@ -4,73 +4,71 @@ import openmdao.api as om
 from openmdao.api import Problem, Group, ExecComp, IndepVarComp, ScipyOptimizeDriver, pyOptSparseDriver
 # from openmdao.api import Problem, Group, ExecComp, IndepVarComp, ScipyOptimizeDriver
 from ozone.api import ODEIntegrator
-
-from stiffness_comp import StiffnessComp
-from CtrFunction import CtrFunction
-from tensor_comp import TensorComp
-from rhs_comp import RHSComp
-from kinematics_comp import KinematicsComp
-from k_comp import KComp
-from sumk_comp import SumkComp
-from sumkm_comp import SumkmComp
-from invsumk_comp import InvsumkComp
-from tubeends_comp import TubeendsComp
-from initpsi_comp import InitialpsiComp
-from penalize_comp import PenalizeComp
-from interpolationkp_comp import InterpolationkpComp
-from straightends_comp import StraightendsComp
-from kappa_comp import KappaComp
-from kout_comp import KoutComp
-from interpolationkb_comp import InterpolationkbComp
-from interpolationkp_comp import InterpolationkpComp
-from test import TestComp
+from ctr_framework.stiffness_comp import StiffnessComp
+from ctr_framework.CtrFunction import CtrFunction
+from ctr_framework.tensor_comp import TensorComp
+from ctr_framework.rhs_comp import RHSComp
+from ctr_framework.kinematics_comp import KinematicsComp
+from ctr_framework.k_comp import KComp
+from ctr_framework.sumk_comp import SumkComp
+from ctr_framework.sumkm_comp import SumkmComp
+from ctr_framework.invsumk_comp import InvsumkComp
+from ctr_framework.tubeends_comp import TubeendsComp
+from ctr_framework.initpsi_comp import InitialpsiComp
+from ctr_framework.penalize_comp import PenalizeComp
+from ctr_framework.interpolationkp_comp import InterpolationkpComp
+from ctr_framework.straightends_comp import StraightendsComp
+from ctr_framework.kappa_comp import KappaComp
+from ctr_framework.kout_comp import KoutComp
+from ctr_framework.interpolationkb_comp import InterpolationkbComp
+from ctr_framework.interpolationkp_comp import InterpolationkpComp
 'backbone comps'
-from backbonefunction import BackboneFunction
-from initR_comp import InitialRComp
-from u1_comp import U1Comp
-from u2_comp import U2Comp
-from u3_comp import U3Comp
-from u_comp import UComp
-from uhat_comp import UhatComp
-from bborientation import BborientationComp
-from backboneptsFunction import BackboneptsFunction
+from ctr_framework.backbonefunction import BackboneFunction
+from ctr_framework.initR_comp import InitialRComp
+from ctr_framework.u1_comp import U1Comp
+from ctr_framework.u2_comp import U2Comp
+from ctr_framework.u3_comp import U3Comp
+from ctr_framework.u_comp import UComp
+from ctr_framework.uhat_comp import UhatComp
+from ctr_framework.bborientation import BborientationComp
+from ctr_framework.backboneptsFunction import BackboneptsFunction
 'Integrator'
-from finaltime_comp import FinaltimeComp
+from ctr_framework.finaltime_comp import FinaltimeComp
 'base angle'
-from baseangle_comp import BaseangleComp
-from rotp_comp import RotpComp
-from baseplanar_comp import BaseplanarComp
+from ctr_framework.baseangle_comp import BaseangleComp
+from ctr_framework.rotp_comp import RotpComp
+from ctr_framework.baseplanar_comp import BaseplanarComp
 'constraints'
-from diameter_comp import DiameterComp
-from tubeclearance_comp import TubeclearanceComp
-from bc_comp import BcComp
-from desiredpoints_comp import DesiredpointsComp
-from deployedlength_comp import DeployedlengthComp
-from beta_comp import BetaComp
-from pathpoints_comp import PathpointsComp
-from tubestraight_comp import TubestraightComp
-from tiporientation_comp import TiporientationComp
-from chi_comp import ChiComp
-from gamma_comp import GammaComp
-from kappaeq_comp import KappaeqComp
-from strain_comp import StrainComp
-from ksconstraints_comp import KSConstraintsComp
-from ksconstraints_min_comp import KSConstraintsMinComp
-from reducedimension_comp import ReducedimensionComp
-from strainvirtual_comp import StrainvirtualComp
+from ctr_framework.diameter_comp import DiameterComp
+from ctr_framework.tubeclearance_comp import TubeclearanceComp
+from ctr_framework.bc_comp import BcComp
+from ctr_framework.desiredpoints_comp import DesiredpointsComp
+from ctr_framework.deployedlength_comp import DeployedlengthComp
+from ctr_framework.beta_comp import BetaComp
+from ctr_framework.pathpoints_comp import PathpointsComp
+from ctr_framework.tubestraight_comp import TubestraightComp
+from ctr_framework.tiporientation_comp import TiporientationComp
+from ctr_framework.chi_comp import ChiComp
+from ctr_framework.gamma_comp import GammaComp
+from ctr_framework.kappaeq_comp import KappaeqComp
+from ctr_framework.strain_comp import StrainComp
+from ctr_framework.ksconstraints_comp import KSConstraintsComp
+from ctr_framework.ksconstraints_min_comp import KSConstraintsMinComp
+from ctr_framework.reducedimension_comp import ReducedimensionComp
+from ctr_framework.strainvirtual_comp import StrainvirtualComp
 'objective'
-from objs_comp import ObjsComp
-from equdply_comp import EqudplyComp
-from reachtargetpts_comp import ReachtargetptsComp
-from targetnorm_comp import TargetnormComp
-from jointvaluereg_comp import JointvalueregComp
-from locnorm_comp import LocnormComp
-from rotnorm_comp import RotnormComp
-from dp_comp import DpComp
-from crosssection_comp import CrosssectionComp
-from signedfun_comp import SignedfunComp
+from ctr_framework.objs_comp import ObjsComp
+from ctr_framework.equdply_comp import EqudplyComp
+from ctr_framework.reachtargetpts_comp import ReachtargetptsComp
+from ctr_framework.targetnorm_comp import TargetnormComp
+from ctr_framework.jointvaluereg_comp import JointvalueregComp
+from ctr_framework.locnorm_comp import LocnormComp
+from ctr_framework.rotnorm_comp import RotnormComp
+from ctr_framework.dp_comp import DpComp
+from ctr_framework.crosssection_comp import CrosssectionComp
+from ctr_framework.signedfun_comp import SignedfunComp
 'mesh'
-from mesh import trianglemesh
+from ctr_framework.mesh import trianglemesh
 
 
 class CtrseqGroup(om.Group):

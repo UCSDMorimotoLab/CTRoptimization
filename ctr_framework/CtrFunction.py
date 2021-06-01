@@ -1,9 +1,5 @@
 import numpy as np
 from ozone.api import ODEFunction
-from CtrSystem import CtrSystem
-from kinematics_comp import KinematicsComp
-from s_comp import SComp
-from rhs_comp import RHSComp
 
 class CtrFunction(ODEFunction):
     def setup(self):

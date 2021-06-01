@@ -1,6 +1,5 @@
 import numpy as np
 from ozone.api import ODEFunction
-from backboneptssystem import Backboneptssystem
 
 
 class BackboneptsFunction(ODEFunction):

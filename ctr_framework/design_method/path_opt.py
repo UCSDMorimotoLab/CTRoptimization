@@ -33,4 +33,9 @@ def path_opt(num_cp,num_pt,sp,fp,filename):
     prob.run_model()
     prob.run_driver()
 
+    # save  
+    mdict = {'pt':prob['pt'],'cp':prob['cp']}
+    scipy.io.savemat('path.mat',mdict)
+
+
 

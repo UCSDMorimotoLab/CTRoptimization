@@ -1,6 +1,6 @@
 import numpy as np
 from openmdao.api import Group, ExecComp
-from bbpoints_comp import BbpointsComp
+from ctr_framework.bbpoints_comp import BbpointsComp
 
 
 class Backboneptssystem(Group):

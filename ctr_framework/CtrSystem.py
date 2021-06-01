@@ -1,12 +1,10 @@
 import numpy as np
 from openmdao.api import Group, ExecComp
-from kinematics_comp import KinematicsComp
-from s_comp import SComp
-from rhs_comp import RHSComp
-from bc_comp import BcComp
-from  obj_comp import ObjComp
-from penalize_comp import PenalizeComp
-from initpsi_comp import InitialpsiComp
+from ctr_framework.kinematics_comp import KinematicsComp
+from ctr_framework.s_comp import SComp
+from ctr_framework.rhs_comp import RHSComp
+
+
 
 class CtrSystem(Group):
 

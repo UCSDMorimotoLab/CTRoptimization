@@ -4,7 +4,7 @@ from mpl_toolkits import mplot3d
 import matplotlib.pyplot as plt
 import scipy.io
 from scipy.spatial import KDTree
-from meshslicing import meshslicing
+from ctr_framework.meshslicing import meshslicing
 
 class trianglemesh:
     # import point cloud

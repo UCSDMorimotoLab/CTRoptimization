@@ -1,5 +1,5 @@
 import numpy as np
-from mesh import trianglemesh
+from ctr_framework.mesh import trianglemesh
 
 def collision_check(rot_p,d2,d4,d6,tube_ends,num_nodes,mesh,k):
     rot_p = rot_p.reshape(num_nodes,k,3)

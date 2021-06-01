@@ -1,5 +1,4 @@
 import numpy as np
-from findcircle import findCircle
 
 def meshslicing(via_pt,mesh,center):
     

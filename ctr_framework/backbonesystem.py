@@ -1,6 +1,6 @@
 import numpy as np
 from openmdao.api import Group, ExecComp
-from bborientation import BborientationComp
+from ctr_framework.bborientation import BborientationComp
 
 
 class BackboneSystem(Group):

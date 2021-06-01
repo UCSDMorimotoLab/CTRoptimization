@@ -3,14 +3,14 @@ import scipy.io
 
 def initialize_pt(k):
     
-    path = scipy.io.loadmat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/trajectory_optimization/trajectory_optimization/pt_trachea_f1.mat')
+    path = scipy.io.loadmat('path.mat')
     
     temp = np.asarray(path['pt'])
     pt = np.zeros((k,3))
     nbr = int(temp.shape[0]/k)
     pt = temp[int(nbr-1)::nbr]
     mdict = {'pt':pt}
-    scipy.io.savemat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/trajectory_optimization/trajectory_optimization/post_pt.mat',mdict)
+    # scipy.io.savemat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/trajectory_optimization/trajectory_optimization/post_pt.mat',mdict)
     return pt
     
 
