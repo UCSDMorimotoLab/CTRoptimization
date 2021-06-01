@@ -1,6 +1,7 @@
 import numpy as np
 import scipy
 from ctr_framework.design_method.path_opt import path_opt
+# from path_opt import path_opt
 
 
 # Initialize the number of control points and path points
