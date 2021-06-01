@@ -1,5 +1,5 @@
 Clinial example 1: Laryngoscopy
-=================
+===============================
 
 Optimization problem
 --------------------
