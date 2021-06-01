@@ -8,11 +8,11 @@ from ctr_framework.design_method.path_opt import path_opt
 num_cp = 25
 num_pt = 100
 # User-defined start point and target point
-sp = np.array([-23,-8,-85])
-fp = np.array([87,-27,-193])
+sp = np.array([-10,35,0])
+fp = np.array([-10,-33,-103])
 
 # mesh .PLY file
-filename = '/home/fred/Desktop/ctr_optimization/mesh/Heart/final/case04_sfinal.ply'
+filename = 'trachea.PLY'
 
 path_opt(num_cp,num_pt,sp,fp,filename)
 

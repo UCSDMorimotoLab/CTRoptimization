@@ -7,17 +7,17 @@ try:
     from openmdao.api import pyOptSparseDriver
 except:
     pyOptSparseDriver = None
-from ctrseq_group import CtrseqGroup
+from ctr_framework.ctrseq_group import CtrseqGroup
 from lsdo_viz.api import Problem
-from mesh import trianglemesh
-from initpt import initialize_pt
-from collision_check import collision_check
-from log import log
+from ctr_framework.mesh import trianglemesh
+from ctr_framework.initpt import initialize_pt
+from ctr_framework.collision_check import collision_check
+from ctr_framework.log import log
 import shutil
 import time
-from equofplane import equofplane
-from findcircle import findCircle
-from seq_opt import seq_opt
+from ctr_framework.equofplane import equofplane
+from ctr_framework.findcircle import findCircle
+from ctr_framework.design_method.seq_opt import seq_opt
 
 #########################################
 ############## initialization ###########
@@ -25,8 +25,10 @@ from seq_opt import seq_opt
 
 # number of waypoints
 viapts_nbr=10
+k = 1
 # number of links                              
 num_nodes = 50
+
 # Extract the waypoints from optimized path
 pt = initialize_pt(viapts_nbr)
 pt_pri =  initialize_pt(viapts_nbr * 2)
@@ -70,7 +72,7 @@ mdict = {'alpha':alpha_init, 'beta':beta_init,'kappa':kappa_init,
         'd1':d1, 'd2':d2, 'd3':d3, 'd4':d4, 'd5':d5, 'd6':d6, 'initial_condition_dpsi':init_dpsi,
         'rotx':rotx_,'roty':roty_ ,'rotz':rotz_ , 'loc':loc,
         }
-scipy.io.savemat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/results/initial.mat',mdict)
+scipy.io.savemat('initial.mat',mdict)
 
 # Base frame
 
@@ -79,7 +81,7 @@ rot = np.array([3.14,0,0]).reshape((3,1))
 p_plane = np.array([[-10,35,20],[-12,20,20],\
                     [-20,15,20]])
 # mesh .PLY file
-meshfile = '/home/fred/Desktop/ctr_optimization/mesh/Heart/final/case04_sfinal.ply'
+meshfile = 'trachea.ply'
 
 seq_opt(num_nodes,viapts_nbr,base,rot,meshfile)
 
