@@ -9,15 +9,15 @@ except:
     pyOptSparseDriver = None
 
 # from ctrviz_group import CtrvizGroups
-from ctrsimul_group import CtrsimulGroup
+from ctr_framework.ctrsimul_group import CtrsimulGroup
 from lsdo_viz.api import Problem
-from mesh_simul import trianglemesh
-from initpt import initialize_pt
-from collision_check import collision_check
+from ctr_framework.mesh_simul import trianglemesh
+from ctr_framework.initpt import initialize_pt
+from ctr_framework.collision_check import collision_check
 import time
-from equofplane import equofplane
-from fibonacci_sphere import fibonacci_sphere
-from log import log
+from ctr_framework.equofplane import equofplane
+from ctr_framework.fibonacci_sphere import fibonacci_sphere
+from ctr_framework.log import log
 
 
 
@@ -58,10 +58,9 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
     zeta_ = np.zeros((k,1))
 
     count = 0
-    t0 = time.time()
     for i in range(k):
         
-        configs = scipy.io.loadmat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/results/heart_final_case04_02/seq_htest18_'+str(i)+'.mat')
+        configs = scipy.io.loadmat('seq_'+str(i)+'.mat')
         alpha_[count,:] = configs['alpha']
         beta_[count,:] = configs['beta']
         initial_condition_dpsi_[count,:] = configs['initial_condition_dpsi']
@@ -75,7 +74,7 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
                         'initial_condition_dpsi':initial_condition_dpsi_, 'rotx':configs['rotx'],'roty':configs['roty'],'rotz':rotz,  ########### <- check
                         'eps_r':configs['eps_r'], 'eps_p':configs['eps_p'], 'eps_e':configs['eps_e'], 'loc':configs['loc'],
                         }
-    scipy.io.savemat('/home/fred/Desktop/ctr_optimization/code_opts_simul/results/simul.mat',mdict1)
+    scipy.io.savemat('simul.mat',mdict1)
 
     flag=1
     error=np.ones((k,1))
@@ -124,7 +123,6 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
                         'error':prob1['targetnorm'], 'tip_position':prob1['desptsconstraints'],
                         }
 
-        scipy.io.savemat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/results/heart_final_case04_02/simul_heartcase04_'+str(i+2)+'.mat',mdict2)
+        scipy.io.savemat('/simul_final_'+str(i)+'.mat',mdict2)
     
-t1 = time.time()
-print(t1-t0)
+

@@ -24,6 +24,7 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile):
     pt = initialize_pt(viapts_nbr)
     pt_pri =  initialize_pt(viapts_nbr * 2)
     pt_full =  initialize_pt(100)
+    p_plane = np.zeros((3,3))
     equ_paras = equofplane(p_plane[0,:],p_plane[1,:],p_plane[2,:])
     pt = initialize_pt(viapts_nbr)
     pt_pri =  initialize_pt(viapts_nbr * 2)
@@ -61,8 +62,8 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile):
                 prob1 = Problem(model=CtrseqGroup(k=1, num_nodes=num_nodes, a=a, \
                         pt=pt_pri[(i+1)*2-1,:],i=i,target = pt[-1,:], center=center, lag = lag,\
                             zeta=zeta,rho=rho,eps_r=eps_r,eps_p=eps_p, eps_e=eps_e, \
-                                pt_full = pt, viapts_nbr=viapts_nbr,\
-                                    rotx_init=rotx,roty_init=roty,rotz_init=rotz,base = base,count=0,equ_paras = equ_paras,pt_test = pt[-1,:]))
+                                pt_full = pt, viapts_nbr=viapts_nbr, meshfile = mesh_path,\
+                                    rotx_init=rot[0],roty_init=rot[1],rotz_init=rot[2],base = base,count=0,equ_paras = equ_paras,pt_test = pt[-1,:]))
             else:
                 
                 multiplier = 20 * count
@@ -71,8 +72,8 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile):
                 prob1 = Problem(model=CtrseqGroup(k=1, num_nodes=num_nodes, a=a, \
                         pt=pt[i,:],i=i,target = pt[-1,:], center=center, lag = lag,\
                             zeta=zeta,rho=rho,eps_r=eps_r,eps_p=eps_p, eps_e=eps_e,\
-                                pt_full = pt, viapts_nbr=viapts_nbr,\
-                                    rotx_init=rotx,roty_init=roty,rotz_init=rotz,base = base,count=0,equ_paras = equ_paras,pt_test = pt[-1,:]))
+                                pt_full = pt, viapts_nbr=viapts_nbr, meshfile = meshfile,\
+                                    rotx_init=rot[0],roty_init=rot[1],rotz_init=rot[2],base = base,count=0,equ_paras = equ_paras,pt_test = pt[-1,:]))
             #option 2
             # if flag==1:
             #     multiplier = 10*count1

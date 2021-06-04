@@ -1,12 +1,13 @@
 import numpy as np
 from ozone.api import ODEFunction
+from ctr_framework.CtrSystem import CtrSystem
 
 class CtrFunction(ODEFunction):
     def setup(self):
         pass
 
 
-    def initialize(self, k=1):
+    def initialize(self, k):
         
         # num_nodes = self.options['num_nodes']
         # self.options.declare('k', default=1, types=int)

@@ -96,6 +96,7 @@ class CtrseqGroup(om.Group):
         self.options.declare('center')
         self.options.declare('pt_full')
         self.options.declare('viapts_nbr')
+        self.options.declare('meshfile')
         
         
 
@@ -123,17 +124,18 @@ class CtrseqGroup(om.Group):
         center = self.options['center']
         pt_full = self.options['pt_full']
         viapts_nbr = self.options['viapts_nbr']
+        meshfile = self.options['meshfile']
         # mesh processing
-        mesh  = trianglemesh(num_nodes,k,pt,center)  
+        mesh  = trianglemesh(num_nodes,k,pt,center,meshfile)  
         p_ = mesh.p
         normals = mesh.normals
         
         
         if i == 0:
-            init_guess = scipy.io.loadmat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/results/initial.mat')
+            init_guess = scipy.io.loadmat('initial.mat')
 
         else:
-            init_guess = scipy.io.loadmat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/results/sequential_data/seq_htest18_'+str(i-1)+'.mat')
+            init_guess = scipy.io.loadmat('seq_'+str(i-1)+'.mat')
             
         
         

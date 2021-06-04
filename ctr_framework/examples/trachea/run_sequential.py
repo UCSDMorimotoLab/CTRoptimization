@@ -77,7 +77,7 @@ scipy.io.savemat('initial.mat',mdict)
 # Base frame
 
 base = np.array([-10,35,20]).reshape((3,1))
-rot = np.array([3.14,0,0]).reshape((3,1))
+rot = np.array([3.14,0,0]).reshape((3,1)) 
 p_plane = np.array([[-10,35,20],[-12,20,20],\
                     [-20,15,20]])
 # mesh .PLY file
