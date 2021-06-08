@@ -85,7 +85,6 @@ ctr_framework/sumk_comp.py
 ctr_framework/sumkm_comp.py
 ctr_framework/targetnorm_comp.py
 ctr_framework/tensor_comp.py
-ctr_framework/test.py
 ctr_framework/tiporientation_comp.py
 ctr_framework/tubeclearance_comp.py
 ctr_framework/tubeends_comp.py

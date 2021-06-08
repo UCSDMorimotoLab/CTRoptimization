@@ -92,6 +92,7 @@ class CtrsimulGroup(om.Group):
         self.options.declare('zeta')
         self.options.declare('rho')
         self.options.declare('lag')
+        self.options.declare('meshfile')
 
     def setup(self):
         num_nodes = self.options['num_nodes']
@@ -112,7 +113,8 @@ class CtrsimulGroup(om.Group):
         zeta = self.options['zeta']
         rho = self.options['rho']
         lag = self.options['lag']
-        mesh  = trianglemesh(num_nodes,k)   
+        meshfile = self.options['meshfile']
+        mesh  = trianglemesh(num_nodes,k,meshfile)   
         p_ = mesh.p
         normals = mesh.normals
         tube_length_init_ = np.array([200, 120,65]).reshape((1,3)) + 100
@@ -187,7 +189,7 @@ class CtrsimulGroup(om.Group):
 
         method_name = 'Lobatto2'
         'ODE 1 : kinematics'
-        ode_function1 = CtrFunction()
+        ode_function1 = CtrFunction(k=k)
         formulation1 = 'time-marching'
 
 
@@ -221,7 +223,7 @@ class CtrsimulGroup(om.Group):
         initR_comp = InitialRComp(num_nodes=num_nodes,k=k)
         self.add_subsystem('initR_comp', initR_comp, promotes=['*'])
         'ODE 2: Orientation'
-        ode_function2 = BackboneFunction()
+        ode_function2 = BackboneFunction(k=k)
         formulation2 = 'time-marching'
 
         initial_time = 0.
@@ -237,7 +239,7 @@ class CtrsimulGroup(om.Group):
         self.connect('initial_condition_R', 'integrator_group2.initial_condition:R')
 
         'ODE 3: Position'
-        ode_function3 = BackboneptsFunction()
+        ode_function3 = BackboneptsFunction(k=k)
         formulation3 = 'time-marching'
 
         initial_time = 0.
@@ -272,11 +274,11 @@ class CtrsimulGroup(om.Group):
         self.add_design_var('d5',lower= 0.2, upper=3.5)
         self.add_design_var('d6',lower= 0.2, upper=3.5)
 
-        self.add_design_var('tube_section_length',lower=65)
-        self.add_design_var('tube_section_straight',lower=35)
+        self.add_design_var('tube_section_length',lower=0)
+        self.add_design_var('tube_section_straight',lower=0)
         self.add_design_var('alpha')
         temp = np.outer(np.ones(k) , -init_guess['tube_section_length']+ 2)        
-        self.add_design_var('beta', lower=temp,upper=-1)
+        self.add_design_var('beta', upper=-1)
         self.add_design_var('kappa', lower=0)
         self.add_design_var('initial_condition_dpsi')
         self.add_design_var('rotx')
@@ -300,7 +302,7 @@ class CtrsimulGroup(om.Group):
         self.add_subsystem('TubestraightComp', tubestraightcomp, promotes=['*'])
         self.add_subsystem('DiameterComp', diametercomp, promotes=['*'])
         self.add_subsystem('TubeclearanceComp', tubeclearancecomp, promotes=['*'])
-        self.add_subsystem('TiporientationComp', tiporientationcomp, promotes=['*'])
+        # self.add_subsystem('TiporientationComp', tiporientationcomp, promotes=['*'])
         locnorm = LocnormComp(k=k_,num_nodes=num_nodes)                                
         self.add_subsystem('LocnormComp', locnorm, promotes=['*'])
         rotnorm = RotnormComp(k=k_)                                
@@ -358,7 +360,7 @@ class CtrsimulGroup(om.Group):
 
         self.add_constraint('torsionconstraint', equals=0.)
         # self.add_constraint('baseconstraints', lower=0)
-        self.add_constraint('tiporientation', equals=0)
+        # self.add_constraint('tiporientation', equals=0)
         self.add_constraint('locnorm', upper=2)
         self.add_constraint('deployedlength12constraint', lower=1)
         self.add_constraint('deployedlength23constraint', lower=1)
@@ -390,7 +392,7 @@ class CtrsimulGroup(om.Group):
         
         objscomp = ObjsComp(k=k,num_nodes=num_nodes,
                             zeta=zeta[-1],
-                                rho=rho[-1],
+                                rho=rho,
                                     eps_r=init_guess['eps_r'],
                                         eps_p=init_guess['eps_p'],
                                             eps_e = init_guess['eps_e'],

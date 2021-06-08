@@ -276,11 +276,11 @@ class CtrseqGroup(om.Group):
         self.add_design_var('d6',lower= 0.2, upper=3.5)
         tube_length_init = 0
         tube_straight_init = 0
-        self.add_design_var('tube_section_length',lower=tube_length_init)
-        self.add_design_var('tube_section_straight',lower=tube_straight_init )
+        self.add_design_var('tube_section_length',lower=0)
+        self.add_design_var('tube_section_straight',lower=0 )
         self.add_design_var('alpha')
         temp = np.outer(np.ones(k) , -init_guess['tube_section_length']+ 2)
-        self.add_design_var('beta', lower=temp,upper=-1)
+        self.add_design_var('beta', upper=-1)
         self.add_design_var('kappa', lower=0)
         self.add_design_var('initial_condition_dpsi')
         self.add_design_var('rotx')

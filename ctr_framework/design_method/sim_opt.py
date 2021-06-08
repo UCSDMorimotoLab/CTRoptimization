@@ -26,14 +26,7 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
     mesh = trianglemesh(num_nodes,k,meshfile)
     a = 30
     # robot initial pose trachea
-    rotx = 3.14
-    roty = 0
-    rotz = 0
-    base = np.array([-10,35,20]).reshape((3,1))
-
-    base = np.array([-10,55,20]).reshape((3,1))
-
-    base = np.array([-10,43,20]).reshape((3,1))
+    
     pt = initialize_pt(k)
     pt_pri =  initialize_pt(k * 2)
     # find 3 points on the plane
@@ -71,7 +64,7 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
     mdict1 = {'alpha':alpha_, 'beta':beta_,'kappa':configs['kappa'], 'rho':rho_, 'lag':lag_, 'zeta':zeta_,
                         'tube_section_straight':configs['tube_section_straight'],'tube_section_length':configs['tube_section_length'],
                         'd1':configs['d1'], 'd2':configs['d2'], 'd3':configs['d3'], 'd4':configs['d4'], 'd5':configs['d5'], 'd6':configs['d6'],
-                        'initial_condition_dpsi':initial_condition_dpsi_, 'rotx':configs['rotx'],'roty':configs['roty'],'rotz':rotz,  ########### <- check
+                        'initial_condition_dpsi':initial_condition_dpsi_, 'rotx':configs['rotx'],'roty':configs['roty'],'rotz':configs['rotz'],
                         'eps_r':configs['eps_r'], 'eps_p':configs['eps_p'], 'eps_e':configs['eps_e'], 'loc':configs['loc'],
                         }
     scipy.io.savemat('simul.mat',mdict1)
@@ -89,13 +82,13 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
             zeta_ = multiplier_zeta + zeta_
         
         prob1 = Problem(model=CtrsimulGroup(k=k, k_=k_, num_nodes=num_nodes, a=a, i=1, \
-                            pt=pt[:,:],target = pt[-1,:],\
+                            pt=pt[:,:],target = pt[-1,:], meshfile=meshfile,\
                             pt_full = pt, viapts_nbr=k, zeta = zeta_, rho=rho_, lag=lag_,\
-                            rotx_init=rotx,roty_init=roty, rotz_init=rotz,base = base,equ_paras = equ_paras))
+                            rotx_init=rot[0],roty_init=rot[1], rotz_init=rot[2],base = base,equ_paras = equ_paras))
         i+=1
         prob1.driver = pyOptSparseDriver()
         prob1.driver.options['optimizer'] = 'SNOPT'
-        prob1.driver.opt_settings['Major iterations limit'] = 100 #1000
+        prob1.driver.opt_settings['Major iterations limit'] = 50 #1000
         prob1.driver.opt_settings['Minor iterations limit'] = 1000
         prob1.driver.opt_settings['Iterations limit'] = 1000000
         prob1.driver.opt_settings['Major step limit'] = 2.0
@@ -123,6 +116,6 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
                         'error':prob1['targetnorm'], 'tip_position':prob1['desptsconstraints'],
                         }
 
-        scipy.io.savemat('/simul_final_'+str(i)+'.mat',mdict2)
+        scipy.io.savemat('simul_final_'+str(i)+'.mat',mdict2)
     
 

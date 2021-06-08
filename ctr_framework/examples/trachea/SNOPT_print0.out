@@ -1,0 +1,280 @@
+
+         ==============================
+         S N O P T  7.2-5    (May 2007)
+         ==============================
+      Verify level               0
+      Major iterations limit              50
+      Minor iterations limit            1000
+      Iterations limit         1000000
+      Major step limit  2.00000000E+00
+      Major feasibility tolerance  1.00000000E-04
+      Major optimality tolerance  1.00000000E-03
+      Minor feasibility tolerance  1.00000000E-04
+      Derivative level               3
+1
+ 
+ SNMEMB EXIT 100 -- finished successfully
+ SNMEMB INFO 104 -- memory requirements estimated
+
+         ==============================
+         S N O P T  7.2-5    (May 2007)
+         ==============================
+      Verify level               0
+      Major iterations limit              50
+      Minor iterations limit            1000
+      Iterations limit         1000000
+      Major step limit  2.00000000E+00
+      Major feasibility tolerance  1.00000000E-04
+      Major optimality tolerance  1.00000000E-03
+      Minor feasibility tolerance  1.00000000E-04
+      Derivative level               3
+1
+ 
+ Parameters
+ ==========
+
+ Files
+ -----
+ Solution file..........         0       Old basis file ........         0       Standard input.........         5
+ Insert file............         0       New basis file ........         0       (Printer)..............        18
+ Punch file.............         0       Backup basis file......         0       (Specs file)...........         0
+ Load file..............         0       Dump file..............         0       Standard output........         6
+
+ Frequencies
+ -----------
+ Print frequency........       100       Check frequency........        60       Save new basis map.....       100
+ Summary frequency......       100       Factorization frequency        50       Expand frequency.......     10000
+
+ QP subproblems
+ --------------
+ QPsolver Cholesky......
+ Scale tolerance........     0.900       Minor feasibility tol..  1.00E-04       Iteration limit........   1000000
+ Scale option...........         0       Minor optimality  tol..  1.00E-06       Minor print level......         1
+ Crash tolerance........     0.100       Pivot tolerance........  3.25E-11       Partial price..........         1
+ Crash option...........         3       Elastic weight.........  1.00E+04       Prtl price section ( A)        30
+                                         New superbasics........        99       Prtl price section (-I)        28
+
+ The SQP Method
+ --------------
+ Minimize...............                 Cold start.............                 Proximal Point method..         1
+ Nonlinear objectiv vars        30       Major optimality tol...  1.00E-03       Function precision.....  3.00E-13
+ Unbounded step size....  1.00E+20       Superbasics limit......        30       Difference interval....  5.48E-07
+ Unbounded objective....  1.00E+15       Reduced Hessian dim....        30       Central difference int.  6.70E-05
+ Major step limit.......  2.00E+00       Derivative linesearch..                 Derivative level.......         3
+ Major iterations limit.        50       Linesearch tolerance...   0.90000       Verify level...........         0
+ Minor iterations limit.      1000       Penalty parameter......  0.00E+00       Major Print Level......         1
+
+ Hessian Approximation
+ ---------------------
+ Full-Memory Hessian....                 Hessian updates........  99999999       Hessian frequency......  99999999
+                                                                                 Hessian flush..........  99999999
+
+ Nonlinear constraints
+ ---------------------
+ Nonlinear constraints..        28       Major feasibility tol..  1.00E-04       Violation limit........  1.00E+06
+ Nonlinear Jacobian vars        30
+
+ Miscellaneous
+ -------------
+ LU factor tolerance....      3.99       LU singularity tol.....  3.25E-11       Timing level...........         3
+ LU update tolerance....      3.99       LU swap tolerance......  1.22E-04       Debug level............         0
+ LU partial  pivoting...                 eps (machine precision)  2.22E-16       System information.....        No
+1
+ 
+
+ 
+
+ Matrix statistics
+ -----------------
+               Total      Normal        Free       Fixed     Bounded
+ Rows             28          23           0           3           2
+ Columns          30           9          12           0           9
+
+ No. of matrix elements                  425     Density      50.595
+ Biggest                          0.0000E+00  (excluding fixed columns,
+ Smallest                         0.0000E+00   free rows, and RHS)
+
+ No. of objective coefficients             0
+
+ Nonlinear constraints      28     Linear constraints       0
+ Nonlinear variables        30     Linear variables         0
+ Jacobian  variables        30     Objective variables     30
+ Total constraints          28     Total variables         30
+1
+ 
+
+ 
+ The user has defined     425   out of     425   constraint gradients.
+ The user has defined      30   out of      30   objective  gradients.
+
+ Cheap test of user-supplied problem derivatives...
+
+ The constraint gradients seem to be OK.
+
+ -->  The largest discrepancy was    5.37E-02  in constraint    34
+ 
+
+ The objective  gradients seem to be OK.
+
+ Gradient projected in one direction  -5.76752162375E-02
+ Difference approximation             -2.36380352263E-02
+1
+ 
+ 
+
+   Itns Major Minors    Step   nCon Feasible  Optimal  MeritFunction     L+U BSwap     nS  condHz Penalty
+     24     0     24              1  1.1E-04  2.6E-01  5.4696483E+00     110           20 4.0E+00         _  r
+     27     1      3 1.5E-03      5  1.1E-04  8.3E-02  5.4693927E+00     110           20 1.0E+01         _n r
+     31     2      4 1.6E-03      9  1.1E-04  2.7E-01  5.4680867E+00     113     2     21 2.9E+01         _s
+     35     3      4 1.0E+00     10 (8.7E-08) 3.7E-01  5.4714390E+00     105           24 4.7E+01 2.4E+01 _
+     37     4      2 1.0E+00     11 (1.7E-08) 3.6E-01  5.4589710E+00     100           23 1.3E+01 6.2E+00 _
+     40     5      3 1.0E+00     12 (5.0E-09) 1.9E-01  5.4324478E+00      92           23 1.3E+01 6.2E+00 _
+     43     6      3 1.0E+00     13 (8.4E-09) 3.8E-01  5.4192939E+00      92           21 7.2E+00 6.2E+00 _
+     47     7      4 1.0E+00     14 (9.7E-11) 6.3E-01  5.3928918E+00      90           22 1.3E+01 6.2E+00 _
+     50     8      3 1.0E+00     15  2.4E-04  4.2E-01  5.2750542E+00     110           20 1.6E+01 6.2E+00 _
+     55     9      5 1.0E+00     16 (1.4E-05) 3.7E-01  5.1778058E+00     111           20 3.5E+01 6.2E+00 _
+     60    10      5 1.0E+00     17 (4.0E-05) 3.0E-01  4.4343282E+00     109           20 1.8E+02 6.2E+00 _
+     65    11      5 1.0E+00     18 (3.3E-05) 1.0E-01  3.6211150E+00     124           18 1.2E+02 6.2E+00 _
+     69    12      4 1.0E+00     19 (1.1E-06) 4.5E-01  3.2323646E+00     116           19 1.7E+02 6.2E+00 _
+     76    13      7 1.0E+00     20 (3.4E-19) 1.2E-01  3.1730575E+00     123           19 1.2E+03 6.2E+00 _
+     85    14      9 1.0E+00     21 (2.4E-06) 2.2E+00  3.0434370E+00     115     3     20 7.6E+01 6.2E+00 _
+     90    15      5 1.0E+00     22 (1.1E-06) 9.7E-01  2.7331670E+00     104     4     20 1.0E+02 6.2E+00 _
+     94    16      4 4.5E-01     24 (1.1E-06) 9.8E-01  2.6871811E+00     135           20 1.1E+02 6.2E+00 _
+     97    17      3 1.0E+00     25 (1.1E-06) 9.6E-01  2.5794590E+00     124           20 1.5E+02 6.2E+00 _
+     98    18      1 1.0E+00     26 (2.8E-08) 9.3E-01  2.5326778E+00     107     2     20 8.9E+01 6.2E+00 _
+    100    19      2 1.0E+00     27 (7.0E-08) 1.1E+00  2.3540154E+00     122           19 1.1E+02 6.2E+00 _
+
+   Itns Major Minors    Step   nCon Feasible  Optimal  MeritFunction     L+U BSwap     nS  condHz Penalty
+    103    20      3 1.0E+00     28 (2.2E-07) 1.2E+00  2.1903600E+00     133           19 4.9E+01 6.2E+00 _
+    107    21      4 1.0E+00     29 (1.0E-05) 1.6E+00  1.9620062E+00     148           20 1.2E+02 6.2E+00 _
+    116    22      9 1.7E-01     31 (8.6E-06) 1.1E+00  1.9291577E+00     153           18 1.1E+03 6.2E+00 _
+    119    23      3 2.0E-01     33 (6.9E-06) 7.8E-01  1.8889723E+00     153           20 2.0E+03 6.2E+00 _
+    122    24      3 1.0E+00     34 (1.4E-06) 1.4E+00  1.8169978E+00     146           22 3.0E+03 6.2E+00 _
+    126    25      4 1.0E+00     35 (3.2E-06) 1.4E+00  1.7754132E+00     138           21 4.7E+03 6.2E+00 _
+    139    26     13 1.9E-01     37 (7.4E-07) 8.9E-01  1.7660352E+00     143     4     23 1.4E+05 6.2E+00 _
+    145    27      6 1.0E+00     38 (5.0E-07) 1.1E+00  1.7394299E+00      79     5     24 1.2E+02 6.2E+00 _
+    149    28      4 1.6E-01     40 (4.5E-07) 1.1E+00  1.7363218E+00      97           21 3.2E+02 6.2E+00 _
+    151    29      2 2.4E-01     42 (3.6E-07) 1.5E+00  1.7359356E+00      97           22 4.3E+02 6.2E+00 _
+    153    30      2 1.2E-01     44 (3.3E-07) 1.3E+00  1.7340361E+00      97           23 2.9E+02 6.2E+00 _
+    156    31      3 4.5E-01     46 (2.1E-07) 8.2E-01  1.7307002E+00      97           23 3.1E+02 6.2E+00 _
+    157    32      1 1.0E+00     47 (1.9E-07) 9.2E-01  1.7255655E+00      92           23 3.8E+02 6.2E+00 _
+    160    33      3 1.0E+00     48 (1.2E-08) 1.1E+00  1.7178110E+00      92           23 5.6E+02 6.2E+00 _
+    164    34      4 1.0E+00     49 (2.1E-08) 2.7E+00  1.6997318E+00      92     2     22 4.5E+03 6.2E+00 _
+    166    35      2 1.0E+00     50 (4.2E-08) 3.6E-01  1.6514535E+00      96           21 4.8E+03 6.2E+00 _
+    172    36      6 1.0E+00     51 (8.4E-05) 4.8E-01  1.5327874E+00     108           21 6.9E+03 6.2E+00 _
+    178    37      6 1.0E+00     52 (7.2E-09) 7.6E-01  1.4916947E+00      92           24 4.5E+03 6.2E+00 _
+    179    38      1 1.0E+00     53 (2.3E-08) 4.4E-01  1.4007246E+00      96           24 5.2E+03 6.2E+00 _
+    182    39      3 1.0E+00     54 (8.6E-08) 8.6E-01  1.3767070E+00     124           22 7.6E+03 6.2E+00 _
+
+   Itns Major Minors    Step   nCon Feasible  Optimal  MeritFunction     L+U BSwap     nS  condHz Penalty
+    186    40      4 1.0E+00     55 (1.6E-05) 1.1E+00  1.3024994E+00     114     2     21 4.8E+02 6.2E+00 _
+    188    41      2 1.0E+00     56 (6.1E-06) 2.3E+00  1.2637180E+00     105           22 5.9E+02 6.2E+00 _
+    192    42      4 1.0E+00     57 (3.2E-08) 5.5E-01  1.1103559E+00     110           19 5.7E+02 6.2E+00 _
+    196    43      4 4.1E-01     59 (1.9E-08) 5.9E-01  1.0627315E+00     105           22 7.0E+02 6.2E+00 _
+    202    44      6 1.0E+00     60 (5.1E-08) 9.0E-01  1.0020461E+00      96           21 7.3E+02 6.2E+00 _
+    206    45      4 1.9E-01     62 (6.1E-09) 4.7E-01  9.3723333E-01     105           22 8.5E+02 6.2E+00 _
+    210    46      4 1.1E-01     64 (4.6E-09) 1.6E+00  9.0526562E-01     105           23 8.3E+02 6.2E+00 _
+    212    47      2 6.6E-02     67 (4.3E-09) 2.3E+00  9.0053364E-01     110           22 8.1E+02 6.2E+00 _
+    217    48      5 2.6E-01     69 (6.5E-09) 8.2E-01  8.8615386E-01     140           20 2.6E+02 6.2E+00 _
+    222    49      5 2.3E-01     71 (2.0E-08) 2.4E+00  8.8323075E-01     140           24 3.2E+04 6.2E+00 _
+    223    50      1 2.3E-01     73 (1.8E-08) 3.0E+00  8.8152930E-01     140           24 2.8E+04 6.2E+00 _
+1
+ 
+ SNOPTC EXIT  30 -- resource limit error
+ SNOPTC INFO  32 -- major iteration limit reached
+
+ Problem name                 O
+ No. of iterations                 223   Objective value      8.8147369313E-01
+ No. of major iterations            50   Linear objective     0.0000000000E+00
+ Penalty parameter           6.223E+00   Nonlinear objective  8.8147369313E-01
+ No. of calls to funobj             74   No. of calls to funcon             74
+ No. of superbasics                 24   No. of basic nonlinears             8
+ No. of degenerate steps             3   Percentage                       1.35
+ Max x                       7 3.1E+02   Max pi                      2 3.2E+00
+ Max Primal infeas           0 0.0E+00   Max Dual infeas            22 1.2E+01
+ Nonlinear constraint violn    5.6E-06
+1
+ 
+ Name           O                        Objective Value      8.8147369313E-01
+
+ Status         Optimal Soln             Iteration    223    Superbasics    24
+
+ Objective      îÄíÜ)Ú<@ (Min)
+ RHS                    
+ Ranges                 
+ Bounds                 
+
+ Section 1 - Rows
+
+  Number  ...Row.. State  ...Activity...  Slack Activity  ..Lower Limit.  ..Upper Limit.  .Dual Activity    ..i
+ 
+      31  r      1    EQ        -0.00001        -0.00001          .               .             -0.73889      1
+      32  r      2    EQ        -0.00000        -0.00000          .               .              3.18176      2
+      33  r      3    EQ         0.00000         0.00000          .               .              2.00750      3
+      34  r      4    BS         0.01176        -1.98824           None          2.00000          .           4
+      35  r      5   SBS         2.14163         1.14163         1.0               None          0.00000      5
+      36  r      6    BS        25.30109        24.30109         1.0               None           .           6
+      37  r      7    BS       -75.70196       -74.70196           None         -1.0              .           7
+      38  r      8    BS       -39.84996       -38.84996           None         -1.0              .           8
+      39  r      9    BS         0.33272         0.23272         0.10000           None           .           9
+      40  r     10    BS         0.34110         0.24110         0.10000           None           .          10
+      41  r     11    BS         0.73031         0.63031         0.10000           None           .          11
+      42  r     12   SBS         0.10724         0.00724         0.10000         0.16000         0.00000     12
+      43  r     13   SBS         0.11700         0.01700         0.10000         0.16000         0.00000     13
+      44  r     14    BS       111.63558       111.63558          .                None           .          14
+      45  r     15    BS       103.79199       103.79199          .                None           .          15
+      46  r     16    BS        83.64095        83.64095          .                None           .          16
+      47  r     17    BS         0.03788        -0.04212           None          0.08000          .          17
+      48  r     18    BS         0.03819        -0.04181           None          0.08000          .          18
+      49  r     19    BS         0.03905        -0.04095           None          0.08000          .          19
+      50  r     20    BS         0.05410        -0.02590           None          0.08000          .          20
+      51  r     21    BS         0.04469        -0.03531           None          0.08000          .          21
+      52  r     22    BS         0.03922        -0.04078           None          0.08000          .          22
+      53  r     23   SBS        -0.05629         0.02371        -0.08000           None         -0.00000     23
+      54  r     24   SBS        -0.04510         0.03490        -0.08000           None          0.00000     24
+      55  r     25    BS        -0.03922         0.04078        -0.08000           None           .          25
+      56  r     26    BS        -0.03789         0.04211        -0.08000           None           .          26
+      57  r     27    BS        -0.03820         0.04180        -0.08000           None           .          27
+      58  r     28    BS        -0.03905         0.04095        -0.08000           None           .          28
+1
+ 
+ Section 2 - Columns
+
+  Number  .Column. State  ...Activity...  .Obj Gradient.  ..Lower Limit.  ..Upper Limit.  Reduced Gradnt    m+j
+ 
+       1  x      1 N SBS         0.50616         0.01255         0.20000         3.50000         0.01255     29
+       2  x      2 N SBS         0.83888        -0.05713         0.20000         3.50000        -0.05713     30
+       3  x      3    BS         0.94612        -0.02626         0.20000         3.50000        -0.02626     31
+       4  x      4 N SBS         1.28723         0.06613         0.20000         3.50000         0.06613     32
+       5  x      5    BS         1.40423         0.00307         0.20000         3.50000         0.00307     33
+       6  x      6 N SBS         2.13454        -0.01078         0.20000         3.50000        -0.01078     34
+       7  x      7    BS       311.63558        -0.00012          .                None         -0.00012     35
+       8  x      8 N SBS       233.79199         0.01565          .                None          0.01566     36
+       9  x      9 N SBS       168.64095        -0.10168          .                None         -0.10168     37
+      10  x     10 A  FR       200.00000          .               .                None           .          38
+      11  x     11 A  FR       130.00000          .               .                None           .          39
+      12  x     12 A  FR        85.00000          .               .                None           .          40
+      13  x     13 N SBS        -1.55220        -0.04486           None            None         -0.04515     41
+      14  x     14 N SBS         1.95983         0.05604           None            None          0.05635     42
+      15  x     15 N SBS        -0.95989        -0.00813           None            None         -0.00816     43
+      16  x     16 N SBS      -266.90083        -0.00853           None         -1.0            -0.00853     44
+      17  x     17 N SBS      -191.19887         0.01565           None         -1.0             0.01566     45
+      18  x     18 N SBS      -151.34891        -0.10168           None         -1.0            -0.10168     46
+      19  x     19    BS         0.01437        -0.43626          .                None         -0.42803     47
+      20  x     20    BS         0.00476         7.06553          .                None          7.09108     48
+      21  x     21 N SBS         0.00068       -11.13756          .                None        -11.15287     49
+      22  x     22 N  BS        -0.00008       -13.13284           None            None        -12.47873     50
+      23  x     23    BS         0.00002        11.88953           None            None          8.77594     51
+      24  x     24    BS         0.00000        -1.34808           None            None         -3.35972     52
+      25  x     25 N SBS        -0.04641        -2.06727           None            None         -2.06727     53
+      26  x     26 N SBS        -0.03086         0.14903           None            None          0.14903     54
+      27  x     27 N SBS         0.01903         0.05447           None            None          0.05447     55
+      28  x     28 N SBS        -0.00976        -0.40681           None            None         -0.40681     56
+      29  x     29 N SBS        -0.00639        -0.31675           None            None         -0.31675     57
+      30  x     30 N SBS         0.00149         0.14886           None            None          0.14886     58
+ 
+ Time for MPS input                             0.00 seconds
+ Time for solving problem                    1840.15 seconds
+ Time for solution output                       0.01 seconds
+ Time for constraint functions               1863.46 seconds
+ Time for objective function                    0.00 seconds

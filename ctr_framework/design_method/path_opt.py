@@ -16,7 +16,7 @@ from ctr_framework.bspline_3d_comp import BsplineComp
 
 def path_opt(num_cp,num_pt,sp,fp,filename):
 
-    r2 = 0.1
+    r2 = 10
     r1 = 1
 
     prob = Problem(model=BsplineGroup(num_cp=num_cp,num_pt=num_pt,

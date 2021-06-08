@@ -121,8 +121,8 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile):
                         'rho':rho, 'eps_r':eps_r, 'eps_p':eps_p, 'eps_e':eps_e, 
                         'lag':lag
                         }
-        scipy.io.savemat('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/results/sequential_data/seq_htest18_'+str(i)+'.mat',mdict1)
-        os.rename('/home/fred/Desktop/ctr_optimization/code_opts_seqv2/SNOPT_print.out','/home/fred/Desktop/ctr_optimization/code_opts_seqv2/SNOPT_print'+str(i)+'.out')
+        scipy.io.savemat('seq_'+str(i)+'.mat',mdict1)
+        os.rename('SNOPT_print.out','SNOPT_print'+str(i)+'.out')
 
     t1 = time.time()
     print(t1-t0)

@@ -15,7 +15,7 @@ base = np.array([-10,35,20]).reshape((3,1))
 rot = np.array([3.14,0,0]).reshape((3,1))
 
 # mesh .PLY file
-meshfile = 'trachea.ply'
+meshfile = 'trachea.PLY'
 
 # run simultaneous optimization
 sim_opt(num_nodes,k,base,rot,meshfile)
