@@ -15,73 +15,71 @@ The CTR sequential optimization group is as follows:
     from openmdao.api import Problem, Group, ExecComp, IndepVarComp, ScipyOptimizeDriver, pyOptSparseDriver
     # from openmdao.api import Problem, Group, ExecComp, IndepVarComp, ScipyOptimizeDriver
     from ozone.api import ODEIntegrator
-
-    from stiffness_comp import StiffnessComp
-    from CtrFunction import CtrFunction
-    from tensor_comp import TensorComp
-    from rhs_comp import RHSComp
-    from kinematics_comp import KinematicsComp
-    from k_comp import KComp
-    from sumk_comp import SumkComp
-    from sumkm_comp import SumkmComp
-    from invsumk_comp import InvsumkComp
-    from tubeends_comp import TubeendsComp
-    from initpsi_comp import InitialpsiComp
-    from penalize_comp import PenalizeComp
-    from interpolationkp_comp import InterpolationkpComp
-    from straightends_comp import StraightendsComp
-    from kappa_comp import KappaComp
-    from kout_comp import KoutComp
-    from interpolationkb_comp import InterpolationkbComp
-    from interpolationkp_comp import InterpolationkpComp
-    from test import TestComp
+    from ctr_framework.stiffness_comp import StiffnessComp
+    from ctr_framework.CtrFunction import CtrFunction
+    from ctr_framework.tensor_comp import TensorComp
+    from ctr_framework.rhs_comp import RHSComp
+    from ctr_framework.kinematics_comp import KinematicsComp
+    from ctr_framework.k_comp import KComp
+    from ctr_framework.sumk_comp import SumkComp
+    from ctr_framework.sumkm_comp import SumkmComp
+    from ctr_framework.invsumk_comp import InvsumkComp
+    from ctr_framework.tubeends_comp import TubeendsComp
+    from ctr_framework.initpsi_comp import InitialpsiComp
+    from ctr_framework.penalize_comp import PenalizeComp
+    from ctr_framework.interpolationkp_comp import InterpolationkpComp
+    from ctr_framework.straightends_comp import StraightendsComp
+    from ctr_framework.kappa_comp import KappaComp
+    from ctr_framework.kout_comp import KoutComp
+    from ctr_framework.interpolationkb_comp import InterpolationkbComp
+    from ctr_framework.interpolationkp_comp import InterpolationkpComp
     'backbone comps'
-    from backbonefunction import BackboneFunction
-    from initR_comp import InitialRComp
-    from u1_comp import U1Comp
-    from u2_comp import U2Comp
-    from u3_comp import U3Comp
-    from u_comp import UComp
-    from uhat_comp import UhatComp
-    from bborientation import BborientationComp
-    from backboneptsFunction import BackboneptsFunction
+    from ctr_framework.backbonefunction import BackboneFunction
+    from ctr_framework.initR_comp import InitialRComp
+    from ctr_framework.u1_comp import U1Comp
+    from ctr_framework.u2_comp import U2Comp
+    from ctr_framework.u3_comp import U3Comp
+    from ctr_framework.u_comp import UComp
+    from ctr_framework.uhat_comp import UhatComp
+    from ctr_framework.bborientation import BborientationComp
+    from ctr_framework.backboneptsFunction import BackboneptsFunction
     'Integrator'
-    from finaltime_comp import FinaltimeComp
+    from ctr_framework.finaltime_comp import FinaltimeComp
     'base angle'
-    from baseangle_comp import BaseangleComp
-    from rotp_comp import RotpComp
-    from baseplanar_comp import BaseplanarComp
+    from ctr_framework.baseangle_comp import BaseangleComp
+    from ctr_framework.rotp_comp import RotpComp
+    from ctr_framework.baseplanar_comp import BaseplanarComp
     'constraints'
-    from diameter_comp import DiameterComp
-    from tubeclearance_comp import TubeclearanceComp
-    from bc_comp import BcComp
-    from desiredpoints_comp import DesiredpointsComp
-    from deployedlength_comp import DeployedlengthComp
-    from beta_comp import BetaComp
-    from pathpoints_comp import PathpointsComp
-    from tubestraight_comp import TubestraightComp
-    from tiporientation_comp import TiporientationComp
-    from chi_comp import ChiComp
-    from gamma_comp import GammaComp
-    from kappaeq_comp import KappaeqComp
-    from strain_comp import StrainComp
-    from ksconstraints_comp import KSConstraintsComp
-    from ksconstraints_min_comp import KSConstraintsMinComp
-    from reducedimension_comp import ReducedimensionComp
-    from strainvirtual_comp import StrainvirtualComp
+    from ctr_framework.diameter_comp import DiameterComp
+    from ctr_framework.tubeclearance_comp import TubeclearanceComp
+    from ctr_framework.bc_comp import BcComp
+    from ctr_framework.desiredpoints_comp import DesiredpointsComp
+    from ctr_framework.deployedlength_comp import DeployedlengthComp
+    from ctr_framework.beta_comp import BetaComp
+    from ctr_framework.pathpoints_comp import PathpointsComp
+    from ctr_framework.tubestraight_comp import TubestraightComp
+    from ctr_framework.tiporientation_comp import TiporientationComp
+    from ctr_framework.chi_comp import ChiComp
+    from ctr_framework.gamma_comp import GammaComp
+    from ctr_framework.kappaeq_comp import KappaeqComp
+    from ctr_framework.strain_comp import StrainComp
+    from ctr_framework.ksconstraints_comp import KSConstraintsComp
+    from ctr_framework.ksconstraints_min_comp import KSConstraintsMinComp
+    from ctr_framework.reducedimension_comp import ReducedimensionComp
+    from ctr_framework.strainvirtual_comp import StrainvirtualComp
     'objective'
-    from objs_comp import ObjsComp
-    from equdply_comp import EqudplyComp
-    from reachtargetpts_comp import ReachtargetptsComp
-    from targetnorm_comp import TargetnormComp
-    from jointvaluereg_comp import JointvalueregComp
-    from locnorm_comp import LocnormComp
-    from rotnorm_comp import RotnormComp
-    from dp_comp import DpComp
-    from crosssection_comp import CrosssectionComp
-    from signedfun_comp import SignedfunComp
+    from ctr_framework.objs_comp import ObjsComp
+    from ctr_framework.equdply_comp import EqudplyComp
+    from ctr_framework.reachtargetpts_comp import ReachtargetptsComp
+    from ctr_framework.targetnorm_comp import TargetnormComp
+    from ctr_framework.jointvaluereg_comp import JointvalueregComp
+    from ctr_framework.locnorm_comp import LocnormComp
+    from ctr_framework.rotnorm_comp import RotnormComp
+    from ctr_framework.dp_comp import DpComp
+    from ctr_framework.crosssection_comp import CrosssectionComp
+    from ctr_framework.signedfun_comp import SignedfunComp
     'mesh'
-    from mesh import trianglemesh
+    from ctr_framework.mesh import trianglemesh
 
 
     class CtrseqGroup(om.Group):
@@ -109,6 +107,7 @@ The CTR sequential optimization group is as follows:
             self.options.declare('center')
             self.options.declare('pt_full')
             self.options.declare('viapts_nbr')
+            self.options.declare('meshfile')
             
             
 
@@ -136,8 +135,9 @@ The CTR sequential optimization group is as follows:
             center = self.options['center']
             pt_full = self.options['pt_full']
             viapts_nbr = self.options['viapts_nbr']
+            meshfile = self.options['meshfile']
             # mesh processing
-            mesh  = trianglemesh(num_nodes,k,pt,center)  
+            mesh  = trianglemesh(num_nodes,k,pt,center,meshfile)  
             p_ = mesh.p
             normals = mesh.normals
             
@@ -287,11 +287,11 @@ The CTR sequential optimization group is as follows:
             self.add_design_var('d6',lower= 0.2, upper=3.5)
             tube_length_init = 0
             tube_straight_init = 0
-            self.add_design_var('tube_section_length',lower=tube_length_init)
-            self.add_design_var('tube_section_straight',lower=tube_straight_init )
+            self.add_design_var('tube_section_length',lower=0)
+            self.add_design_var('tube_section_straight',lower=0 )
             self.add_design_var('alpha')
             temp = np.outer(np.ones(k) , -init_guess['tube_section_length']+ 2)
-            self.add_design_var('beta', lower=temp,upper=-1)
+            self.add_design_var('beta', upper=-1)
             self.add_design_var('kappa', lower=0)
             self.add_design_var('initial_condition_dpsi')
             self.add_design_var('rotx')
@@ -407,6 +407,7 @@ The CTR sequential optimization group is as follows:
             self.add_subsystem('ObjsComp', objscomp, promotes=['*'])
             self.add_objective('objs')
         
+        
 
 After the group is built, we now can solve the path optimization problem by running the optimizer and function below:
 
@@ -414,52 +415,93 @@ After the group is built, we now can solve the path optimization problem by runn
 
     import numpy as np
     import scipy
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
+    import os
     from openmdao.api import pyOptSparseDriver
     from openmdao.api import ScipyOptimizeDriver
-    from openmdao.api import Problem, pyOptSparseDriver
     try:
         from openmdao.api import pyOptSparseDriver
     except:
         pyOptSparseDriver = None
+    from ctr_framework.ctrseq_group import CtrseqGroup
+    from lsdo_viz.api import Problem
+    from ctr_framework.mesh import trianglemesh
+    from ctr_framework.initpt import initialize_pt
+    from ctr_framework.collision_check import collision_check
+    from ctr_framework.log import log
+    import shutil
+    import time
+    from ctr_framework.equofplane import equofplane
+    from ctr_framework.findcircle import findCircle
+    from ctr_framework.design_method.seq_opt import seq_opt
 
-    from bspline_group import BsplineGroup
-    from bspline_3d_comp import BsplineComp
+    #########################################
+    ############## initialization ###########
+    #########################################
 
-    # Initialize the number of control points and path points
-    num_cp = 25
-    num_pt = 100
+    # number of waypoints
+    viapts_nbr=10
+    k = 1
+    # number of links                              
+    num_nodes = 50
 
-    'heart04'
-    # Define the start point and final point (target)
-    sp = np.array([-23,-8,-85])
-    fp = np.array([87,-27,-193])
-    r2 = 0.1
-    r1 = 1
+    # Extract the waypoints from optimized path
+    pt = initialize_pt(viapts_nbr)
+    pt_pri =  initialize_pt(viapts_nbr * 2)
+    pt_full =  initialize_pt(100)
+
+
+    # initial robot configuration
+    # Tube 1(inner tube) ID, OD
+    d1 = 0.65
+    d2 = 0.88
+    # Tube 2 
+    d3 = 1.076
+    d4 = 1.296
+    # Tube 3(outer tube)
+    d5 = 1.470
+    d6 = 2.180
+    # Tube curvature (kappa)
+    kappa_init = np.array([0.0061, 0.0131,0.0021]).reshape((1,3))
+    # The length of tubes
+    tube_length_init = np.array([200, 120,65]).reshape((1,3)) + 100
+    # The length of straight section of tubes
+    tube_straight_init = np.array([150, 80,35]).reshape((1,3)) + 50
+    # joint variables
+    alpha_init = np.zeros((k,3))
+    alpha_init[:,0] = -np.pi/2
+    alpha_init[:,1] = np.pi/1.5
+    alpha_init[:,2] = -np.pi/3
+    beta_init = np.zeros((k,3))
+    beta_init[:,0] = -280
+    beta_init[:,1] = -205
+    beta_init[:,2] = -155
+    # initial torsion 
+    init_dpsi = np.random.random((k,3)) *0.01
+    rotx_ = 1e-10 
+    roty_ = 1e-10
+    rotz_ = 1e-10
+    loc = np.ones((3,1)) * 1e-5
+
+    mdict = {'alpha':alpha_init, 'beta':beta_init,'kappa':kappa_init,
+            'tube_section_straight':tube_straight_init,'tube_section_length':tube_length_init,
+            'd1':d1, 'd2':d2, 'd3':d3, 'd4':d4, 'd5':d5, 'd6':d6, 'initial_condition_dpsi':init_dpsi,
+            'rotx':rotx_,'roty':roty_ ,'rotz':rotz_ , 'loc':loc,
+            }
+    scipy.io.savemat('initial.mat',mdict)
+
+    # Base frame
+
+    base = np.array([-10,35,20]).reshape((3,1))
+    rot = np.array([3.14,0,0]).reshape((3,1)) 
+    p_plane = np.array([[-10,35,20],[-12,20,20],\
+                        [-20,15,20]])
     # mesh .PLY file
-    filename = '/mesh.ply'
+    meshfile = 'trachea.PLY'
 
-    prob = Problem(model=BsplineGroup(num_cp=num_cp,num_pt=num_pt,
-                                        sp=sp,fp=fp,
-                                            r2=r2,r1=r1,
-                                                filename=filename))
-    prob.driver = pyOptSparseDriver()
-    prob.driver.options['optimizer'] = 'SNOPT'
-    # prob.driver.opt_settings['Verify level'] = 0
-    prob.driver.opt_settings['Major iterations limit'] = 400 
-    prob.driver.opt_settings['Minor iterations limit'] = 1000
-    prob.driver.opt_settings['Iterations limit'] = 1000000
-    prob.driver.opt_settings['Major step limit'] = 2.0
-    prob.setup()
-    prob.run_model()
-    prob.run_driver()
+    seq_opt(num_nodes,viapts_nbr,base,rot,meshfile)
 
 
-    print('Path points')
-    print(prob['pt'])
-    print('Control points')
-    print(prob['cp'])
+
 
 
 .. toctree::

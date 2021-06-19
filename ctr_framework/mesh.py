@@ -9,7 +9,7 @@ from ctr_framework.meshslicing import meshslicing
 class trianglemesh:
     # import point cloud
     def __init__(self,num_nodes,k,via_pt,center,meshfile):
-       
+        
         mesh = o3d.io.read_triangle_mesh(meshfile)
         
         self.num_nodes = num_nodes

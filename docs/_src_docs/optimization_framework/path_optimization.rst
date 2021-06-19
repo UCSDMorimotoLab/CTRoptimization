@@ -13,16 +13,16 @@ The Bspline group is as follows:
     import openmdao.api as om 
     from openmdao.api import Problem, Group, ExecComp, IndepVarComp
     from ozone.api import ODEIntegrator
-    from startpoint_comp import StartpointComp
-    from finalpoint_comp import FinalpointComp
-    from mesh_path import trianglemesh
-    from initialize import initialize_bspline
-    from bspline_3d_comp import BsplineComp, get_bspline_mtx
-    from pt_comp import PtComp
-    from signedpt_comp import SignedptComp
-    from ptequdistant1_comp import Ptequdistant1Comp
-    from ptequdistant2_comp import Ptequdistant2Comp
-    from pathobjective_comp import PathobjectiveComp
+    from ctr_framework.startpoint_comp import StartpointComp
+    from ctr_framework.finalpoint_comp import FinalpointComp
+    from ctr_framework.mesh_path import trianglemesh
+    from ctr_framework.initialize import initialize_bspline
+    from ctr_framework.bspline_3d_comp import BsplineComp, get_bspline_mtx
+    from ctr_framework.pt_comp import PtComp
+    from ctr_framework.signedpt_comp import SignedptComp
+    from ctr_framework.ptequdistant1_comp import Ptequdistant1Comp
+    from ctr_framework.ptequdistant2_comp import Ptequdistant2Comp
+    from ctr_framework.pathobjective_comp import PathobjectiveComp
 
 
     class BsplineGroup(om.Group):
@@ -52,10 +52,7 @@ The Bspline group is as follows:
             normals = mesh.normals
             
             comp = IndepVarComp(num_cp=num_cp,num_pt=num_pt)
-            
             c_points,p_points = initialize_bspline(sp,fp,num_cp,num_pt)
-            
-
             comp.add_output('cp', val=c_points)
             
             self.add_subsystem('input_comp', comp, promotes=['*'])
@@ -103,52 +100,25 @@ After the group is built, we now can solve the path optimization problem by runn
 
     import numpy as np
     import scipy
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
-    from openmdao.api import pyOptSparseDriver
-    from openmdao.api import ScipyOptimizeDriver
-    from openmdao.api import Problem, pyOptSparseDriver
-    try:
-        from openmdao.api import pyOptSparseDriver
-    except:
-        pyOptSparseDriver = None
+    from ctr_framework.design_method.path_opt import path_opt
+    # from path_opt import path_opt
 
-    from bspline_group import BsplineGroup
-    from bspline_3d_comp import BsplineComp
 
     # Initialize the number of control points and path points
     num_cp = 25
     num_pt = 100
+    # User-defined start point and target point
+    sp = np.array([-10,35,0])
+    fp = np.array([-10,-33,-103])
 
-    'heart04'
-    # Define the start point and final point (target)
-    sp = np.array([-23,-8,-85])
-    fp = np.array([87,-27,-193])
-    r2 = 0.1
-    r1 = 1
     # mesh .PLY file
-    filename = '/mesh.ply'
+    filename = 'trachea.PLY'
 
-    prob = Problem(model=BsplineGroup(num_cp=num_cp,num_pt=num_pt,
-                                        sp=sp,fp=fp,
-                                            r2=r2,r1=r1,
-                                                filename=filename))
-    prob.driver = pyOptSparseDriver()
-    prob.driver.options['optimizer'] = 'SNOPT'
-    # prob.driver.opt_settings['Verify level'] = 0
-    prob.driver.opt_settings['Major iterations limit'] = 400 
-    prob.driver.opt_settings['Minor iterations limit'] = 1000
-    prob.driver.opt_settings['Iterations limit'] = 1000000
-    prob.driver.opt_settings['Major step limit'] = 2.0
-    prob.setup()
-    prob.run_model()
-    prob.run_driver()
+    path_opt(num_cp,num_pt,sp,fp,filename)
 
 
-    print('Path points')
-    print(prob['pt'])
-    print('Control points')
-    print(prob['cp'])
+
+
 
 
 .. toctree::

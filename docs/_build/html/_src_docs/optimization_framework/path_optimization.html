@@ -185,16 +185,16 @@
 <span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="kn">as</span> <span class="nn">om</span>
 <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">ExecComp</span><span class="p">,</span> <span class="n">IndepVarComp</span>
 <span class="kn">from</span> <span class="nn">ozone.api</span> <span class="kn">import</span> <span class="n">ODEIntegrator</span>
-<span class="kn">from</span> <span class="nn">startpoint_comp</span> <span class="kn">import</span> <span class="n">StartpointComp</span>
-<span class="kn">from</span> <span class="nn">finalpoint_comp</span> <span class="kn">import</span> <span class="n">FinalpointComp</span>
-<span class="kn">from</span> <span class="nn">mesh_path</span> <span class="kn">import</span> <span class="n">trianglemesh</span>
-<span class="kn">from</span> <span class="nn">initialize</span> <span class="kn">import</span> <span class="n">initialize_bspline</span>
-<span class="kn">from</span> <span class="nn">bspline_3d_comp</span> <span class="kn">import</span> <span class="n">BsplineComp</span><span class="p">,</span> <span class="n">get_bspline_mtx</span>
-<span class="kn">from</span> <span class="nn">pt_comp</span> <span class="kn">import</span> <span class="n">PtComp</span>
-<span class="kn">from</span> <span class="nn">signedpt_comp</span> <span class="kn">import</span> <span class="n">SignedptComp</span>
-<span class="kn">from</span> <span class="nn">ptequdistant1_comp</span> <span class="kn">import</span> <span class="n">Ptequdistant1Comp</span>
-<span class="kn">from</span> <span class="nn">ptequdistant2_comp</span> <span class="kn">import</span> <span class="n">Ptequdistant2Comp</span>
-<span class="kn">from</span> <span class="nn">pathobjective_comp</span> <span class="kn">import</span> <span class="n">PathobjectiveComp</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.startpoint_comp</span> <span class="kn">import</span> <span class="n">StartpointComp</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.finalpoint_comp</span> <span class="kn">import</span> <span class="n">FinalpointComp</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.mesh_path</span> <span class="kn">import</span> <span class="n">trianglemesh</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.initialize</span> <span class="kn">import</span> <span class="n">initialize_bspline</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.bspline_3d_comp</span> <span class="kn">import</span> <span class="n">BsplineComp</span><span class="p">,</span> <span class="n">get_bspline_mtx</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.pt_comp</span> <span class="kn">import</span> <span class="n">PtComp</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.signedpt_comp</span> <span class="kn">import</span> <span class="n">SignedptComp</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.ptequdistant1_comp</span> <span class="kn">import</span> <span class="n">Ptequdistant1Comp</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.ptequdistant2_comp</span> <span class="kn">import</span> <span class="n">Ptequdistant2Comp</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.pathobjective_comp</span> <span class="kn">import</span> <span class="n">PathobjectiveComp</span>
 
 
 <span class="k">class</span> <span class="nc">BsplineGroup</span><span class="p">(</span><span class="n">om</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
@@ -224,10 +224,7 @@
         <span class="n">normals</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">normals</span>
 
         <span class="n">comp</span> <span class="o">=</span> <span class="n">IndepVarComp</span><span class="p">(</span><span class="n">num_cp</span><span class="o">=</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">)</span>
-
         <span class="n">c_points</span><span class="p">,</span><span class="n">p_points</span> <span class="o">=</span> <span class="n">initialize_bspline</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span><span class="n">fp</span><span class="p">,</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="p">)</span>
-
-
         <span class="n">comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;cp&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">c_points</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;input_comp&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
@@ -273,52 +270,21 @@
 <p>After the group is built, we now can solve the path optimization problem by running the optimizer and code below:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
-<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
-<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">ScipyOptimizeDriver</span>
-<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">pyOptSparseDriver</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="n">pyOptSparseDriver</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.design_method.path_opt</span> <span class="kn">import</span> <span class="n">path_opt</span>
+<span class="c1"># from path_opt import path_opt</span>
 
-<span class="kn">from</span> <span class="nn">bspline_group</span> <span class="kn">import</span> <span class="n">BsplineGroup</span>
-<span class="kn">from</span> <span class="nn">bspline_3d_comp</span> <span class="kn">import</span> <span class="n">BsplineComp</span>
 
 <span class="c1"># Initialize the number of control points and path points</span>
 <span class="n">num_cp</span> <span class="o">=</span> <span class="mi">25</span>
 <span class="n">num_pt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1"># User-defined start point and target point</span>
+<span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">33</span><span class="p">,</span><span class="o">-</span><span class="mi">103</span><span class="p">])</span>
 
-<span class="s1">&#39;heart04&#39;</span>
-<span class="c1"># Define the start point and final point (target)</span>
-<span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">23</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">85</span><span class="p">])</span>
-<span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">87</span><span class="p">,</span><span class="o">-</span><span class="mi">27</span><span class="p">,</span><span class="o">-</span><span class="mi">193</span><span class="p">])</span>
-<span class="n">r2</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="n">r1</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c1"># mesh .PLY file</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/mesh.ply&#39;</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;trachea.PLY&#39;</span>
 
-<span class="n">prob</span> <span class="o">=</span> <span class="n">Problem</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">BsplineGroup</span><span class="p">(</span><span class="n">num_cp</span><span class="o">=</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="o">=</span><span class="n">num_pt</span><span class="p">,</span>
-                                    <span class="n">sp</span><span class="o">=</span><span class="n">sp</span><span class="p">,</span><span class="n">fp</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>
-                                        <span class="n">r2</span><span class="o">=</span><span class="n">r2</span><span class="p">,</span><span class="n">r1</span><span class="o">=</span><span class="n">r1</span><span class="p">,</span>
-                                            <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">))</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="n">pyOptSparseDriver</span><span class="p">()</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SNOPT&#39;</span>
-<span class="c1"># prob.driver.opt_settings[&#39;Verify level&#39;] = 0</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Major iterations limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">400</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Minor iterations limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Iterations limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1000000</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">opt_settings</span><span class="p">[</span><span class="s1">&#39;Major step limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">run_model</span><span class="p">()</span>
-<span class="n">prob</span><span class="o">.</span><span class="n">run_driver</span><span class="p">()</span>
-
-
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Path points&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;pt&#39;</span><span class="p">])</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Control points&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">prob</span><span class="p">[</span><span class="s1">&#39;cp&#39;</span><span class="p">])</span>
+<span class="n">path_opt</span><span class="p">(</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="p">,</span><span class="n">sp</span><span class="p">,</span><span class="n">fp</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
