@@ -27,7 +27,7 @@ from ctr_framework.design_method.seq_opt import seq_opt
 viapts_nbr=10
 k = 1
 # number of links                              
-num_nodes = 50
+num_nodes = 10
 
 # Extract the waypoints from optimized path
 pt = initialize_pt(viapts_nbr)

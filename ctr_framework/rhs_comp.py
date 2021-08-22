@@ -38,12 +38,6 @@ class RHSComp(ExplicitComponent):
         
         outputs['RHS'] = RHS
         
-        
-        
-        
-        
-        
-
 
     def compute_partials(self, inputs, partials):
         

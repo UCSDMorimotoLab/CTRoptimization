@@ -423,7 +423,7 @@ The CTR simultaneous optimization group is as follows:
 
         
 
-After the group is built, we now can solve the path optimization problem by running the optimizer and function below:
+After the group is built, we now can solve the simultaneous optimization problem by running the optimizer and function below:
 
 .. code-block:: python
 
