@@ -1,5 +1,7 @@
 Getting Started
 ===============
+More details about how to use the tools can be found in the documentation below:
+Documentation: https://ucsdmorimotolab.github.io/CTRoptimization/
 
 Installing
 ----------
