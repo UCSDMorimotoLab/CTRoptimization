@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>&lt;no title&gt; &mdash; CTR 0.1 documentation</title>
+  <title>Developer API &mdash; CTR 0.1 documentation</title>
   
 
   
@@ -43,7 +43,8 @@
 
     
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Clinial example 1: Laryngoscopy" href="../examples/ex1_trachea.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -92,10 +93,11 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimization_framework.html">CTR optimization framework</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Clinical examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer API</a></li>
 </ul>
 
             
@@ -144,7 +146,7 @@
     
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Developer API</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -163,12 +165,80 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
+  <div class="section" id="developer-api">
+<h1>Developer API<a class="headerlink" href="#developer-api" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="ctr_framework.bspline_group.BsplineGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ctr_framework.bspline_group.</span></code><code class="sig-name descname"><span class="pre">BsplineGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.bspline_group.BsplineGroup" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ctr_framework.bspline_group.BsplineGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.bspline_group.BsplineGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform any one-time initialization run at instantiation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ctr_framework.bspline_group.BsplineGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.bspline_group.BsplineGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build this group.</p>
+<p>This method should be overidden by your Group’s method. The reason for using this
+method to add subsystem is to save memory and setup time when using your Group
+while running under MPI.  This avoids the creation of systems that will not be
+used in the current process.</p>
+<p>You may call ‘add_subsystem’ to add systems to this group. You may also issue connections,
+and set the linear and nonlinear solvers for this group level. You cannot safely change
+anything on children systems; use the ‘configure’ method instead.</p>
+<dl class="simple">
+<dt>Available attributes:</dt><dd><p>name
+pathname
+comm
+options</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ctr_framework.ctrseq_group.CtrseqGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ctr_framework.ctrseq_group.</span></code><code class="sig-name descname"><span class="pre">CtrseqGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrseq_group.CtrseqGroup" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="ctr_framework.ctrseq_group.CtrseqGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrseq_group.CtrseqGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform any one-time initialization run at instantiation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ctr_framework.ctrseq_group.CtrseqGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrseq_group.CtrseqGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build this group.</p>
+<p>This method should be overidden by your Group’s method. The reason for using this
+method to add subsystem is to save memory and setup time when using your Group
+while running under MPI.  This avoids the creation of systems that will not be
+used in the current process.</p>
+<p>You may call ‘add_subsystem’ to add systems to this group. You may also issue connections,
+and set the linear and nonlinear solvers for this group level. You cannot safely change
+anything on children systems; use the ‘configure’ method instead.</p>
+<dl class="simple">
+<dt>Available attributes:</dt><dd><p>name
+pathname
+comm
+options</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
 
            </div>
            
           </div>
           <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../examples/ex1_trachea.html" class="btn btn-neutral float-left" title="Clinial example 1: Laryngoscopy" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
