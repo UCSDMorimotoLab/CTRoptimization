@@ -1,3 +1,4 @@
+from sys import path
 import numpy as np
 import scipy
 import os
@@ -18,12 +19,28 @@ from ctr_framework.log import log
 from ctr_framework.equofplane import equofplane
 from ctr_framework.findcircle import findCircle
 
-def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile):
+def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile,pathfile):
+    '''
+    Parameters
+    ----------
+    num_nodes : int
+        Number of timestep in the numerical integration/ number of links of the robot 
+    viapts_nbr : int
+        Number of via-points, including the target point
+    base : Vector or Array (3 by 1)
+        The robot base location in 3D space 
+    rot : Vector or Array (3 by 1)
+        The orientation of the robot base frame about x,y,z axis (rad)
+    meshfile : str
+        The local path to the mesh file (.ply)
+    pathfile : str
+        The local path to the path file (.mat)
+    '''
     k=1
     a = 30
-    pt = initialize_pt(viapts_nbr)
-    pt_pri =  initialize_pt(viapts_nbr * 2)
-    pt_full =  initialize_pt(100)
+    pt = initialize_pt(viapts_nbr,pathfile)
+    pt_pri =  initialize_pt(viapts_nbr * 2,pathfile)
+    pt_full =  initialize_pt(100,pathfile)
     p_plane = np.zeros((3,3))
     equ_paras = equofplane(p_plane[0,:],p_plane[1,:],p_plane[2,:])
     pt = initialize_pt(viapts_nbr)
@@ -62,7 +79,7 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile):
                 prob1 = Problem(model=CtrseqGroup(k=1, num_nodes=num_nodes, a=a, \
                         pt=pt_pri[(i+1)*2-1,:],i=i,target = pt[-1,:], center=center, lag = lag,\
                             zeta=zeta,rho=rho,eps_r=eps_r,eps_p=eps_p, eps_e=eps_e, \
-                                pt_full = pt, viapts_nbr=viapts_nbr, meshfile = mesh_path,\
+                                pt_full = pt, viapts_nbr=viapts_nbr, meshfile = meshfile,\
                                     rotx_init=rot[0],roty_init=rot[1],rotz_init=rot[2],base = base,count=0,equ_paras = equ_paras,pt_test = pt[-1,:]))
             else:
                 

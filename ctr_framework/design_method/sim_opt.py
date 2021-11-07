@@ -22,7 +22,22 @@ from ctr_framework.log import log
 
 
 def sim_opt(num_nodes,k,base,rot,meshfile):
-    
+    '''
+    Parameters
+    ----------
+    num_nodes : int
+        Number of timestep in the numerical integration/ number of links of the robot 
+    k : int
+        Number of via-points, including the target point
+    base : Vector or Array (3 by 1)
+        The robot base location in 3D space 
+    rot : Vector or Array (3 by 1)
+        The orientation of the robot base frame about x,y,z axis (rad)
+    meshfile : str
+        The local path to the mesh file (.ply)
+    pathfile : str
+        The local path to the path file (.mat)
+    '''
     mesh = trianglemesh(num_nodes,k,meshfile)
     a = 30
     # robot initial pose trachea
@@ -41,7 +56,7 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
     # pt_pri =  initialize_pt(k * 2)
     # opt_tol = [1e-2,1e-3]
     'step 3: final optimization'
-    k = 10
+    
     k_ = 1
     alpha_ = np.zeros((k,3))
     beta_ = np.zeros((k,3))

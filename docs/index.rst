@@ -17,8 +17,10 @@ Documentation
    :titlesonly:
 
    _src_docs/getting_started.rst
+   _src_docs/ctr_kinematics.rst
    _src_docs/optimization_framework.rst
    _src_docs/examples.rst
+   _src_docs/api/api.rst
    
 
 

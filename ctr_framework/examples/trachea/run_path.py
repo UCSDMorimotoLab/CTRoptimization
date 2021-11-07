@@ -12,9 +12,10 @@ sp = np.array([-10,35,0])
 fp = np.array([-10,-33,-103])
 
 # mesh .PLY file
-filename = 'trachea.PLY'
+meshfile = 'trachea.PLY'
 
-path_opt(num_cp,num_pt,sp,fp,filename)
+
+path_opt(num_cp,num_pt,sp,fp,meshfile)
 
 
 

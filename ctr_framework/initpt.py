@@ -1,9 +1,9 @@
 import numpy as np
 import scipy.io
 
-def initialize_pt(k):
+def initialize_pt(k,pathfile):
     
-    path = scipy.io.loadmat('path.mat')
+    path = scipy.io.loadmat(pathfile)
     
     temp = np.asarray(path['pt'])
     pt = np.zeros((k,3))

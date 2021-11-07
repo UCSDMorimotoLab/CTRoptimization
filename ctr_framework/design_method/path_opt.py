@@ -14,14 +14,28 @@ from ctr_framework.bspline_group import BsplineGroup
 from ctr_framework.bspline_3d_comp import BsplineComp
 
 
-def path_opt(num_cp,num_pt,sp,fp,filename):
+def path_opt(num_cp,num_pt,sp,fp,meshfile):
+    '''
+    Parameters
+    ----------
+    num_cp : int
+        Number of B-spline path control points
+    num_pt : int
+        Number of Bspline path points
+    sp : Vector or Array (1 by 3)
+        The start point of the Bspline in 3D space
+    fp : Vector or Array (1 by 3)
+        The fibal target point of the Bspline in 3D space
+    meshfile : str
+        The local path to the mesh file (.ply)
+    '''
 
     r2 = 10
     r1 = 1
 
     prob = Problem(model=BsplineGroup(num_cp=num_cp,num_pt=num_pt,
                                         sp=sp,fp=fp,
-                                            r2=r2,r1=r1,filename=filename))
+                                            r2=r2,r1=r1,filename=meshfile))
 
     prob.driver = pyOptSparseDriver()
     prob.driver.options['optimizer'] = 'SNOPT'
