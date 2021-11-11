@@ -7,6 +7,7 @@ apt-get -y install software-properties-common
 # add-apt-repository ppa:fenics-packages/fenics
 apt-get -y update
 # apt-get -y install --no-install-recommends fenics
+python3 -m pip install --upgrade pip
 pip3 install -e .
 pip3 install sphinx_rtd_theme
 pip3 install code_include.extension
