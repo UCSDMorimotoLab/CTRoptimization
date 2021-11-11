@@ -3,7 +3,7 @@ import numpy as np
 # import openmdao.api as om 
 # from openmdao.api import Problem, Group, ExecComp, IndepVarComp, ScipyOptimizeDriver, pyOptSparseDriver
 # from openmdao.api import Problem, Group, ExecComp, IndepVarComp, ScipyOptimizeDriver
-from ozone.api import ODEIntegrator
+# from ozone.api import ODEIntegrator
 from ctr_framework.stiffness_comp import StiffnessComp
 from ctr_framework.CtrFunction import CtrFunction
 from ctr_framework.tensor_comp import TensorComp
@@ -71,7 +71,7 @@ from ctr_framework.signedfun_comp import SignedfunComp
 from ctr_framework.mesh import trianglemesh
 
 
-class CtrseqGroup(om.Group):
+class CtrseqGroup():
     '''
     CtrseqGroup is a OpenMDAO Group object that  all the necessary components for solving the 
     CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,

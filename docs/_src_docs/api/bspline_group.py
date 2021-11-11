@@ -14,7 +14,7 @@ from ctr_framework.ptequdistant2_comp import Ptequdistant2Comp
 from ctr_framework.pathobjective_comp import PathobjectiveComp
 
 
-class BsplineGroup(om.Group):
+class BsplineGroup():
     '''
     BsplineGroup is a OpenMDAO Group object that includes all the components forming the optimization problem for finding a collision
     free path for the robot to follow. BsplineGroup uses the 3D B-spline function and a continuous function of anatomical constraints

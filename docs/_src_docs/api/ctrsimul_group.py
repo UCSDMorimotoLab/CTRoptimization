@@ -72,7 +72,7 @@ from ctr_framework.signedfun_comp import SignedfunComp
 from ctr_framework.mesh_simul import trianglemesh
 
 
-class CtrsimulGroup(om.Group):
+class CtrsimulGroup():
     '''
     CtrsimulGroup is a OpenMDAO Group object that compassed all the necessary components for solving the 
     CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
