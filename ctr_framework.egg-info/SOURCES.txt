@@ -27,6 +27,7 @@ ctr_framework/desiredpoints_comp.py
 ctr_framework/diameter_comp.py
 ctr_framework/dp_comp.py
 ctr_framework/dsm.py
+ctr_framework/dualctrsimul_group.py
 ctr_framework/equdply_comp.py
 ctr_framework/equofplane.py
 ctr_framework/fibonacci_sphere.py

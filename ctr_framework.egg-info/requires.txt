@@ -1,10 +1,9 @@
-dash-daq==0.1.0
-dash==1.2.0
-guppy3
-jupyter-sphinx
 numpy
-numpydoc
-openmdao==2.4.0
+dash==1.2.0
+dash-daq==0.1.0
 pint
-sphinx-code-include
+guppy3
 sphinx-rtd-theme
+sphinx-code-include
+jupyter-sphinx
+numpydoc
