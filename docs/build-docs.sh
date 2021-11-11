@@ -11,7 +11,7 @@ pip3 install -e .
 pip3 install sphinx_rtd_theme
 pip3 install code_include.extension
 pip3 install sphinx-code-include
-pip3 install scipy
+pip install scipy
 pip3 install openmdao
 
 
