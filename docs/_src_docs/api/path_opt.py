@@ -1,15 +1,5 @@
 import numpy as np
-# import scipy
-# from openmdao.api import pyOptSparseDriver
-# from openmdao.api import ScipyOptimizeDriver
-# from openmdao.api import Problem, pyOptSparseDriver
-# try:
-#     from openmdao.api import pyOptSparseDriver
-# except:
-#     pyOptSparseDriver = None
 
-from ctr_framework.bspline_group import BsplineGroup
-from ctr_framework.bspline_3d_comp import BsplineComp
 
 
 def path_opt(num_cp,num_pt,sp,fp,meshfile):

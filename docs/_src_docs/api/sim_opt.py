@@ -1,23 +1,5 @@
 import numpy as np
-# import scipy
-# import os
-# from openmdao.api import pyOptSparseDriver
-# from openmdao.api import ScipyOptimizeDriver
-# try:
-#     from openmdao.api import pyOptSparseDriver
-# except:
-#     pyOptSparseDriver = None
 
-# from ctrviz_group import CtrvizGroups
-from ctr_framework.ctrsimul_group import CtrsimulGroup
-# from lsdo_viz.api import Problem
-from ctr_framework.mesh_simul import trianglemesh
-from ctr_framework.initpt import initialize_pt
-from ctr_framework.collision_check import collision_check
-import time
-from ctr_framework.equofplane import equofplane
-from ctr_framework.fibonacci_sphere import fibonacci_sphere
-from ctr_framework.log import log
 
 
 
