@@ -2,7 +2,6 @@ from sys import path
 import numpy as np
 import scipy
 import os
-import shutil
 import time
 from openmdao.api import pyOptSparseDriver
 from openmdao.api import ScipyOptimizeDriver

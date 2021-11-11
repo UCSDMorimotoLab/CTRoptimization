@@ -8,12 +8,13 @@ apt-get -y install software-properties-common
 apt-get -y update
 # apt-get -y install --no-install-recommends fenics
 python3 -m pip install --upgrade pip
+git clone https://github.com/hwangjt/ozone.git
 pip3 install -e .
 pip3 install sphinx_rtd_theme
 pip3 install code_include.extension
 pip3 install sphinx-code-include
 pip install scipy
-pip3 install openmdao
+pip3 install openmdao==2.4.0
 
 
 # build docs
