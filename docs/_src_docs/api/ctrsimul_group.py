@@ -1,9 +1,8 @@
 import numpy as np
+from openmdao.api import Group
 
 
-
-
-class CtrsimulGroup():
+class CtrsimulGroup(Group):
     '''
     CtrsimulGroup is a OpenMDAO Group object that compassed all the necessary components for solving the 
     CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
