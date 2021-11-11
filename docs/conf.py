@@ -5,7 +5,7 @@ import os
 import sys
 
 # -- General configuration ------------------------------------------------
-# import sphinx_rtd_theme
+import sphinx_rtd_theme
 # from openmdao.docutils import do_monkeypatch, embed_code, embed_options
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -42,7 +42,7 @@ extensions = [
     # 'embed_code',
     'embed_n2',
     # 'embed_options',
-    # 'sphinx_rtd_theme',
+    'sphinx_rtd_theme',
     # 'jupyter_sphinx',
     'code_include.extension',
 ]

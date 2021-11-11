@@ -9,6 +9,8 @@ apt-get -y update
 # apt-get -y install --no-install-recommends fenics
 pip3 install -e .
 pip3 install sphinx_rtd_theme
+pip3 install code_include.extension
+pip3 install sphinx-code-include
 
 # build docs
 make -C docs clean
