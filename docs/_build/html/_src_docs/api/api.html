@@ -13,8 +13,6 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/jupyter-sphinx.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/thebelab.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
 
   
@@ -35,9 +33,6 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/thebelab-helper.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -97,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ctr_kinematics.html">CTR Kinematics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../optimization_framework.html">CTR optimization framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples.html">Clinical examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Developer API</a></li>
 </ul>
@@ -169,9 +165,10 @@
   <div class="section" id="developer-api">
 <h1>Developer API<a class="headerlink" href="#developer-api" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="ctr_framework.design_method.path_opt.path_opt">
-<code class="sig-prename descclassname"><span class="pre">ctr_framework.design_method.path_opt.</span></code><code class="sig-name descname"><span class="pre">path_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.design_method.path_opt.path_opt" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dt id="docs._src_docs.api.path_opt.path_opt">
+<code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.path_opt.</span></code><code class="sig-name descname"><span class="pre">path_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.path_opt.path_opt" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function to use 3D-Bspline function to optimize a collision-free path for the robot to follow.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>num_cp</strong><span class="classifier">int</span></dt><dd><p>Number of B-spline path control points</p>
@@ -190,9 +187,11 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="ctr_framework.design_method.seq_opt.seq_opt">
-<code class="sig-prename descclassname"><span class="pre">ctr_framework.design_method.seq_opt.</span></code><code class="sig-name descname"><span class="pre">seq_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viapts_nbr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.design_method.seq_opt.seq_opt" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dt id="docs._src_docs.api.seq_opt.seq_opt">
+<code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.seq_opt.</span></code><code class="sig-name descname"><span class="pre">seq_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viapts_nbr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.seq_opt.seq_opt" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function to obtain the a sequence of initial CTR configurations
+that follows the optimized path.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>num_nodes</strong><span class="classifier">int</span></dt><dd><p>Number of timestep in the numerical integration/ number of links of the robot</p>
@@ -213,9 +212,10 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="ctr_framework.design_method.sim_opt.sim_opt">
-<code class="sig-prename descclassname"><span class="pre">ctr_framework.design_method.sim_opt.</span></code><code class="sig-name descname"><span class="pre">sim_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.design_method.sim_opt.sim_opt" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dt id="docs._src_docs.api.sim_opt.sim_opt">
+<code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.sim_opt.</span></code><code class="sig-name descname"><span class="pre">sim_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.sim_opt.sim_opt" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function to simultaneously optimize the CTR to follow a number of waypoints and reach the target without collision with anatomy.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>num_nodes</strong><span class="classifier">int</span></dt><dd><p>Number of timestep in the numerical integration/ number of links of the robot</p>
@@ -236,17 +236,20 @@
 </dd></dl>
 
 <dl class="py class">
-<dt id="ctr_framework.bspline_group.BsplineGroup">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ctr_framework.bspline_group.</span></code><code class="sig-name descname"><span class="pre">BsplineGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.bspline_group.BsplineGroup" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="ctr_framework.bspline_group.BsplineGroup.initialize">
-<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.bspline_group.BsplineGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dt id="docs._src_docs.api.bspline_group.BsplineGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.bspline_group.</span></code><code class="sig-name descname"><span class="pre">BsplineGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.bspline_group.BsplineGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>BsplineGroup is a OpenMDAO Group object that includes all the components forming the optimization problem for finding a collision
+free path for the robot to follow. BsplineGroup uses the 3D B-spline function and a continuous function of anatomical constraints
+to ensure the B-spline curve is inside the anatomy.</p>
+<dl class="py method">
+<dt id="docs._src_docs.api.bspline_group.BsplineGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.bspline_group.BsplineGroup.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform any one-time initialization run at instantiation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ctr_framework.bspline_group.BsplineGroup.setup">
-<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.bspline_group.BsplineGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dt id="docs._src_docs.api.bspline_group.BsplineGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.bspline_group.BsplineGroup.setup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build this group.</p>
 <p>This method should be overidden by your Group’s method. The reason for using this
 method to add subsystem is to save memory and setup time when using your Group
@@ -267,17 +270,22 @@ options</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="ctr_framework.ctrseq_group.CtrseqGroup">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ctr_framework.ctrseq_group.</span></code><code class="sig-name descname"><span class="pre">CtrseqGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrseq_group.CtrseqGroup" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="ctr_framework.ctrseq_group.CtrseqGroup.initialize">
-<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrseq_group.CtrseqGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dt id="docs._src_docs.api.ctrseq_group.CtrseqGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.ctrseq_group.</span></code><code class="sig-name descname"><span class="pre">CtrseqGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrseq_group.CtrseqGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>CtrseqGroup is a OpenMDAO Group object that  all the necessary components for solving the 
+CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
+task-specific constraints and objectives, which the user is able to develop their own component and add 
+into the group. CtrseqGroup aims to obtain a sequence of robot configurations as initial guesses for the next 
+step.</p>
+<dl class="py method">
+<dt id="docs._src_docs.api.ctrseq_group.CtrseqGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrseq_group.CtrseqGroup.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform any one-time initialization run at instantiation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ctr_framework.ctrseq_group.CtrseqGroup.setup">
-<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrseq_group.CtrseqGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dt id="docs._src_docs.api.ctrseq_group.CtrseqGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrseq_group.CtrseqGroup.setup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build this group.</p>
 <p>This method should be overidden by your Group’s method. The reason for using this
 method to add subsystem is to save memory and setup time when using your Group
@@ -298,17 +306,22 @@ options</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="ctr_framework.ctrsimul_group.CtrsimulGroup">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ctr_framework.ctrsimul_group.</span></code><code class="sig-name descname"><span class="pre">CtrsimulGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrsimul_group.CtrsimulGroup" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="ctr_framework.ctrsimul_group.CtrsimulGroup.initialize">
-<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrsimul_group.CtrsimulGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dt id="docs._src_docs.api.ctrsimul_group.CtrsimulGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.ctrsimul_group.</span></code><code class="sig-name descname"><span class="pre">CtrsimulGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrsimul_group.CtrsimulGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>CtrsimulGroup is a OpenMDAO Group object that compassed all the necessary components for solving the 
+CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
+task-specific constraints and objectives, which the user is able to develop their own component and add 
+into the group. CtrsimulGroup simultaneously optimize the number of k inverse kinematics problem and find 
+the optimal design.</p>
+<dl class="py method">
+<dt id="docs._src_docs.api.ctrsimul_group.CtrsimulGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrsimul_group.CtrsimulGroup.initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform any one-time initialization run at instantiation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="ctr_framework.ctrsimul_group.CtrsimulGroup.setup">
-<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ctr_framework.ctrsimul_group.CtrsimulGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dt id="docs._src_docs.api.ctrsimul_group.CtrsimulGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrsimul_group.CtrsimulGroup.setup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build this group.</p>
 <p>This method should be overidden by your Group’s method. The reason for using this
 method to add subsystem is to save memory and setup time when using your Group
