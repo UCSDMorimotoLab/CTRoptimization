@@ -21,6 +21,9 @@ from ctr_framework.findcircle import findCircle
 
 def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile,pathfile):
     '''
+    The function to obtain the a sequence of initial CTR configurations
+    that follows the optimized path.
+
     Parameters
     ----------
     num_nodes : int

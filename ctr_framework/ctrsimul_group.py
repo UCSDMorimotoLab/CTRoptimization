@@ -73,6 +73,14 @@ from ctr_framework.mesh_simul import trianglemesh
 
 
 class CtrsimulGroup(om.Group):
+    '''
+    CtrsimulGroup is a OpenMDAO Group object that compassed all the necessary components for solving the 
+    CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
+    task-specific constraints and objectives, which the user is able to develop their own component and add 
+    into the group. CtrsimulGroup simultaneously optimize the number of k inverse kinematics problem and find 
+    the optimal design. 
+    
+    '''
     def initialize(self):
         self.options.declare('num_nodes', default=100, types=int)
         self.options.declare('k', default=1, types=int)

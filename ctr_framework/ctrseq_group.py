@@ -72,6 +72,14 @@ from ctr_framework.mesh import trianglemesh
 
 
 class CtrseqGroup(om.Group):
+    '''
+    CtrseqGroup is a OpenMDAO Group object that  all the necessary components for solving the 
+    CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
+    task-specific constraints and objectives, which the user is able to develop their own component and add 
+    into the group. CtrseqGroup aims to obtain a sequence of robot configurations as initial guesses for the next 
+    step.
+    
+    '''
     def initialize(self):
         self.options.declare('num_nodes', default=100, types=int)
         self.options.declare('k', default=1, types=int)

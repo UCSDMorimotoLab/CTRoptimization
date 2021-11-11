@@ -23,6 +23,8 @@ from ctr_framework.log import log
 
 def sim_opt(num_nodes,k,base,rot,meshfile):
     '''
+    The function to simultaneously optimize the CTR to follow a number of waypoints and reach the target without collision with anatomy.
+
     Parameters
     ----------
     num_nodes : int

@@ -5,7 +5,6 @@ Developer API
 .. autofunction:: ctr_framework.design_method.path_opt.path_opt
     
    
-
 .. autofunction:: ctr_framework.design_method.seq_opt.seq_opt
    
 

@@ -15,6 +15,12 @@ from ctr_framework.pathobjective_comp import PathobjectiveComp
 
 
 class BsplineGroup(om.Group):
+    '''
+    BsplineGroup is a OpenMDAO Group object that includes all the components forming the optimization problem for finding a collision
+    free path for the robot to follow. BsplineGroup uses the 3D B-spline function and a continuous function of anatomical constraints
+    to ensure the B-spline curve is inside the anatomy. 
+    
+    '''
     def initialize(self):
         self.options.declare('filename')
         self.options.declare('r2')

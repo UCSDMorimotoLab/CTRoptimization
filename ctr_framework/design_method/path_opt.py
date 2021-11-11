@@ -16,6 +16,10 @@ from ctr_framework.bspline_3d_comp import BsplineComp
 
 def path_opt(num_cp,num_pt,sp,fp,meshfile):
     '''
+    The function to use 3D-Bspline function to optimize a collision-free path for the robot to follow.
+
+
+
     Parameters
     ----------
     num_cp : int

@@ -8,6 +8,7 @@ apt-get -y install software-properties-common
 apt-get -y update
 # apt-get -y install --no-install-recommends fenics
 pip3 install -e .
+pip3 install sphinx_rtd_theme
 
 # build docs
 make -C docs clean

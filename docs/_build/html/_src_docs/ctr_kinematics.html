@@ -38,6 +38,7 @@
         <script src="../_static/thebelab-helper.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -98,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CTR Kinematics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_framework.html">CTR optimization framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Clinical examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Developer API</a></li>
 </ul>
@@ -169,7 +171,44 @@
             
   <div class="section" id="ctr-kinematics">
 <h1>CTR Kinematics<a class="headerlink" href="#ctr-kinematics" title="Permalink to this headline">¶</a></h1>
-<p>Make files like this one to write your tutorials!</p>
+<div class="section" id="three-main-steps">
+<h2>Three main steps:<a class="headerlink" href="#three-main-steps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="boundary-value-problem">
+<h3>1. Boundary value problem<a class="headerlink" href="#boundary-value-problem" title="Permalink to this headline">¶</a></h3>
+<p>The differential equations can be written as:</p>
+<div class="math notranslate nohighlight">
+\[\ddot{\psi}_{i} = \dfrac{k_{ib}}{k_{it}k_{b}}\sum\limits_{j=1}^{n}k_{jb}\kappa_{i}\kappa_{j}\sin(\psi_{i}-\psi_{j})\]</div>
+<p>with the boundary conditions:</p>
+<div class="math notranslate nohighlight">
+\[\psi_{i}(0) = \alpha_{i} - \beta_{i}\dot{\psi}_{i}(0),\]</div>
+<div class="math notranslate nohighlight">
+\[\dot{\psi}_{i}(L_{i}+\beta_{i}) = 0.\]</div>
+<p>where the <span class="math notranslate nohighlight">\(\psi\)</span>, <span class="math notranslate nohighlight">\(\dot{\psi}\)</span> are the tube angle and tube torsion, <span class="math notranslate nohighlight">\(k_{ib}\)</span> is the bending stiffness of tube <span class="math notranslate nohighlight">\(i\)</span>,
+<span class="math notranslate nohighlight">\(k_{it}\)</span> is the torsional stiffness of tube <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\kappa_{i}\)</span> is the curvature if tube i and <span class="math notranslate nohighlight">\(\alpha_{i}\)</span>
+and <span class="math notranslate nohighlight">\(beta_{i}\)</span> are the joint variables — translation and rotation of tube <span class="math notranslate nohighlight">\(i\)</span>.</p>
+</div>
+<div class="section" id="robot-curvature-vector">
+<h3>2. Robot curvature vector<a class="headerlink" href="#robot-curvature-vector" title="Permalink to this headline">¶</a></h3>
+<p>The deformed curvature vector of the robot along the robot backbone can be found by:</p>
+<div class="math notranslate nohighlight">
+\[u = K^{-1}\sum\limits_{i=1}^{n}K_{i}(R_{\psi_i}u_{i}^{*}-\dot{\psi_{i}}e_{3}),\]</div>
+<p>where <span class="math notranslate nohighlight">\(K_{i}\)</span> is a <span class="math notranslate nohighlight">\(3\times3\)</span> stiffness tensor of tube <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(K
+= \sum_{i=1}^{n}K_{i}\)</span>, and <span class="math notranslate nohighlight">\(u_{i}^{*}\)</span> is the pre-curvature vector of tube <span class="math notranslate nohighlight">\(i\)</span>.</p>
+</div>
+<div class="section" id="robot-backbone-position-in-3d-space">
+<h3>3. Robot backbone position in 3D-space<a class="headerlink" href="#robot-backbone-position-in-3d-space" title="Permalink to this headline">¶</a></h3>
+<p>Two differential equations for reconstructing the backbone position are as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{\dot{R}} = \mathbf{R}\mathbf{\hat{u}},\\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\mathbf{\dot{p}} = \mathbf{R}\mathbf{e}_{3},\]</div>
+</div>
+<div class="section" id="reference">
+<h3>Reference<a class="headerlink" href="#reference" title="Permalink to this headline">¶</a></h3>
+<p>D. C. Rucker, R. J. Webster III, G. S. Chirikjian, and N. J. Cowan,“Equilibrium conformations of concentric-tube continuum robots,
+”TheInternational journal of robotics research, vol. 29, no. 10, pp. 1263–1280, 2010</p>
+</div>
+</div>
 </div>
 
 
