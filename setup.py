@@ -10,13 +10,11 @@ setup(
         'numpy',
         'dash==1.2.0',
         'dash-daq==0.1.0',
-        'openmdao==2.4.0',
         'pint',
         'guppy3',
         'sphinx-rtd-theme',
         'sphinx-code-include',
         'jupyter-sphinx',
         'numpydoc',
-        'scipy'
     ],
 )
