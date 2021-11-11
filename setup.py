@@ -17,5 +17,6 @@ setup(
         'sphinx-code-include',
         'jupyter-sphinx',
         'numpydoc',
+        'scipy'
     ],
 )
