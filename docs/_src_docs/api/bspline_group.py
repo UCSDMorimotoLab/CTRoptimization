@@ -1,9 +1,9 @@
 import numpy as np
-from openmdao.api import group
+from openmdao.api import Group
 
 
 
-class BsplineGroup(group):
+class BsplineGroup(Group):
     '''
     BsplineGroup is a OpenMDAO Group object that includes all the components forming the optimization problem for finding a collision
     free path for the robot to follow. BsplineGroup uses the 3D B-spline function and a continuous function of anatomical constraints

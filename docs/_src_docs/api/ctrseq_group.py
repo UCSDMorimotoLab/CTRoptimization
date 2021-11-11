@@ -1,7 +1,7 @@
 import numpy as np
-import openmdao.api as group
+from openmdao.api import Group
 
-class CtrseqGroup(group):
+class CtrseqGroup(Group):
     '''
     CtrseqGroup is a OpenMDAO Group object that  all the necessary components for solving the 
     CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
