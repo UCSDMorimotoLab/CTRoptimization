@@ -164,6 +164,183 @@
             
   <div class="section" id="developer-api">
 <h1>Developer API<a class="headerlink" href="#developer-api" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="docs._src_docs.api.path_opt.path_opt">
+<code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.path_opt.</span></code><code class="sig-name descname"><span class="pre">path_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_cp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_pt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.path_opt.path_opt" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function to use 3D-Bspline function to optimize a collision-free path for the robot to follow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>num_cp</strong><span class="classifier">int</span></dt><dd><p>Number of B-spline path control points</p>
+</dd>
+<dt><strong>num_pt</strong><span class="classifier">int</span></dt><dd><p>Number of Bspline path points</p>
+</dd>
+<dt><strong>sp</strong><span class="classifier">Vector or Array (1 by 3)</span></dt><dd><p>The start point of the Bspline in 3D space</p>
+</dd>
+<dt><strong>fp</strong><span class="classifier">Vector or Array (1 by 3)</span></dt><dd><p>The fibal target point of the Bspline in 3D space</p>
+</dd>
+<dt><strong>meshfile</strong><span class="classifier">str</span></dt><dd><p>The local path to the mesh file (.ply)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="docs._src_docs.api.seq_opt.seq_opt">
+<code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.seq_opt.</span></code><code class="sig-name descname"><span class="pre">seq_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">viapts_nbr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.seq_opt.seq_opt" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function to obtain the a sequence of initial CTR configurations
+that follows the optimized path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>num_nodes</strong><span class="classifier">int</span></dt><dd><p>Number of timestep in the numerical integration/ number of links of the robot</p>
+</dd>
+<dt><strong>viapts_nbr</strong><span class="classifier">int</span></dt><dd><p>Number of via-points, including the target point</p>
+</dd>
+<dt><strong>base</strong><span class="classifier">Vector or Array (3 by 1)</span></dt><dd><p>The robot base location in 3D space</p>
+</dd>
+<dt><strong>rot</strong><span class="classifier">Vector or Array (3 by 1)</span></dt><dd><p>The orientation of the robot base frame about x,y,z axis (rad)</p>
+</dd>
+<dt><strong>meshfile</strong><span class="classifier">str</span></dt><dd><p>The local path to the mesh file (.ply)</p>
+</dd>
+<dt><strong>pathfile</strong><span class="classifier">str</span></dt><dd><p>The local path to the path file (.mat)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="docs._src_docs.api.sim_opt.sim_opt">
+<code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.sim_opt.</span></code><code class="sig-name descname"><span class="pre">sim_opt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.sim_opt.sim_opt" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function to simultaneously optimize the CTR to follow a number of waypoints and reach the target without collision with anatomy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>num_nodes</strong><span class="classifier">int</span></dt><dd><p>Number of timestep in the numerical integration/ number of links of the robot</p>
+</dd>
+<dt><strong>k</strong><span class="classifier">int</span></dt><dd><p>Number of via-points, including the target point</p>
+</dd>
+<dt><strong>base</strong><span class="classifier">Vector or Array (3 by 1)</span></dt><dd><p>The robot base location in 3D space</p>
+</dd>
+<dt><strong>rot</strong><span class="classifier">Vector or Array (3 by 1)</span></dt><dd><p>The orientation of the robot base frame about x,y,z axis (rad)</p>
+</dd>
+<dt><strong>meshfile</strong><span class="classifier">str</span></dt><dd><p>The local path to the mesh file (.ply)</p>
+</dd>
+<dt><strong>pathfile</strong><span class="classifier">str</span></dt><dd><p>The local path to the path file (.mat)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="docs._src_docs.api.bspline_group.BsplineGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.bspline_group.</span></code><code class="sig-name descname"><span class="pre">BsplineGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.bspline_group.BsplineGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>BsplineGroup is a OpenMDAO Group object that includes all the components forming the optimization problem for finding a collision
+free path for the robot to follow. BsplineGroup uses the 3D B-spline function and a continuous function of anatomical constraints
+to ensure the B-spline curve is inside the anatomy.</p>
+<dl class="py method">
+<dt id="docs._src_docs.api.bspline_group.BsplineGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.bspline_group.BsplineGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform any one-time initialization run at instantiation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="docs._src_docs.api.bspline_group.BsplineGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.bspline_group.BsplineGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build this group.</p>
+<p>This method should be overidden by your Group’s method. The reason for using this
+method to add subsystem is to save memory and setup time when using your Group
+while running under MPI.  This avoids the creation of systems that will not be
+used in the current process.</p>
+<p>You may call ‘add_subsystem’ to add systems to this group. You may also issue connections,
+and set the linear and nonlinear solvers for this group level. You cannot safely change
+anything on children systems; use the ‘configure’ method instead.</p>
+<dl class="simple">
+<dt>Available attributes:</dt><dd><p>name
+pathname
+comm
+options</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="docs._src_docs.api.ctrseq_group.CtrseqGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.ctrseq_group.</span></code><code class="sig-name descname"><span class="pre">CtrseqGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrseq_group.CtrseqGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>CtrseqGroup is a OpenMDAO Group object that  all the necessary components for solving the 
+CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
+task-specific constraints and objectives, which the user is able to develop their own component and add 
+into the group. CtrseqGroup aims to obtain a sequence of robot configurations as initial guesses for the next 
+step.</p>
+<dl class="py method">
+<dt id="docs._src_docs.api.ctrseq_group.CtrseqGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrseq_group.CtrseqGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform any one-time initialization run at instantiation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="docs._src_docs.api.ctrseq_group.CtrseqGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrseq_group.CtrseqGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build this group.</p>
+<p>This method should be overidden by your Group’s method. The reason for using this
+method to add subsystem is to save memory and setup time when using your Group
+while running under MPI.  This avoids the creation of systems that will not be
+used in the current process.</p>
+<p>You may call ‘add_subsystem’ to add systems to this group. You may also issue connections,
+and set the linear and nonlinear solvers for this group level. You cannot safely change
+anything on children systems; use the ‘configure’ method instead.</p>
+<dl class="simple">
+<dt>Available attributes:</dt><dd><p>name
+pathname
+comm
+options</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="docs._src_docs.api.ctrsimul_group.CtrsimulGroup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">docs._src_docs.api.ctrsimul_group.</span></code><code class="sig-name descname"><span class="pre">CtrsimulGroup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrsimul_group.CtrsimulGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>CtrsimulGroup is a OpenMDAO Group object that compassed all the necessary components for solving the 
+CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
+task-specific constraints and objectives, which the user is able to develop their own component and add 
+into the group. CtrsimulGroup simultaneously optimize the number of k inverse kinematics problem and find 
+the optimal design.</p>
+<dl class="py method">
+<dt id="docs._src_docs.api.ctrsimul_group.CtrsimulGroup.initialize">
+<code class="sig-name descname"><span class="pre">initialize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrsimul_group.CtrsimulGroup.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform any one-time initialization run at instantiation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="docs._src_docs.api.ctrsimul_group.CtrsimulGroup.setup">
+<code class="sig-name descname"><span class="pre">setup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#docs._src_docs.api.ctrsimul_group.CtrsimulGroup.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build this group.</p>
+<p>This method should be overidden by your Group’s method. The reason for using this
+method to add subsystem is to save memory and setup time when using your Group
+while running under MPI.  This avoids the creation of systems that will not be
+used in the current process.</p>
+<p>You may call ‘add_subsystem’ to add systems to this group. You may also issue connections,
+and set the linear and nonlinear solvers for this group level. You cannot safely change
+anything on children systems; use the ‘configure’ method instead.</p>
+<dl class="simple">
+<dt>Available attributes:</dt><dd><p>name
+pathname
+comm
+options</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 

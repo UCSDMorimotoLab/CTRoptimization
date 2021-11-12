@@ -1,53 +1,130 @@
-User defined objectives
+Objective functions
 =================================
 
-Optimization problem
---------------------
-In this tutorial, we will show you how to construct and use the sequential optimization problem in OpenMDAO.
+The objective functions in the optimization includes two main equalities constraints (anatomical constraints and tip position) 
+that use the penalty method formultion. Due to the modularity of the framework, adding the new objective term in the optimization
+is simple and fast. The user would need to modify the component for objective by adding a new input.
+Below using the objsComp (an oprnmdao component) demonstrates how to add a new objective term in the objective fucntion.
 
-The CTR sequential optimization group is as follows:
 
 .. code-block:: python
         
-            '''objectives'''
-            desiredpointscomp = DesiredpointsComp(num_nodes=num_nodes,k=k)
-            self.add_subsystem('Desiredpointscomp', desiredpointscomp, promotes=['*'])
-            reachtargetptscomp = ReachtargetptsComp(k=k,targets = pt)
-            self.add_subsystem('reachtargetptsComp', reachtargetptscomp, promotes=['*'])
-            targetnormcomp = TargetnormComp(k=k)
-            self.add_subsystem('Targetnormcomp', targetnormcomp, promotes=['*'])
-            dpcomp = DpComp(k=k,num_nodes=num_nodes,p_=p_)
-            self.add_subsystem('DpComp', dpcomp, promotes=['*'])
-            crosssectioncomp = CrosssectionComp(k=k,num_nodes=num_nodes)
-            self.add_subsystem('CrosssectionComp', crosssectioncomp, promotes=['*'])
-            signedfuncomp = SignedfunComp(k=k,num_nodes=num_nodes,normals=normals)
-            self.add_subsystem('SignedfunComp', signedfuncomp, promotes=['*'])
-            equdply = EqudplyComp(k=k,num_nodes=num_nodes)
-            self.add_subsystem('EqudplyComp', equdply, promotes=['*'])
+    import numpy as np
+    from openmdao.api import ExplicitComponent
 
-            # objective function
-            dl0 = init_guess['tube_section_length'] + init_guess['beta']
-            norm1 = np.linalg.norm(pt_full[0,:]-pt_full[-1,:],ord=1.125)
-            norm2 = (dl0[:,0] - dl0[:,1])**2 + (dl0[:,1] -  dl0[:,2])**2
-            norm3 = np.linalg.norm(pt_full[0,:]-pt_full[-1,:])/viapts_nbr
-            norm4 = 2
-            norm5 = 2*np.pi 
+    class ObjsComp(ExplicitComponent):
 
-            objscomp = ObjsComp(k=k,num_nodes=num_nodes,
-                                zeta=zeta,
-                                    rho=rho,
-                                        eps_r=eps_r,
-                                            eps_p=eps_p,
-                                                lag=lag,
-                                                    norm1 = norm1,
-                                                        norm2 = norm2,
-                                                            norm3 = norm3,
-                                                                norm4 = norm4,
-                                                                    norm5 = norm5,
-                                                                        eps_e = eps_e,)                                    
-            self.add_subsystem('ObjsComp', objscomp, promotes=['*'])
-            self.add_objective('objs')
+        def initialize(self):
+            self.options.declare('tube_nbr', default=3, types=int)
+            self.options.declare('k', default=2, types=int)
+            self.options.declare('num_nodes', default=3, types=int)
+            self.options.declare('zeta')
+            self.options.declare('rho')
+            self.options.declare('eps_r')
+            self.options.declare('eps_p')
+            self.options.declare('lag')
+            self.options.declare('eps_e')
+            self.options.declare('norm1')
+            self.options.declare('norm2')
+            self.options.declare('norm3')
+            self.options.declare('norm4')
+            self.options.declare('norm5')
+            
         
+        def setup(self):
+            num_nodes = self.options['num_nodes']
+            k = self.options['k']
+            zeta = self.options['zeta']
+
+            #Inputs
+            self.add_input('obj1',shape=(k,1))
+            self.add_input('targetnorm',shape=(k,1))
+            self.add_input('equ_deploylength')
+            self.add_input('locnorm')
+            self.add_input('rotnorm')
+            # New user-defined objective can be added here as an input 
+            self.add_input('new_obj')
+
+            # outputs
+            self.add_output('objs')
+
+
+            # partials
+            self.declare_partials('objs', 'obj1')
+            self.declare_partials('objs', 'rotnorm')
+            self.declare_partials('objs', 'targetnorm')
+            self.declare_partials('objs', 'equ_deploylength')
+            self.declare_partials('objs', 'locnorm')
+            # declare the partials of objective function with respect to new objective term
+            self.declare_partials('objs', 'new_obj')
+
+            
+            
+            
+        def compute(self,inputs,outputs):
+
+            k = self.options['k']
+            num_nodes = self.options['num_nodes']
+            tube_nbr = self.options['tube_nbr']
+            zeta = self.options['zeta']
+            rho = self.options['rho']
+            eps_r = self.options['eps_r']
+            eps_p = self.options['eps_p']
+            lag = self.options['lag']
+            eps_e = self.options['eps_e']
+            norm1 = self.options['norm1']
+            norm2 = self.options['norm2']
+            norm3 = self.options['norm3']
+            norm4 = self.options['norm4']
+            norm5 = self.options['norm5']
+            obj1 = inputs['obj1']
+            equ_deploylength = inputs['equ_deploylength']
+            locnorm = inputs['locnorm']
+            rotnorm = inputs['rotnorm']
+            targetnorm = inputs['targetnorm']
+            new_obj = inputs['new_obj']
+
+            magnitude = np.sum(zeta * obj1 / norm1)\
+                        + eps_e * equ_deploylength / norm2 \
+                            + np.sum(0.5 * rho * targetnorm**2 / (norm3**2)) \
+                                + np.sum(lag * targetnorm/(norm3)) \
+                                    + eps_p * locnorm/(norm4) \
+                                        + eps_r * rotnorm/(norm5) \
+                                            + new_obj # new term can be added here  
+            
+            
+            outputs['objs'] = magnitude.squeeze()
+
+
+
+    def compute_partials(self,inputs,partials):
+        """ partials Jacobian of partial derivatives."""
+
+        k = self.options['k']
+        num_nodes = self.options['num_nodes']
+        tube_nbr = self.options['tube_nbr']
+        zeta = self.options['zeta']
+        rho = self.options['rho']
+        eps_e = self.options['eps_e']
+        eps_r = self.options['eps_r']
+        eps_p = self.options['eps_p']
+        norm1 = self.options['norm1']
+        norm2 = self.options['norm2']
+        norm3 = self.options['norm3']
+        norm4 = self.options['norm4']
+        norm5 = self.options['norm5']
+        lag = self.options['lag']
+        targetnorm = inputs['targetnorm']
+
+        partials['objs','obj1'][:] = (zeta/norm1).T
+        partials['objs','targetnorm'][:] = (rho*targetnorm/(norm3**2) + lag/(norm3)).T
+        partials['objs','equ_deploylength'][:] = eps_e/ norm2
+        partials['objs','locnorm'][:] = eps_p/norm4
+        partials['objs','rotnorm'][:] = eps_r/norm5
+        # compute the partials and give the model analytically
+        partials['objs','new_obj'][:] = 1 
+
+
         
 
 

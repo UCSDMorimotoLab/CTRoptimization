@@ -3,7 +3,9 @@ Step 1: Path optimization
 
 Optimization problem
 --------------------
-In this tutorial, we will show you how to construct the path optimization problem in OpenMDAO and how to use the function.
+The path optimization step is taken in order to optimize a collision free path that can guide CTR to the surgical site.
+The 3D B-spline function is used to generate a smooth path that is inside the anatomy. The Bspline group contains all the
+necessary OpenMDAO components that are needed to complete the path optmization model.
 
 The Bspline group is as follows:
 

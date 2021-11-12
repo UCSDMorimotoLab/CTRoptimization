@@ -3,7 +3,9 @@ Step 3 : Simultaneous optimization
 
 Optimization problem
 --------------------
-In this tutorial, we will show you how to construct and use the simultaneous optimization problem in OpenMDAO.
+The simultaneous optimization problem is to solve the CTR design and path planning simultaneously.
+In this problem, multiple robot configurations will be optimized in order to follow a set of waypoints 
+while saisfy the anatomical constraints.
 
 The CTR simultaneous optimization group is as follows:
 

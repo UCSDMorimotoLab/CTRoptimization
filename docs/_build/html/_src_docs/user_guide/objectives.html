@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>User defined objectives &mdash; CTR 0.1 documentation</title>
+  <title>Objective functions &mdash; CTR 0.1 documentation</title>
   
 
   
@@ -95,7 +95,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../optimization_framework.html">CTR optimization framework</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User guide</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="constraints.html">Constraints</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">User defined objectives</a><ul class="simple">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Objective functions</a><ul class="simple">
 </ul>
 </li>
 </ul>
@@ -152,7 +152,7 @@
         
           <li><a href="../user_guide.html">User guide</a> &raquo;</li>
         
-      <li>User defined objectives</li>
+      <li>Objective functions</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,54 +171,129 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="user-defined-objectives">
-<h1>User defined objectives<a class="headerlink" href="#user-defined-objectives" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="optimization-problem">
-<h2>Optimization problem<a class="headerlink" href="#optimization-problem" title="Permalink to this headline">¶</a></h2>
-<p>In this tutorial, we will show you how to construct and use the sequential optimization problem in OpenMDAO.</p>
-<p>The CTR sequential optimization group is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;objectives&#39;&#39;&#39;</span>
-<span class="n">desiredpointscomp</span> <span class="o">=</span> <span class="n">DesiredpointsComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Desiredpointscomp&#39;</span><span class="p">,</span> <span class="n">desiredpointscomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
-<span class="n">reachtargetptscomp</span> <span class="o">=</span> <span class="n">ReachtargetptsComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">targets</span> <span class="o">=</span> <span class="n">pt</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;reachtargetptsComp&#39;</span><span class="p">,</span> <span class="n">reachtargetptscomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
-<span class="n">targetnormcomp</span> <span class="o">=</span> <span class="n">TargetnormComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Targetnormcomp&#39;</span><span class="p">,</span> <span class="n">targetnormcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
-<span class="n">dpcomp</span> <span class="o">=</span> <span class="n">DpComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">p_</span><span class="o">=</span><span class="n">p_</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;DpComp&#39;</span><span class="p">,</span> <span class="n">dpcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
-<span class="n">crosssectioncomp</span> <span class="o">=</span> <span class="n">CrosssectionComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;CrosssectionComp&#39;</span><span class="p">,</span> <span class="n">crosssectioncomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
-<span class="n">signedfuncomp</span> <span class="o">=</span> <span class="n">SignedfunComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">normals</span><span class="o">=</span><span class="n">normals</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;SignedfunComp&#39;</span><span class="p">,</span> <span class="n">signedfuncomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
-<span class="n">equdply</span> <span class="o">=</span> <span class="n">EqudplyComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;EqudplyComp&#39;</span><span class="p">,</span> <span class="n">equdply</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+  <div class="section" id="objective-functions">
+<h1>Objective functions<a class="headerlink" href="#objective-functions" title="Permalink to this headline">¶</a></h1>
+<p>The objective functions in the optimization includes two main equalities constraints (anatomical constraints and tip position)
+that use the penalty method formultion. Due to the modularity of the framework, adding the new objective term in the optimization
+is simple and fast. The user would need to modify the component for objective by adding a new input.
+Below using the objsComp (an oprnmdao component) demonstrates how to add a new objective term in the objective fucntion.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">ExplicitComponent</span>
 
-<span class="c1"># objective function</span>
-<span class="n">dl0</span> <span class="o">=</span> <span class="n">init_guess</span><span class="p">[</span><span class="s1">&#39;tube_section_length&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">init_guess</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span>
-<span class="n">norm1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pt_full</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">-</span><span class="n">pt_full</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,:],</span><span class="nb">ord</span><span class="o">=</span><span class="mf">1.125</span><span class="p">)</span>
-<span class="n">norm2</span> <span class="o">=</span> <span class="p">(</span><span class="n">dl0</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dl0</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">dl0</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span>  <span class="n">dl0</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
-<span class="n">norm3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">pt_full</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">-</span><span class="n">pt_full</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,:])</span><span class="o">/</span><span class="n">viapts_nbr</span>
-<span class="n">norm4</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">norm5</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="k">class</span> <span class="nc">ObjsComp</span><span class="p">(</span><span class="n">ExplicitComponent</span><span class="p">):</span>
 
-<span class="n">objscomp</span> <span class="o">=</span> <span class="n">ObjsComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span>
-                    <span class="n">zeta</span><span class="o">=</span><span class="n">zeta</span><span class="p">,</span>
-                        <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span>
-                            <span class="n">eps_r</span><span class="o">=</span><span class="n">eps_r</span><span class="p">,</span>
-                                <span class="n">eps_p</span><span class="o">=</span><span class="n">eps_p</span><span class="p">,</span>
-                                    <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">,</span>
-                                        <span class="n">norm1</span> <span class="o">=</span> <span class="n">norm1</span><span class="p">,</span>
-                                            <span class="n">norm2</span> <span class="o">=</span> <span class="n">norm2</span><span class="p">,</span>
-                                                <span class="n">norm3</span> <span class="o">=</span> <span class="n">norm3</span><span class="p">,</span>
-                                                    <span class="n">norm4</span> <span class="o">=</span> <span class="n">norm4</span><span class="p">,</span>
-                                                        <span class="n">norm5</span> <span class="o">=</span> <span class="n">norm5</span><span class="p">,</span>
-                                                            <span class="n">eps_e</span> <span class="o">=</span> <span class="n">eps_e</span><span class="p">,)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;ObjsComp&#39;</span><span class="p">,</span> <span class="n">objscomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">add_objective</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;tube_nbr&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;zeta&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;rho&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;eps_r&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;eps_p&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;lag&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;eps_e&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;norm1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;norm2&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;norm3&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;norm4&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;norm5&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+        <span class="n">zeta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;zeta&#39;</span><span class="p">]</span>
+
+        <span class="c1">#Inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;obj1&#39;</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;targetnorm&#39;</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;equ_deploylength&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;locnorm&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;rotnorm&#39;</span><span class="p">)</span>
+        <span class="c1"># New user-defined objective can be added here as an input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;new_obj&#39;</span><span class="p">)</span>
+
+        <span class="c1"># outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">)</span>
+
+
+        <span class="c1"># partials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span> <span class="s1">&#39;obj1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span> <span class="s1">&#39;rotnorm&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span> <span class="s1">&#39;targetnorm&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span> <span class="s1">&#39;equ_deploylength&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span> <span class="s1">&#39;locnorm&#39;</span><span class="p">)</span>
+        <span class="c1"># declare the partials of objective function with respect to new objective term</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span> <span class="s1">&#39;new_obj&#39;</span><span class="p">)</span>
+
+
+
+
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inputs</span><span class="p">,</span><span class="n">outputs</span><span class="p">):</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+        <span class="n">tube_nbr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;tube_nbr&#39;</span><span class="p">]</span>
+        <span class="n">zeta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;zeta&#39;</span><span class="p">]</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">]</span>
+        <span class="n">eps_r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;eps_r&#39;</span><span class="p">]</span>
+        <span class="n">eps_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;eps_p&#39;</span><span class="p">]</span>
+        <span class="n">lag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;lag&#39;</span><span class="p">]</span>
+        <span class="n">eps_e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;eps_e&#39;</span><span class="p">]</span>
+        <span class="n">norm1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm1&#39;</span><span class="p">]</span>
+        <span class="n">norm2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm2&#39;</span><span class="p">]</span>
+        <span class="n">norm3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm3&#39;</span><span class="p">]</span>
+        <span class="n">norm4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm4&#39;</span><span class="p">]</span>
+        <span class="n">norm5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm5&#39;</span><span class="p">]</span>
+        <span class="n">obj1</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;obj1&#39;</span><span class="p">]</span>
+        <span class="n">equ_deploylength</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;equ_deploylength&#39;</span><span class="p">]</span>
+        <span class="n">locnorm</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;locnorm&#39;</span><span class="p">]</span>
+        <span class="n">rotnorm</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;rotnorm&#39;</span><span class="p">]</span>
+        <span class="n">targetnorm</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;targetnorm&#39;</span><span class="p">]</span>
+        <span class="n">new_obj</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;new_obj&#39;</span><span class="p">]</span>
+
+        <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">zeta</span> <span class="o">*</span> <span class="n">obj1</span> <span class="o">/</span> <span class="n">norm1</span><span class="p">)</span>\
+                    <span class="o">+</span> <span class="n">eps_e</span> <span class="o">*</span> <span class="n">equ_deploylength</span> <span class="o">/</span> <span class="n">norm2</span> \
+                        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">targetnorm</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm3</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> \
+                            <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lag</span> <span class="o">*</span> <span class="n">targetnorm</span><span class="o">/</span><span class="p">(</span><span class="n">norm3</span><span class="p">))</span> \
+                                <span class="o">+</span> <span class="n">eps_p</span> <span class="o">*</span> <span class="n">locnorm</span><span class="o">/</span><span class="p">(</span><span class="n">norm4</span><span class="p">)</span> \
+                                    <span class="o">+</span> <span class="n">eps_r</span> <span class="o">*</span> <span class="n">rotnorm</span><span class="o">/</span><span class="p">(</span><span class="n">norm5</span><span class="p">)</span> \
+                                        <span class="o">+</span> <span class="n">new_obj</span> <span class="c1"># new term can be added here</span>
+
+
+        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;objs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">magnitude</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+
+
+<span class="k">def</span> <span class="nf">compute_partials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inputs</span><span class="p">,</span><span class="n">partials</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; partials Jacobian of partial derivatives.&quot;&quot;&quot;</span>
+
+    <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+    <span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+    <span class="n">tube_nbr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;tube_nbr&#39;</span><span class="p">]</span>
+    <span class="n">zeta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;zeta&#39;</span><span class="p">]</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;rho&#39;</span><span class="p">]</span>
+    <span class="n">eps_e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;eps_e&#39;</span><span class="p">]</span>
+    <span class="n">eps_r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;eps_r&#39;</span><span class="p">]</span>
+    <span class="n">eps_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;eps_p&#39;</span><span class="p">]</span>
+    <span class="n">norm1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm1&#39;</span><span class="p">]</span>
+    <span class="n">norm2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm2&#39;</span><span class="p">]</span>
+    <span class="n">norm3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm3&#39;</span><span class="p">]</span>
+    <span class="n">norm4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm4&#39;</span><span class="p">]</span>
+    <span class="n">norm5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;norm5&#39;</span><span class="p">]</span>
+    <span class="n">lag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;lag&#39;</span><span class="p">]</span>
+    <span class="n">targetnorm</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;targetnorm&#39;</span><span class="p">]</span>
+
+    <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span><span class="s1">&#39;obj1&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">zeta</span><span class="o">/</span><span class="n">norm1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span><span class="s1">&#39;targetnorm&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">targetnorm</span><span class="o">/</span><span class="p">(</span><span class="n">norm3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">lag</span><span class="o">/</span><span class="p">(</span><span class="n">norm3</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span><span class="s1">&#39;equ_deploylength&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">eps_e</span><span class="o">/</span> <span class="n">norm2</span>
+    <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span><span class="s1">&#39;locnorm&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">eps_p</span><span class="o">/</span><span class="n">norm4</span>
+    <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span><span class="s1">&#39;rotnorm&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">eps_r</span><span class="o">/</span><span class="n">norm5</span>
+    <span class="c1"># compute the partials and give the model analytically</span>
+    <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;objs&#39;</span><span class="p">,</span><span class="s1">&#39;new_obj&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
-</div>
 </div>
 </div>
 
