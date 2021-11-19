@@ -6,8 +6,8 @@ Introduction
 ``CTRopt`` is a concentric tube robot design optimization framework that  
 utilize the opensource framework `OpenMDAO <https://openmdao.org/>`_.
 The gradient-based optimization framework provides an efficient way to solve larger-scale 
-CTR design optimization problem by using the unified-derivative equation.   
-
+CTR design optimization problem by using the unified-derivative equation (UDE).   
+The github repository can be found `here <https://ucsdmorimotolab.github.io/CTRoptimization/>`_.
 
 Documentation
 -------------

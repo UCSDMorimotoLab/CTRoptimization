@@ -32,7 +32,7 @@ A B-spline curve will be optimized by the function below.
     path_opt(num_cp,num_pt,sp,fp,filename)
 
 Once the path is found, the sequental optimization need to be performed in order to 
-get a better initial guesses for the CTR optimization problem.
+get a better initial guesses for the CTR optimization problem. The codes are as follow
 
 .. code-block:: python
 
@@ -123,8 +123,8 @@ get a better initial guesses for the CTR optimization problem.
 
 
 The previous step will serve as an initial guesses for the final step, which is the patient-speific 
-simultaneous optimization. This function will provide another dimension--- k to solve a number of
-robot configurations in order to obtain a safe motion plan. 
+simultaneous optimization. In this step, the optimizer optimizes k robot configurations simultaneously
+to obtain a safe plan.
 
 .. code-block:: python
 
