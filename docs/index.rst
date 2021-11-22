@@ -7,7 +7,7 @@ Introduction
 utilize the opensource framework `OpenMDAO <https://openmdao.org/>`_.
 The gradient-based optimization framework provides an efficient way to solve larger-scale 
 CTR design optimization problem by using the unified-derivative equation (UDE).   
-The github repository can be found `here <https://ucsdmorimotolab.github.io/CTRoptimization/>`_.
+The github repository can be found `here <https://github.com/UCSDMorimotoLab/CTRoptimization>`_.
 
 Documentation
 -------------
