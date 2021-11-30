@@ -3,7 +3,7 @@ Getting Started
 
 Installing
 ----------
-To install CTR optimization tool and run topology optimization problems, users need to follow these steps:
+To install CTR optimization tool and run the optimization problems, users need to follow these steps:
 
 1.  Install `OpenMDAO <https://openmdao.org/>`_: 
   - ``pip install 'openmdao[all]'``

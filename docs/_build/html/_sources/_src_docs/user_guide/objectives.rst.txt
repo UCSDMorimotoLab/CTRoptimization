@@ -1,10 +1,11 @@
 Objective functions
 =================================
 
-The objective functions in the optimization includes two main equalities constraints (anatomical constraints and tip position) 
-that use the penalty method formultion. Due to the modularity of the framework, adding the new objective term in the optimization
-is simple and fast. The user would need to modify the component for objective by adding a new input.
-Below using the objsComp (an oprnmdao component) demonstrates how to add a new objective term in the objective fucntion.
+The objective function in the optimization includes two main implicit enforced constraints (anatomical constraints and tip position) 
+that use the penalty method formulation. Due to the modularity of the framework, adding the new objective term in the optimization
+is simple and fast. The user would need to modify the component for the objective by adding a new input.
+Below using the ObjsComp (an OpenMDAO component) demonstrates how to add a new objective term in the objective function.
+
 
 
 .. code-block:: python

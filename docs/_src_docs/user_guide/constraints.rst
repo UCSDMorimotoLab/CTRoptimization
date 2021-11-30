@@ -2,14 +2,15 @@ Constraints
 =========================
 
 CTR design optimization framework provides the freedom to the user to add any task-specific constraints. The modular model approach
-reduce the significant anmount of effort to build custimized optimization model. The user can easily build a component in OpenMDAO
-and added them as a constraints in the model. The kinematics constraints are the necessary constraints that needs to be remained in the model in order
-to solve the CTR forward kinematic model.
+reduces the significant amount of effort to build a customized optimization model. The user can easily build a component in OpenMDAO
+and add them as constraints in the model. (Note that the kinematics constraints are the necessary constraints that need to remain in the model in order
+to solve the CTR forward kinematic model).
+
 
 
 Kinematics constraints
 -----------------------
-Here shows how the example of the kinematics and tube geomerty constraints are added in the optimization.
+The code below shows how the kinematics and tube geomerty constraints are added in the optimization.
 
 .. code-block:: python
 

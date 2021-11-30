@@ -3,8 +3,8 @@ Step 3 : Simultaneous optimization
 
 Optimization problem
 --------------------
-The simultaneous optimization problem is to solve the CTR design and path planning simultaneously.
-In this problem, multiple robot configurations will be optimized in order to follow a set of waypoints 
+The simultaneous optimization problem is to solve the CTR design and motion planning simultaneously.
+In this problem, multiple robot configurations will be optimized in order to find a robot design that can follow a set of waypoints 
 while saisfy the anatomical constraints.
 
 The CTR simultaneous optimization group is as follows:

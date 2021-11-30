@@ -174,12 +174,12 @@
   <div class="section" id="constraints">
 <h1>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h1>
 <p>CTR design optimization framework provides the freedom to the user to add any task-specific constraints. The modular model approach
-reduce the significant anmount of effort to build custimized optimization model. The user can easily build a component in OpenMDAO
-and added them as a constraints in the model. The kinematics constraints are the constraints in order to solve the kinematics models
-and also includes some physical constraints, such as tube clearance, and wall thickness, which user can defined upon their needs.</p>
+reduces the significant amount of effort to build a customized optimization model. The user can easily build a component in OpenMDAO
+and add them as constraints in the model. (Note that the kinematics constraints are the necessary constraints that need to remain in the model in order
+to solve the CTR forward kinematic model).</p>
 <div class="section" id="kinematics-constraints">
 <h2>Kinematics constraints<a class="headerlink" href="#kinematics-constraints" title="Permalink to this headline">¶</a></h2>
-<p>Here shows how the example of the kinematics and tube geomerty constraints are added in the optimization.</p>
+<p>The code below shows how the kinematics and tube geomerty constraints are added in the optimization.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;Constraints&#39;&#39;&#39;</span>
     <span class="n">bccomp</span> <span class="o">=</span> <span class="n">BcComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
     <span class="n">diametercomp</span> <span class="o">=</span> <span class="n">DiameterComp</span><span class="p">()</span>

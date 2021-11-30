@@ -4,8 +4,8 @@ Step 1: Path optimization
 Optimization problem
 --------------------
 The path optimization step is taken in order to optimize a collision free path that can guide CTR to the surgical site.
-The 3D B-spline function is used to generate a smooth path that is inside the anatomy. The Bspline group contains all the
-necessary OpenMDAO components that are needed to complete the path optmization model.
+A 3D B-spline function is used to generate a smooth path inside the anatomy. The Bspline group contains all the
+necessary OpenMDAO components that are needed to run the path optmization problem.
 
 The Bspline group is as follows:
 
@@ -83,7 +83,6 @@ The Bspline group is as follows:
             norm1 = np.linalg.norm(sp-fp,ord=1.125)
             pathobjective_comp = PathobjectiveComp(r2=r2,r1=r1/norm1)
             self.add_subsystem('pathobjective_comp',pathobjective_comp,promotes=['*'])
-
             
             # Design variable
             self.add_design_var('cp')
@@ -92,11 +91,10 @@ The Bspline group is as follows:
             self.add_constraint('startpoint_constraint',equals=sp)
             self.add_constraint('finalpoint_constraint',equals=fp)
             
-            
             # Objectives
             self.add_objective('path_objective')
 
-After the group is built, we now can solve the path optimization problem by running the optimizer and code below:
+After the group is built, then we can solve the path optimization problem by running the optimizer and code below:
 
 .. code-block:: python
 

@@ -3,7 +3,9 @@ Step 2 : Seqeuential optimization
 
 Optimization problem
 --------------------
-In this tutorial, we will show you how to construct and use the sequential optimization problem in OpenMDAO.
+The sequential optimization step intends to solve a sequence of initial robot configurations from the start point to the 
+target point. These configurations serve as an initial guesses for the simultaneous optimization step. The CtrseqGroup is an OpenMDAO group that consists of
+three ODE solver that is able to solve the CTR kinematics probelm. 
 
 The CTR sequential optimization group is as follows:
 
@@ -409,7 +411,8 @@ The CTR sequential optimization group is as follows:
         
         
 
-After the group is built, we now can solve the sequential optimization problem by running the optimizer and function below:
+After the group is built, we now can solve the sequential optimization problem by initializing the tube design, intial pose
+and running the optimizer:
 
 .. code-block:: python
 
