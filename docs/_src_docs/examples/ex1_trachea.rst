@@ -4,7 +4,7 @@ Clinial example 1: Laryngoscopy
 Optimization problem
 --------------------
 In this example, the user can follow the instructions below to run the full optimization process through: path, sequential, and simultaneous 
-optimization step. 
+optimization step.
 
 The run files for each step are as follows.
 The user-defined parameter are the anatomical model (.ply format), starting point, target point 
@@ -31,8 +31,8 @@ A B-spline curve will be optimized by the function below.
 
     path_opt(num_cp,num_pt,sp,fp,filename)
 
-Once the path is found, the sequental optimization need to be performed in order to 
-get a better initial guesses for the CTR optimization problem. The codes are as follow
+Once the collision-free path is found, the sequental optimization needs to be performed in order to 
+get a better initial guesses for the simultaneous CTR optimization problem. The codes are as follow
 
 .. code-block:: python
 
@@ -122,9 +122,9 @@ get a better initial guesses for the CTR optimization problem. The codes are as 
     seq_opt(num_nodes,viapts_nbr,base,rot,meshfile)
 
 
-The previous step will serve as an initial guesses for the final step, which is the patient-speific 
+The second step serves as an initial guesses for the final step, which is the patient-speific 
 simultaneous optimization. In this step, the optimizer optimizes k robot configurations simultaneously
-to obtain a safe plan.
+to obtain a robot design and safe motion plan.
 
 .. code-block:: python
 
@@ -164,6 +164,9 @@ to obtain a safe plan.
 
     # run simultaneous optimization
     sim_opt(num_nodes,k,base,rot,meshfile)
+
+
+ 
 
 
 
