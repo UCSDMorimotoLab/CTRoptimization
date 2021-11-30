@@ -1,4 +1,4 @@
-Objective functions
+Objective function
 =================================
 
 The objective function in the optimization includes two main implicit enforced constraints (anatomical constraints and tip position) 
