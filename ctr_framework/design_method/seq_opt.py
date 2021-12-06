@@ -45,8 +45,6 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile,pathfile):
     pt_full =  initialize_pt(100,pathfile)
     p_plane = np.zeros((3,3))
     equ_paras = equofplane(p_plane[0,:],p_plane[1,:],p_plane[2,:])
-    pt = initialize_pt(viapts_nbr)
-    pt_pri =  initialize_pt(viapts_nbr * 2)
     center = findCircle(pt[0,1],pt[0,2], \
             pt[-1,1],pt[-1,2],pt[int(viapts_nbr/2),1],pt[int(viapts_nbr/2),2])
     mesh = trianglemesh(num_nodes,k,pt[-1,:],center,meshfile)

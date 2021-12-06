@@ -27,12 +27,7 @@ from ctr_framework.design_method.seq_opt import seq_opt
 viapts_nbr=10
 k = 1
 # number of links                              
-num_nodes = 10
-
-# Extract the waypoints from optimized path
-pt = initialize_pt(viapts_nbr)
-pt_pri =  initialize_pt(viapts_nbr * 2)
-pt_full =  initialize_pt(100)
+num_nodes = 50
 
 
 # initial robot configuration
@@ -82,7 +77,8 @@ p_plane = np.array([[-10,35,20],[-12,20,20],\
                     [-20,15,20]])
 # mesh .PLY file
 meshfile = 'trachea.PLY'
+pathfile = 'path.mat'
 
-seq_opt(num_nodes,viapts_nbr,base,rot,meshfile)
+seq_opt(num_nodes,viapts_nbr,base,rot,meshfile,pathfile)
 
 

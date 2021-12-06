@@ -21,7 +21,7 @@ from ctr_framework.log import log
 
 
 
-def sim_opt(num_nodes,k,base,rot,meshfile):
+def sim_opt(num_nodes,k,base,rot,meshfile,pathfile):
     '''
     The function to simultaneously optimize the CTR to follow a number of waypoints and reach the target without collision with anatomy.
 
@@ -44,19 +44,15 @@ def sim_opt(num_nodes,k,base,rot,meshfile):
     a = 30
     # robot initial pose trachea
     
-    pt = initialize_pt(k)
-    pt_pri =  initialize_pt(k * 2)
+    pt = initialize_pt(k,pathfile)
     # find 3 points on the plane
-    # p_plane = np.array([[-13.2501,-22.5262,110.735],[-12.6813,-26.3715,98.0471],\
-    #                     [-19.8698,-25.6478,103.586]])
+    
     p_plane = np.array([[-10,35,20],[-12,20,20],\
                         [-20,15,20]])
     equ_paras = equofplane(p_plane[0,:],p_plane[1,:],p_plane[2,:]) 
     norm1 = np.linalg.norm(pt[0,:]-pt[-1,:],ord=1.125)
 
 
-    # pt_pri =  initialize_pt(k * 2)
-    # opt_tol = [1e-2,1e-3]
     'step 3: final optimization'
     
     k_ = 1
