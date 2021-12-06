@@ -1,8 +1,8 @@
 Design variables
 =================
 
-CTR design optimization framework optimize all the continuous optimization variables,
-including the design parameters(tube diameter, tube length, tube curvature), configuration variables(joibt values, robot base pose)
+CTR design optimization framework optimizes all the continuous optimization variables,
+including the design parameters(tube diameter, tube length, tube curvature), configuration variables(joint values, robot base pose)
 and kinematic variables(distal end boundary conditions).
 
 
