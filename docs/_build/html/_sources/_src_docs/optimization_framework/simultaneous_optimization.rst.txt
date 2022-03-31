@@ -86,6 +86,14 @@ The CTR simultaneous optimization group is as follows:
 
 
     class CtrsimulGroup(om.Group):
+        '''
+        CtrsimulGroup is a OpenMDAO Group object that compassed all the necessary components for solving the 
+        CTR design optimization problem. This group includes the CTR kinematics model, kinematics constraints,
+        task-specific constraints and objectives, which the user is able to develop their own component and add 
+        into the group. CtrsimulGroup simultaneously optimize the number of k inverse kinematics problem and find 
+        the optimal design. 
+        
+        '''
         def initialize(self):
             self.options.declare('num_nodes', default=100, types=int)
             self.options.declare('k', default=1, types=int)
@@ -160,7 +168,7 @@ The CTR simultaneous optimization group is as follows:
             comp.add_output('kappa', shape=(1,3), val=init_guess['kappa'])
             comp.add_output('tube_section_length',shape=(1,3),val=init_guess['tube_section_length'])
             comp.add_output('tube_section_straight',shape=(1,3),val=init_guess['tube_section_straight'])
-            comp.add_output('alpha', shape=(k,3),val=init_guess['alpha'])
+            comp.add_output('lota', shape=(k,3),val=init_guess['lota'])
             comp.add_output('beta', shape=(k,3),val=init_guess['beta'])
             comp.add_output('initial_condition_dpsi', shape=(k,3), val=init_guess['initial_condition_dpsi'])
             comp.add_output('rotx',val=init_guess['rotx'])
@@ -202,23 +210,21 @@ The CTR simultaneous optimization group is as follows:
 
             method_name = 'Lobatto2'
             'ODE 1 : kinematics'
-            ode_function1 = CtrFunction(k=k)
+            ode_function1 = CtrFunction(k=1)
             formulation1 = 'time-marching'
-
 
             initial_time = 0.
             normalized_times = np.linspace(0., 1, num_nodes)
             
             integrator1 = ODEIntegrator(
                 ode_function1, formulation1, method_name,
-                initial_time=initial_time, normalized_times=normalized_times
-                
+                final_time=initial_time, normalized_times=normalized_times
             )
 
             self.add_subsystem('integrator_group1', integrator1)
-            self.connect('final_time', 'integrator_group1.final_time')
+            self.connect('final_time', 'integrator_group1.initial_time')
             self.connect('K_out', 'integrator_group1.dynamic_parameter:K_out')
-            self.connect('initial_condition_psi', 'integrator_group1.initial_condition:psi')
+            self.connect('lota', 'integrator_group1.initial_condition:psi')
             self.connect('initial_condition_dpsi', 'integrator_group1.initial_condition:dpsi_ds')
             self.connect('integrator_group1.state:dpsi_ds','dpsi_ds')
             self.connect('integrator_group1.state:psi','psi')
@@ -287,13 +293,13 @@ The CTR simultaneous optimization group is as follows:
             self.add_design_var('d5',lower= 0.2, upper=3.5)
             self.add_design_var('d6',lower= 0.2, upper=3.5)
 
-            self.add_design_var('tube_section_length',lower=0)
-            self.add_design_var('tube_section_straight',lower=0)
-            self.add_design_var('alpha')
+            self.add_design_var('tube_section_length',lower=10)
+            self.add_design_var('tube_section_straight',lower=10)
+            self.add_design_var('lota')
             temp = np.outer(np.ones(k) , -init_guess['tube_section_length']+ 2)        
-            self.add_design_var('beta', upper=-1)
+            self.add_design_var('beta', lower= temp,upper=-1)
             self.add_design_var('kappa', lower=0)
-            self.add_design_var('initial_condition_dpsi')
+            # self.add_design_var('initial_condition_dpsi')
             self.add_design_var('rotx')
             self.add_design_var('roty')
             self.add_design_var('rotz')
@@ -307,7 +313,8 @@ The CTR simultaneous optimization group is as follows:
             desiredpointscomp = DesiredpointsComp(num_nodes=num_nodes,k=k)
             baseplanarcomp = BaseplanarComp(num_nodes=num_nodes,k=k,equ_paras=equ_paras)
             deployedlenghtcomp = DeployedlengthComp(k=k)
-
+            betacomp = BetaComp(k=k)
+            self.add_subsystem('BetaComp', betacomp, promotes=['*'])
             self.add_subsystem('Baseplanarcomp', baseplanarcomp, promotes=['*'])
             self.add_subsystem('BcComp', bccomp, promotes=['*'])
             self.add_subsystem('Desiredpointscomp', desiredpointscomp, promotes=['*'])
@@ -371,18 +378,20 @@ The CTR simultaneous optimization group is as follows:
 
             
 
-            self.add_constraint('torsionconstraint', equals=0.)
+            # self.add_constraint('torsionconstraint', equals=0.)
             # self.add_constraint('baseconstraints', lower=0)
             # self.add_constraint('tiporientation', equals=0)
             self.add_constraint('locnorm', upper=2)
-            self.add_constraint('deployedlength12constraint', lower=1)
-            self.add_constraint('deployedlength23constraint', lower=1)
+            self.add_constraint('deployedlength12constraint', lower=10)
+            self.add_constraint('deployedlength23constraint', lower=10)
+            self.add_constraint('beta12constraint', upper=-1)
+            self.add_constraint('beta23constraint', upper=-1)
             d_c = np.zeros((1,3)) + 0.1
             self.add_constraint('diameterconstraint',lower= d_c)
             self.add_constraint('tubeclearanceconstraint',lower= 0.1,upper=0.16)
-            self.add_constraint('tubestraightconstraint',lower= 0)
-            self.add_constraint('strain_max1',upper=0.08)
-            self.add_constraint('strain_min1',lower=-0.08)
+            self.add_constraint('tubestraightconstraint',lower= 5)
+            # self.add_constraint('strain_max1',upper=0.08)
+            # self.add_constraint('strain_min1',lower=-0.08)
 
             '''objective function'''
 
@@ -405,7 +414,7 @@ The CTR simultaneous optimization group is as follows:
             
             objscomp = ObjsComp(k=k,num_nodes=num_nodes,
                                 zeta=zeta[-1],
-                                    rho=rho,
+                                    rho=rho[-1],
                                         eps_r=init_guess['eps_r'],
                                             eps_p=init_guess['eps_p'],
                                                 eps_e = init_guess['eps_e'],
@@ -418,6 +427,9 @@ The CTR simultaneous optimization group is as follows:
                                                                             )
             self.add_subsystem('ObjsComp', objscomp, promotes=['*'])
             self.add_objective('objs')
+
+
+        
 
 
         
