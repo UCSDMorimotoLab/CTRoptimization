@@ -20,6 +20,14 @@ where the :math:`\psi`, :math:`\dot{\psi}` are the tube angle and tube torsion, 
 :math:`k_{it}` is the torsional stiffness of tube :math:`i`, :math:`\kappa_{i}` is the curvature if tube i and :math:`\alpha_{i}` 
 and :math:`beta_{i}` are the joint variables --- translation and rotation of tube :math:`i`.
 
+Alternative formulation as an initial value problem is presented and used in the current framework. With 
+this problem formulation, the optimization problem will has a unique solution since the tip rotation and tube base rotation
+will now have a unique mapping and this is not gurantee with the BVP problem when the CTR snapping issue occurs.
+The boundary conditions are turned into two initial conditions at distal end and can be written as:
+
+.. math:: \psi_{i}(L_{i}+\beta_{i}) = \phi_{i},
+.. math:: \dot{\psi}_{i}(L_{i}+\beta_{i}) = 0.
+
 2. Robot curvature vector
 -------------------------
 The deformed curvature vector of the robot along the robot backbone can be found by:

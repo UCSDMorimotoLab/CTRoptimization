@@ -33,13 +33,15 @@
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Step 2 : Seqeuential optimization" href="sequential_optimization.html" />
+    <link rel="next" title="Step 2 : Sequential optimization" href="sequential_optimization.html" />
     <link rel="prev" title="CTR optimization framework" href="../optimization_framework.html" /> 
 </head>
 
@@ -96,7 +98,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Step 1: Path optimization</a><ul class="simple">
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="sequential_optimization.html">Step 2 : Seqeuential optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sequential_optimization.html">Step 2 : Sequential optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="simultaneous_optimization.html">Step 3 : Simultaneous optimization</a></li>
 </ul>
 </li>
@@ -180,8 +182,8 @@
 A 3D B-spline function is used to generate a smooth path inside the anatomy. The Bspline group contains all the
 necessary OpenMDAO components that are needed to run the path optmization problem.</p>
 <p>The Bspline group is as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="kn">as</span> <span class="nn">om</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">openmdao.api</span> <span class="k">as</span> <span class="nn">om</span>
 <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span> <span class="n">ExecComp</span><span class="p">,</span> <span class="n">IndepVarComp</span>
 <span class="kn">from</span> <span class="nn">ozone.api</span> <span class="kn">import</span> <span class="n">ODEIntegrator</span>
 <span class="kn">from</span> <span class="nn">ctr_framework.startpoint_comp</span> <span class="kn">import</span> <span class="n">StartpointComp</span>
@@ -265,7 +267,7 @@ necessary OpenMDAO components that are needed to run the path optmization proble
 </pre></div>
 </div>
 <p>After the group is built, then we can solve the path optimization problem by running the optimizer and code below:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">from</span> <span class="nn">ctr_framework.design_method.path_opt</span> <span class="kn">import</span> <span class="n">path_opt</span>
 <span class="c1"># from path_opt import path_opt</span>
@@ -295,7 +297,7 @@ necessary OpenMDAO components that are needed to run the path optmization proble
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="sequential_optimization.html" class="btn btn-neutral float-right" title="Step 2 : Seqeuential optimization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sequential_optimization.html" class="btn btn-neutral float-right" title="Step 2 : Sequential optimization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="../optimization_framework.html" class="btn btn-neutral float-left" title="CTR optimization framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

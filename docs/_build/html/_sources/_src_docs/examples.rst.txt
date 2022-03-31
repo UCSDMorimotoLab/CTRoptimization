@@ -7,4 +7,5 @@ Clinical examples
   :titlesonly:
 
   examples/ex1_trachea.rst
+  examples/ex1_heart.rst
   

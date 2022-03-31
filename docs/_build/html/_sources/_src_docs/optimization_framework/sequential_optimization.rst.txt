@@ -1,4 +1,4 @@
-Step 2 : Seqeuential optimization
+Step 2 : Sequential optimization
 =================================
 
 Optimization problem

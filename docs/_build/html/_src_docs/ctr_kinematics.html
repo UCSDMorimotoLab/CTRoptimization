@@ -33,6 +33,7 @@
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
@@ -181,6 +182,14 @@
 <p>where the <span class="math notranslate nohighlight">\(\psi\)</span>, <span class="math notranslate nohighlight">\(\dot{\psi}\)</span> are the tube angle and tube torsion, <span class="math notranslate nohighlight">\(k_{ib}\)</span> is the bending stiffness of tube <span class="math notranslate nohighlight">\(i\)</span>,
 <span class="math notranslate nohighlight">\(k_{it}\)</span> is the torsional stiffness of tube <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\kappa_{i}\)</span> is the curvature if tube i and <span class="math notranslate nohighlight">\(\alpha_{i}\)</span>
 and <span class="math notranslate nohighlight">\(beta_{i}\)</span> are the joint variables — translation and rotation of tube <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>Alternative formulation as an initial value problem is presented and used in the current framework. With
+this problem formulation, the optimization problem will has a unique solution since the tip rotation and tube base rotation
+will now have a unique mapping and this is not gurantee with the BVP problem when the CTR snapping issue occurs.
+The boundary conditions are turned into two initial conditions at distal end and can be written as:</p>
+<div class="math notranslate nohighlight">
+\[\psi_{i}(L_{i}+\beta_{i}) = \phi_{i},\]</div>
+<div class="math notranslate nohighlight">
+\[\dot{\psi}_{i}(L_{i}+\beta_{i}) = 0.\]</div>
 </div>
 <div class="section" id="robot-curvature-vector">
 <h3>2. Robot curvature vector<a class="headerlink" href="#robot-curvature-vector" title="Permalink to this headline">¶</a></h3>

@@ -6,5 +6,6 @@ User guide
   :maxdepth: 2
   :titlesonly:
 
+  user_guide/designvariables.rst
   user_guide/constraints.rst
   user_guide/objectives.rst
