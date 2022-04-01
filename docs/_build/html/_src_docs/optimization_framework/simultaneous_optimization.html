@@ -550,7 +550,6 @@ while saisfy the anatomical constraints.</p>
 
 
         <span class="c1"># self.add_constraint(&#39;torsionconstraint&#39;, equals=0.)</span>
-        <span class="c1"># self.add_constraint(&#39;baseconstraints&#39;, lower=0)</span>
         <span class="c1"># self.add_constraint(&#39;tiporientation&#39;, equals=0)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;locnorm&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;deployedlength12constraint&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -560,7 +559,6 @@ while saisfy the anatomical constraints.</p>
         <span class="n">d_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;diameterconstraint&#39;</span><span class="p">,</span><span class="n">lower</span><span class="o">=</span> <span class="n">d_c</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;tubeclearanceconstraint&#39;</span><span class="p">,</span><span class="n">lower</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span><span class="n">upper</span><span class="o">=</span><span class="mf">0.16</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;tubestraightconstraint&#39;</span><span class="p">,</span><span class="n">lower</span><span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
         <span class="c1"># self.add_constraint(&#39;strain_max1&#39;,upper=0.08)</span>
         <span class="c1"># self.add_constraint(&#39;strain_min1&#39;,lower=-0.08)</span>
 

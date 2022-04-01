@@ -38,9 +38,14 @@ Below using the ObjsComp (an OpenMDAO component) demonstrates how to add a new o
             zeta = self.options['zeta']
 
             #Inputs
+
+            # collision avoidance
             self.add_input('obj1',shape=(k,1))
+            # tip position error
             self.add_input('targetnorm',shape=(k,1))
+            # prevent the optimizer not only favoring certain tube for translation 
             self.add_input('equ_deploylength')
+            # the norm of the base frame to the origin
             self.add_input('locnorm')
             self.add_input('rotnorm')
             # New user-defined objective can be added here as an input 

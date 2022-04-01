@@ -25,7 +25,7 @@ determined by the user.
         comp.add_output('kappa', shape=(1,3), val=init_guess['kappa'])
         comp.add_output('tube_section_length',shape=(1,3),val=init_guess['tube_section_length'])
         comp.add_output('tube_section_straight',shape=(1,3),val=init_guess['tube_section_straight'])
-        comp.add_output('alpha', shape=(k,3),val=init_guess['alpha'])
+        comp.add_output('lota', shape=(k,3),val=init_guess['lota'])
         comp.add_output('beta', shape=(k,3),val=init_guess['beta']+0.01)
         comp.add_output('initial_condition_dpsi', shape=(k,3), val=init_guess['initial_condition_dpsi'])
         comp.add_output('rotx',val=init_guess['rotx'])
@@ -46,22 +46,26 @@ bound to those design variables as their choice.
 .. code-block:: python
 
         "Deisgn variables"
-        self.add_design_var('d1',lower= 0.2 , upper=3.5)
-        self.add_design_var('d2',lower= 0.2, upper=3.5)
-        self.add_design_var('d3',lower= 0.2, upper=3.5)
-        self.add_design_var('d4',lower= 0.2, upper=3.5)
-        self.add_design_var('d5',lower= 0.2, upper=3.5)
-        self.add_design_var('d6',lower= 0.2, upper=3.5)
-        self.add_design_var('tube_section_length',lower=0)
-        self.add_design_var('tube_section_straight',lower=0 )
-        self.add_design_var('alpha')
-        self.add_design_var('beta', upper=-1)
+        # tube diameter
+        self.add_design_var('d1',lower= 0.2 , upper=3.5)       # ID_1
+        self.add_design_var('d2',lower= 0.2, upper=3.5)        # OD_1
+        self.add_design_var('d3',lower= 0.2, upper=3.5)        # ID_2
+        self.add_design_var('d4',lower= 0.2, upper=3.5)        # OD_2
+        self.add_design_var('d5',lower= 0.2, upper=3.5)        # ID_3
+        self.add_design_var('d6',lower= 0.2, upper=3.5)        # OD_3
+        # tube length
+        self.add_design_var('tube_section_length',lower=0)      # total tube length
+        self.add_design_var('tube_section_straight',lower=0)    # tube length of straight section
+        # configuration variables
+        self.add_design_var('lota')                             # tip rotation
+        self.add_design_var('beta', upper=-1)                   # tube translation
+        # tube curvature  
         self.add_design_var('kappa', lower=0)
-        self.add_design_var('initial_condition_dpsi')
-        self.add_design_var('rotx')
-        self.add_design_var('roty')
-        self.add_design_var('rotz')
-        self.add_design_var('loc')
+        # Robot base frame
+        self.add_design_var('rotx')     # rotation about x-axis
+        self.add_design_var('roty')     # rotation about y-axis
+        self.add_design_var('rotz')     # rotation about z-axis
+        self.add_design_var('loc')      # 3-D position of the base
 
 
 

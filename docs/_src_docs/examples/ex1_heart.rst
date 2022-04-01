@@ -1,4 +1,4 @@
-Clinial example 1: Heart biopsy
+Clinial example 2: Heart biopsy
 ===============================
 
 Optimization problem

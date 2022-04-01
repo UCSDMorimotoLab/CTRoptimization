@@ -376,7 +376,6 @@ The CTR sequential optimization group is as follows:
             d_c = np.zeros((1,3)) + 0.1
             self.add_constraint('diameterconstraint',lower= d_c)
             self.add_constraint('tubeclearanceconstraint',lower= 0.1,upper=0.16)
-            self.add_constraint('tubestraightconstraint',lower= 0)
             # self.add_constraint('strain_max',upper=0.08)
             # self.add_constraint('strain_min',lower = -0.08)
             

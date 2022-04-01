@@ -57,7 +57,7 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile,pathfile):
     lag = 1
     norm1 = np.linalg.norm(pt[0,:]-pt[-1,:],ord=1.125)
     tol = np.ones((viapts_nbr))*10
-    tol[-1] = 10
+    tol[-1] = 5
     t0 = time.time()
     for i in range(0,viapts_nbr,1):
         count = 1
@@ -130,7 +130,7 @@ def seq_opt(num_nodes,viapts_nbr,base,rot,meshfile,pathfile):
             trigger = 1
             count+=1
 
-        mdict1 = {'points':prob1['integrator_group3.state:p'], 'alpha':prob1['alpha'], 'beta':prob1['beta'],'kappa':prob1['kappa'],
+        mdict1 = {'points':prob1['integrator_group3.state:p'], 'lota':prob1['lota'], 'beta':prob1['beta'],'kappa':prob1['kappa'],
                         'tube_section_straight':prob1['tube_section_straight'],'tube_section_length':prob1['tube_section_length'],
                         'd1':prob1['d1'], 'd2':prob1['d2'], 'd3':prob1['d3'], 'd4':prob1['d4'], 'd5':prob1['d5'], 'd6':prob1['d6'],
                         'initial_condition_dpsi':prob1['initial_condition_dpsi'],'rotx':prob1['rotx'],'roty':prob1['roty'], 'rotz':prob1['rotz'],

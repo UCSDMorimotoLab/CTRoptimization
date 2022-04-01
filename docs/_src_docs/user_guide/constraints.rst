@@ -31,16 +31,17 @@ The code below shows how the kinematics and tube geomerty constraints are added 
         self.add_subsystem('DiameterComp', diametercomp, promotes=['*'])
         self.add_subsystem('TubeclearanceComp', tubeclearancecomp, promotes=['*'])
 
-    
-        self.add_constraint('torsionconstraint', equals=0.)
-        self.add_constraint('baseconstraints', lower=0)
+        # Tube cannot translate inside one another 
         self.add_constraint('deployedlength12constraint', lower=1)
         self.add_constraint('deployedlength23constraint', lower=1)
-        self.add_constraint('beta12constraint', upper=-1)
-        self.add_constraint('beta23constraint', upper=-1)
+        # keep certain length for the actuation unit to grab the tube
+        self.add_constraint('beta12constraint', upper=-5)
+        self.add_constraint('beta23constraint', upper=-5)
+        # minimum wall thickness
         self.add_constraint('diameterconstraint',lower= 0.1)
+        # tube clearance
         self.add_constraint('tubeclearanceconstraint',lower= 0.1,upper=0.16)
-        self.add_constraint('tubestraightconstraint',lower= 0)
+        
         
 
 
@@ -170,15 +171,12 @@ Now, the user is able to import and add the output of the component to be the co
 
         
 
-        self.add_constraint('torsionconstraint', equals=0.)
-        self.add_constraint('baseconstraints', lower=0)
         self.add_constraint('deployedlength12constraint', lower=1)
         self.add_constraint('deployedlength23constraint', lower=1)
         self.add_constraint('beta12constraint', upper=-1)
         self.add_constraint('beta23constraint', upper=-1)
         self.add_constraint('diameterconstraint',lower= 0.1)
         self.add_constraint('tubeclearanceconstraint',lower= 0.1,upper=0.16)
-        self.add_constraint('tubestraightconstraint',lower= 0)
         # add task-specific constraints
         self.add_constraint('tiporientation', equals=0)
 

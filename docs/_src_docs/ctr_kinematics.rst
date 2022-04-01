@@ -20,7 +20,7 @@ where the :math:`\psi`, :math:`\dot{\psi}` are the tube angle and tube torsion, 
 :math:`k_{it}` is the torsional stiffness of tube :math:`i`, :math:`\kappa_{i}` is the curvature if tube i and :math:`\alpha_{i}` 
 and :math:`beta_{i}` are the joint variables --- translation and rotation of tube :math:`i`.
 
-Alternative formulation as an initial value problem is presented and used in the current framework. With 
+Alternative formulation as an initial value problem that is used in the current framework is presented belwo. With 
 this problem formulation, the optimization problem will has a unique solution since the tip rotation and tube base rotation
 will now have a unique mapping and this is not gurantee with the BVP problem when the CTR snapping issue occurs.
 The boundary conditions are turned into two initial conditions at distal end and can be written as:
@@ -49,5 +49,7 @@ Reference
 D. C. Rucker, R. J. Webster III, G. S. Chirikjian, and N. J. Cowan,“Equilibrium conformations of concentric-tube continuum robots,
 ”TheInternational journal of robotics research, vol. 29, no. 10, pp. 1263–1280, 2010
 
+Bergeles, Christos, and Pierre E. Dupont. "Planning stable paths for concentric tube robots.
+"2013 IEEE/RSJ International Conference on Intelligent Robots and Systems. IEEE, 2013.
 
 

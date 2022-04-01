@@ -120,7 +120,7 @@ def sim_opt(num_nodes,k,base,rot,meshfile,pathfile):
             multiplier_rho = error
             rho_ = multiplier_rho + rho_
             lag_ = lag_ + (rho_) * error/norm1 
-        mdict2 = {'points':prob1['integrator_group3.state:p'], 'alpha':prob1['alpha'], 'beta':prob1['beta'],'kappa':prob1['kappa'],
+        mdict2 = {'points':prob1['integrator_group3.state:p'], 'lota':prob1['lota'], 'beta':prob1['beta'],'kappa':prob1['kappa'],
                         'tube_section_straight':prob1['tube_section_straight'],'tube_section_length':prob1['tube_section_length'],
                         'd1':prob1['d1'], 'd2':prob1['d2'], 'd3':prob1['d3'], 'd4':prob1['d4'], 'd5':prob1['d5'], 'd6':prob1['d6'],
                         'initial_condition_dpsi':prob1['initial_condition_dpsi'], 'loc':prob1['loc'], 'rotx':prob1['rotx'], 'roty':prob1['roty'],
