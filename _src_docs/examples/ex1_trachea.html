@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinial example 1: Laryngoscopy &mdash; CTR 0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Clinial example 2: Heart biopsy" href="ex1_heart.html" />
+    <link rel="prev" title="Clinical examples" href="../examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> CTR
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ctr_kinematics.html">CTR Kinematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimization_framework.html">CTR optimization framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../examples.html">Clinical examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Clinial example 1: Laryngoscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex1_heart.html">Clinial example 2: Heart biopsy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">Developer API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CTR</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../examples.html">Clinical examples</a> &raquo;</li>
+      <li>Clinial example 1: Laryngoscopy</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/_src_docs/examples/ex1_trachea.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="clinial-example-1-laryngoscopy">
+<h1>Clinial example 1: Laryngoscopy<a class="headerlink" href="#clinial-example-1-laryngoscopy" title="Permalink to this headline"></a></h1>
+<section id="optimization-problem">
+<h2>Optimization problem<a class="headerlink" href="#optimization-problem" title="Permalink to this headline"></a></h2>
+<p>In this example, the user can follow the instructions below to run the full optimization process through: path, sequential, and simultaneous
+optimization step.</p>
+<p>The run files for each step are as follows.
+The user-defined parameter are the anatomical model (.ply format), starting point, target point
+and the number of control points, path points.
+A B-spline curve will be optimized by the function below.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span> <span class="nn">ctr_framework.design_method.path_opt</span> <span class="kn">import</span> <span class="n">path_opt</span>
+<span class="c1"># from path_opt import path_opt</span>
+
+
+<span class="c1"># Initialize the number of control points and path points</span>
+<span class="n">num_cp</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">num_pt</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1"># User-defined start point and target point</span>
+<span class="n">sp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">23</span><span class="p">,</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">85</span><span class="p">])</span>
+<span class="n">fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">87</span><span class="p">,</span><span class="o">-</span><span class="mi">27</span><span class="p">,</span><span class="o">-</span><span class="mi">193</span><span class="p">])</span>
+
+<span class="c1"># mesh .PLY file</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;trachea.ply&#39;</span>
+
+<span class="n">path_opt</span><span class="p">(</span><span class="n">num_cp</span><span class="p">,</span><span class="n">num_pt</span><span class="p">,</span><span class="n">sp</span><span class="p">,</span><span class="n">fp</span><span class="p">,</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once the collision-free path is found, the sequental optimization needs to be performed in order to
+get a better initial guesses for the simultaneous CTR optimization problem. The codes are as follow</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">ScipyOptimizeDriver</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">pyOptSparseDriver</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="kn">from</span> <span class="nn">ctrseq_group</span> <span class="kn">import</span> <span class="n">CtrseqGroup</span>
+<span class="kn">from</span> <span class="nn">lsdo_viz.api</span> <span class="kn">import</span> <span class="n">Problem</span>
+<span class="kn">from</span> <span class="nn">mesh</span> <span class="kn">import</span> <span class="n">trianglemesh</span>
+<span class="kn">from</span> <span class="nn">initpt</span> <span class="kn">import</span> <span class="n">initialize_pt</span>
+<span class="kn">from</span> <span class="nn">collision_check</span> <span class="kn">import</span> <span class="n">collision_check</span>
+<span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">equofplane</span> <span class="kn">import</span> <span class="n">equofplane</span>
+<span class="kn">from</span> <span class="nn">findcircle</span> <span class="kn">import</span> <span class="n">findCircle</span>
+<span class="kn">from</span> <span class="nn">seq_opt</span> <span class="kn">import</span> <span class="n">seq_opt</span>
+
+<span class="c1">#########################################</span>
+<span class="c1">############## initialization ###########</span>
+<span class="c1">#########################################</span>
+
+<span class="c1"># number of waypoints</span>
+<span class="n">viapts_nbr</span><span class="o">=</span><span class="mi">10</span>
+<span class="c1"># number of links</span>
+<span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c1"># Extract the waypoints from optimized path</span>
+<span class="n">pt</span> <span class="o">=</span> <span class="n">initialize_pt</span><span class="p">(</span><span class="n">viapts_nbr</span><span class="p">)</span>
+<span class="n">pt_pri</span> <span class="o">=</span>  <span class="n">initialize_pt</span><span class="p">(</span><span class="n">viapts_nbr</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">pt_full</span> <span class="o">=</span>  <span class="n">initialize_pt</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+
+<span class="c1"># initial robot configuration</span>
+<span class="c1"># Tube 1(inner tube) ID, OD</span>
+<span class="n">d1</span> <span class="o">=</span> <span class="mf">0.65</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="mf">0.88</span>
+<span class="c1"># Tube 2</span>
+<span class="n">d3</span> <span class="o">=</span> <span class="mf">1.076</span>
+<span class="n">d4</span> <span class="o">=</span> <span class="mf">1.296</span>
+<span class="c1"># Tube 3(outer tube)</span>
+<span class="n">d5</span> <span class="o">=</span> <span class="mf">1.470</span>
+<span class="n">d6</span> <span class="o">=</span> <span class="mf">2.180</span>
+<span class="c1"># Tube curvature (kappa)</span>
+<span class="n">kappa_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0061</span><span class="p">,</span> <span class="mf">0.0131</span><span class="p">,</span><span class="mf">0.0021</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1"># The length of tubes</span>
+<span class="n">tube_length_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">200</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span><span class="mi">65</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">+</span> <span class="mi">100</span>
+<span class="c1"># The length of straight section of tubes</span>
+<span class="n">tube_straight_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">150</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span><span class="mi">35</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">+</span> <span class="mi">50</span>
+<span class="c1"># joint variables</span>
+<span class="n">alpha_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">alpha_init</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">alpha_init</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">1.5</span>
+<span class="n">alpha_init</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span>
+<span class="n">beta_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">beta_init</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">280</span>
+<span class="n">beta_init</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">205</span>
+<span class="n">beta_init</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">155</span>
+<span class="c1"># initial torsion</span>
+<span class="n">init_dpsi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">*</span><span class="mf">0.01</span>
+<span class="n">rotx_</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">roty_</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">rotz_</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1e-5</span>
+
+<span class="n">mdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span><span class="n">alpha_init</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span><span class="n">beta_init</span><span class="p">,</span><span class="s1">&#39;kappa&#39;</span><span class="p">:</span><span class="n">kappa_init</span><span class="p">,</span>
+        <span class="s1">&#39;tube_section_straight&#39;</span><span class="p">:</span><span class="n">tube_straight_init</span><span class="p">,</span><span class="s1">&#39;tube_section_length&#39;</span><span class="p">:</span><span class="n">tube_length_init</span><span class="p">,</span>
+        <span class="s1">&#39;d1&#39;</span><span class="p">:</span><span class="n">d1</span><span class="p">,</span> <span class="s1">&#39;d2&#39;</span><span class="p">:</span><span class="n">d2</span><span class="p">,</span> <span class="s1">&#39;d3&#39;</span><span class="p">:</span><span class="n">d3</span><span class="p">,</span> <span class="s1">&#39;d4&#39;</span><span class="p">:</span><span class="n">d4</span><span class="p">,</span> <span class="s1">&#39;d5&#39;</span><span class="p">:</span><span class="n">d5</span><span class="p">,</span> <span class="s1">&#39;d6&#39;</span><span class="p">:</span><span class="n">d6</span><span class="p">,</span> <span class="s1">&#39;initial_condition_dpsi&#39;</span><span class="p">:</span><span class="n">init_dpsi</span><span class="p">,</span>
+        <span class="s1">&#39;rotx&#39;</span><span class="p">:</span><span class="n">rotx_</span><span class="p">,</span><span class="s1">&#39;roty&#39;</span><span class="p">:</span><span class="n">roty_</span> <span class="p">,</span><span class="s1">&#39;rotz&#39;</span><span class="p">:</span><span class="n">rotz_</span> <span class="p">,</span> <span class="s1">&#39;loc&#39;</span><span class="p">:</span><span class="n">loc</span><span class="p">,</span>
+        <span class="p">}</span>
+<span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">savemat</span><span class="p">(</span><span class="s1">&#39;initial.mat&#39;</span><span class="p">,</span><span class="n">mdict</span><span class="p">)</span>
+
+<span class="c1"># Base frame</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">rot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.14</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">p_plane</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">20</span><span class="p">],[</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span>\
+                    <span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">]])</span>
+<span class="c1"># mesh .PLY file</span>
+<span class="n">meshfile</span> <span class="o">=</span> <span class="s1">&#39;trachea.ply&#39;</span>
+
+<span class="n">seq_opt</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">viapts_nbr</span><span class="p">,</span><span class="n">base</span><span class="p">,</span><span class="n">rot</span><span class="p">,</span><span class="n">meshfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The second step serves as an initial guesses for the final step, which is the patient-speific
+simultaneous optimization. In this step, the optimizer optimizes k robot configurations simultaneously
+to obtain a robot design and safe motion plan.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">ScipyOptimizeDriver</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">pyOptSparseDriver</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">pyOptSparseDriver</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># from ctrviz_group import CtrvizGroups</span>
+<span class="kn">from</span> <span class="nn">ctrsimul_group</span> <span class="kn">import</span> <span class="n">CtrsimulGroup</span>
+<span class="kn">from</span> <span class="nn">lsdo_viz.api</span> <span class="kn">import</span> <span class="n">Problem</span>
+<span class="kn">from</span> <span class="nn">mesh_simul</span> <span class="kn">import</span> <span class="n">trianglemesh</span>
+<span class="kn">from</span> <span class="nn">initpt</span> <span class="kn">import</span> <span class="n">initialize_pt</span>
+<span class="kn">from</span> <span class="nn">collision_check</span> <span class="kn">import</span> <span class="n">collision_check</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">equofplane</span> <span class="kn">import</span> <span class="n">equofplane</span>
+<span class="kn">from</span> <span class="nn">fibonacci_sphere</span> <span class="kn">import</span> <span class="n">fibonacci_sphere</span>
+<span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">sim_opt</span> <span class="kn">import</span> <span class="n">sim_opt</span>
+
+
+
+<span class="c1"># Initialize the number of number of links and waypoints</span>
+<span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c1"># robot initial pose</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">rot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.14</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># mesh .PLY file</span>
+<span class="n">meshfile</span> <span class="o">=</span> <span class="s1">&#39;trachea.ply&#39;</span>
+
+<span class="c1"># run simultaneous optimization</span>
+<span class="n">sim_opt</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">k</span><span class="p">,</span><span class="n">base</span><span class="p">,</span><span class="n">rot</span><span class="p">,</span><span class="n">meshfile</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../examples.html" class="btn btn-neutral float-left" title="Clinical examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ex1_heart.html" class="btn btn-neutral float-right" title="Clinial example 2: Heart biopsy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Morimoto Lab, UCSD.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

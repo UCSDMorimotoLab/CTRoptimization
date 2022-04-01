@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Constraints &mdash; CTR 0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Objective function" href="objectives.html" />
+    <link rel="prev" title="Design variables" href="designvariables.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> CTR
+          </a>
+              <div class="version">
+                0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ctr_kinematics.html">CTR Kinematics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../optimization_framework.html">CTR optimization framework</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="designvariables.html">Design variables</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Constraints</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="objectives.html">Objective function</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Clinical examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/api.html">Developer API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CTR</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../user_guide.html">User guide</a> &raquo;</li>
+      <li>Constraints</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/_src_docs/user_guide/constraints.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="constraints">
+<h1>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline"></a></h1>
+<p>CTR design optimization framework provides the freedom to the user to add any task-specific constraints. The modular model approach
+reduces the significant amount of effort to build a customized optimization model. The user can easily build a component in OpenMDAO
+and add them as constraints in the model. (Note that the kinematics constraints are the necessary constraints that need to remain in the model in order
+to solve the CTR forward kinematic model).</p>
+<section id="kinematics-constraints">
+<h2>Kinematics constraints<a class="headerlink" href="#kinematics-constraints" title="Permalink to this headline"></a></h2>
+<p>The code below shows how the kinematics and tube geomerty constraints are added in the optimization.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;Constraints&#39;&#39;&#39;</span>
+    <span class="n">bccomp</span> <span class="o">=</span> <span class="n">BcComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">diametercomp</span> <span class="o">=</span> <span class="n">DiameterComp</span><span class="p">()</span>
+    <span class="n">tubeclearancecomp</span> <span class="o">=</span> <span class="n">TubeclearanceComp</span><span class="p">()</span>
+    <span class="n">tubestraightcomp</span> <span class="o">=</span> <span class="n">TubestraightComp</span><span class="p">()</span>
+    <span class="n">baseplanarcomp</span> <span class="o">=</span> <span class="n">BaseplanarComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">equ_paras</span><span class="o">=</span><span class="n">equ_paras</span><span class="p">)</span>
+    <span class="n">deployedlenghtcomp</span> <span class="o">=</span> <span class="n">DeployedlengthComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">betacomp</span> <span class="o">=</span> <span class="n">BetaComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;BetaComp&#39;</span><span class="p">,</span> <span class="n">betacomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;BcComp&#39;</span><span class="p">,</span> <span class="n">bccomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Baseplanarcomp&#39;</span><span class="p">,</span> <span class="n">baseplanarcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;DeployedlengthComp&#39;</span><span class="p">,</span> <span class="n">deployedlenghtcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;TubestraightComp&#39;</span><span class="p">,</span> <span class="n">tubestraightcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;DiameterComp&#39;</span><span class="p">,</span> <span class="n">diametercomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;TubeclearanceComp&#39;</span><span class="p">,</span> <span class="n">tubeclearancecomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Tube cannot translate inside one another</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;deployedlength12constraint&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;deployedlength23constraint&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># keep certain length for the actuation unit to grab the tube</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;beta12constraint&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;beta23constraint&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span>
+    <span class="c1"># minimum wall thickness</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;diameterconstraint&#39;</span><span class="p">,</span><span class="n">lower</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="c1"># tube clearance</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;tubeclearanceconstraint&#39;</span><span class="p">,</span><span class="n">lower</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span><span class="n">upper</span><span class="o">=</span><span class="mf">0.16</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="task-specific-constraints">
+<h2>Task-specific constraints<a class="headerlink" href="#task-specific-constraints" title="Permalink to this headline"></a></h2>
+<section id="adding-openmdao-component">
+<h3>Adding OpenMDAO component<a class="headerlink" href="#adding-openmdao-component" title="Permalink to this headline"></a></h3>
+<p>An OpenMDAO component needs to be created in order to add a constraint to an optimization.
+In this example, the user would like to add a constraint on the robot tip orientation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">ExplicitComponent</span>
+
+<span class="k">class</span> <span class="nc">TiporientationComp</span><span class="p">(</span><span class="n">ExplicitComponent</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;tube_nbr&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">types</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">declare</span><span class="p">(</span><span class="s1">&#39;tar_vector&#39;</span><span class="p">)</span>
+
+
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+
+        <span class="c1">#Inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s1">&#39;desptsconstraints&#39;</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+
+        <span class="c1"># outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;tiporientation&#39;</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+        <span class="n">row_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">k</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">col_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">declare_partials</span><span class="p">(</span><span class="s1">&#39;tiporientation&#39;</span><span class="p">,</span> <span class="s1">&#39;desptsconstraints&#39;</span><span class="p">,</span><span class="n">rows</span><span class="o">=</span><span class="n">row_indices</span><span class="p">,</span><span class="n">cols</span><span class="o">=</span><span class="n">col_indices</span><span class="p">)</span>
+
+
+
+
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inputs</span><span class="p">,</span><span class="n">outputs</span><span class="p">):</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+        <span class="n">tar_vector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;tar_vector&#39;</span><span class="p">]</span>
+        <span class="n">desptsconstraints</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;desptsconstraints&#39;</span><span class="p">]</span>
+
+        <span class="n">dot</span> <span class="o">=</span> <span class="p">(</span><span class="n">desptsconstraints</span> <span class="o">-</span> <span class="n">tar_vector</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> <span class="o">@</span>  <span class="p">(</span><span class="n">tar_vector</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tar_vector</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;tiporientation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dot</span>
+
+
+    <span class="k">def</span> <span class="nf">compute_partials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inputs</span><span class="p">,</span><span class="n">partials</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; partials Jacobian of partial derivatives.&quot;&quot;&quot;</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;num_nodes&#39;</span><span class="p">]</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;k&#39;</span><span class="p">]</span>
+        <span class="n">tar_vector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;tar_vector&#39;</span><span class="p">]</span>
+
+        <span class="sd">&#39;&#39;&#39;Computing Partials&#39;&#39;&#39;</span>
+        <span class="n">pd_pp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">pd_pp</span><span class="p">[:,:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tar_vector</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tar_vector</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="n">partials</span><span class="p">[</span><span class="s1">&#39;tiporientation&#39;</span><span class="p">,</span><span class="s1">&#39;desptsconstraints&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">pd_pp</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+
+    <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">Problem</span><span class="p">,</span> <span class="n">Group</span>
+
+    <span class="kn">from</span> <span class="nn">openmdao.api</span> <span class="kn">import</span> <span class="n">IndepVarComp</span>
+
+    <span class="n">group</span> <span class="o">=</span> <span class="n">Group</span><span class="p">()</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">1</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">tar_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">comp</span> <span class="o">=</span> <span class="n">IndepVarComp</span><span class="p">()</span>
+    <span class="n">comp</span><span class="o">.</span><span class="n">add_output</span><span class="p">(</span><span class="s1">&#39;desptsconstraints&#39;</span><span class="p">,</span> <span class="n">val</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="mi">3</span><span class="p">)))</span>
+
+    <span class="n">group</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;IndepVarComp&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+
+
+    <span class="n">comp</span> <span class="o">=</span> <span class="n">TiporientationComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">n</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">tar_vector</span><span class="o">=</span><span class="n">tar_vector</span><span class="p">)</span>
+    <span class="n">group</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;desiredpointscomp&#39;</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">promotes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">Problem</span><span class="p">()</span>
+    <span class="n">prob</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">group</span>
+
+    <span class="n">prob</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+    <span class="n">prob</span><span class="o">.</span><span class="n">run_model</span><span class="p">()</span>
+    <span class="n">prob</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">list_outputs</span><span class="p">()</span>
+
+    <span class="n">prob</span><span class="o">.</span><span class="n">check_partials</span><span class="p">(</span><span class="n">compact_print</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># prob.check_partials(compact_print=False)</span>
+</pre></div>
+</div>
+</section>
+<section id="adding-constraints">
+<h3>Adding constraints<a class="headerlink" href="#adding-constraints" title="Permalink to this headline"></a></h3>
+<p>Now, the user is able to import and add the output of the component to be the constraints in optimization.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&#39;&#39;&#39;Constraints&#39;&#39;&#39;</span>
+    <span class="c1"># kinematics, tube geometry constraints</span>
+    <span class="n">bccomp</span> <span class="o">=</span> <span class="n">BcComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">diametercomp</span> <span class="o">=</span> <span class="n">DiameterComp</span><span class="p">()</span>
+    <span class="n">tubeclearancecomp</span> <span class="o">=</span> <span class="n">TubeclearanceComp</span><span class="p">()</span>
+    <span class="n">tubestraightcomp</span> <span class="o">=</span> <span class="n">TubestraightComp</span><span class="p">()</span>
+    <span class="n">baseplanarcomp</span> <span class="o">=</span> <span class="n">BaseplanarComp</span><span class="p">(</span><span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">equ_paras</span><span class="o">=</span><span class="n">equ_paras</span><span class="p">)</span>
+    <span class="n">deployedlenghtcomp</span> <span class="o">=</span> <span class="n">DeployedlengthComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">betacomp</span> <span class="o">=</span> <span class="n">BetaComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="c1"># declare the Openmdao component for the constraints</span>
+    <span class="n">tiporientationcomp</span> <span class="o">=</span> <span class="n">TiporientationComp</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">tar_vector</span><span class="o">=</span><span class="n">tar_vector</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;BetaComp&#39;</span><span class="p">,</span> <span class="n">betacomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;BcComp&#39;</span><span class="p">,</span> <span class="n">bccomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;Baseplanarcomp&#39;</span><span class="p">,</span> <span class="n">baseplanarcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;DeployedlengthComp&#39;</span><span class="p">,</span> <span class="n">deployedlenghtcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;TubestraightComp&#39;</span><span class="p">,</span> <span class="n">tubestraightcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;DiameterComp&#39;</span><span class="p">,</span> <span class="n">diametercomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;TubeclearanceComp&#39;</span><span class="p">,</span> <span class="n">tubeclearancecomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+    <span class="c1"># add the new component into the model</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_subsystem</span><span class="p">(</span><span class="s1">&#39;TiporientationComp&#39;</span><span class="p">,</span> <span class="n">tiporientationcomp</span><span class="p">,</span> <span class="n">promotes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">])</span>
+
+
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;deployedlength12constraint&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;deployedlength23constraint&#39;</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;beta12constraint&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;beta23constraint&#39;</span><span class="p">,</span> <span class="n">upper</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;diameterconstraint&#39;</span><span class="p">,</span><span class="n">lower</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;tubeclearanceconstraint&#39;</span><span class="p">,</span><span class="n">lower</span><span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span><span class="n">upper</span><span class="o">=</span><span class="mf">0.16</span><span class="p">)</span>
+    <span class="c1"># add task-specific constraints</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_constraint</span><span class="p">(</span><span class="s1">&#39;tiporientation&#39;</span><span class="p">,</span> <span class="n">equals</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="designvariables.html" class="btn btn-neutral float-left" title="Design variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="objectives.html" class="btn btn-neutral float-right" title="Objective function" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Morimoto Lab, UCSD.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
