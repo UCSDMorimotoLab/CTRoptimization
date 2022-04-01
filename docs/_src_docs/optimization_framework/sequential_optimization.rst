@@ -5,7 +5,7 @@ Optimization problem
 --------------------
 The sequential optimization step intends to solve a sequence of initial robot configurations from the start point to the 
 target point. These configurations serve as an initial guesses for the simultaneous optimization step. The CtrseqGroup is an OpenMDAO group that consists of
-three ODE solver that is able to solve the CTR kinematics probelm. 
+three ODE solver that are used to solve CTR kinematics probelm. 
 
 The CTR sequential optimization group is as follows:
 

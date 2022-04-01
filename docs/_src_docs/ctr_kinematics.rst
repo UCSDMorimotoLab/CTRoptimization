@@ -18,7 +18,7 @@ with the boundary conditions:
 
 where the :math:`\psi`, :math:`\dot{\psi}` are the tube angle and tube torsion, :math:`k_{ib}` is the bending stiffness of tube :math:`i`,
 :math:`k_{it}` is the torsional stiffness of tube :math:`i`, :math:`\kappa_{i}` is the curvature if tube i and :math:`\alpha_{i}` 
-and :math:`beta_{i}` are the joint variables --- translation and rotation of tube :math:`i`.
+and :math:`\beta_{i}` are the joint variables --- translation and rotation of tube :math:`i`.
 
 Alternative formulation as an initial value problem that is used in the current framework is presented belwo. With 
 this problem formulation, the optimization problem will has a unique solution since the tip rotation and tube base rotation
